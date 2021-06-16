@@ -1,4 +1,5 @@
 export * from "./components/AudioRenderer";
+export * from "./components/ControlButton";
 export * from "./components/ControlsView";
 export * from "./components/ParticipantView";
 export * from "./components/StageProps";

@@ -16,7 +16,7 @@ video.video {
   position: absolute;
   z-index: 5;
   left: 0;
-  bottom: 1px;
+  bottom: 0;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.8);
   color: white;
@@ -46,4 +46,9 @@ video.video {
 
 .button:active {
   border: none;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: default;
 }

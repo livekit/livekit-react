@@ -12,11 +12,14 @@ export const DesktopStage = ({
   const [showOverlay, setShowOverlay] = useState(false);
 
   if (error) {
-    return <div>error {error}</div>;
+    return <div>error {error.message}</div>;
   }
 
-  if (isConnecting || !room) {
+  if (isConnecting) {
     return <div>connecting</div>;
+  }
+  if (!room) {
+    return <div>room closed</div>;
   }
 
   if (participants.length === 0) {
@@ -62,7 +65,7 @@ export const DesktopStage = ({
         </div>
       </div>
       <div className={styles.controlsArea}>
-        <ControlsView localParticipant={room.localParticipant} />
+        <ControlsView room={room} />
       </div>
     </div>
   );

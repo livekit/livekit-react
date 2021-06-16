@@ -1,45 +1,52 @@
 import {
+  createLocalAudioTrack,
   createLocalVideoTrack,
-  LocalParticipant,
   LocalTrackPublication,
   LocalVideoTrack,
+  Room,
   Track,
 } from "livekit-client";
 import React, { ReactElement } from "react";
 import { useParticipant } from "../useParticipant";
 import { ControlButton } from "./ControlButton";
 import styles from "./styles.module.css";
-
 export interface ControlsProps {
-  localParticipant: LocalParticipant;
+  room: Room;
 }
 
-export const ControlsView = ({ localParticipant }: ControlsProps) => {
-  const { publications, isMuted, unpublishTrack } =
-    useParticipant(localParticipant);
+export const ControlsView = ({ room }: ControlsProps) => {
+  const { publications, isMuted, unpublishTrack } = useParticipant(
+    room.localParticipant
+  );
 
   const audioPub = publications.find((val) => val.kind === Track.Kind.Audio);
   const videoPub = publications.find((val) => {
     return val.kind === Track.Kind.Video && val.trackName !== "screen";
   });
 
-  let muteButton: ReactElement | null = null;
-  if (audioPub) {
-    if (isMuted) {
-      muteButton = (
-        <ControlButton
-          label="Unmute"
-          onClick={() => (audioPub as LocalTrackPublication).unmute()}
-        />
-      );
-    } else {
-      muteButton = (
-        <ControlButton
-          label="Mute"
-          onClick={() => (audioPub as LocalTrackPublication).mute()}
-        />
-      );
-    }
+  let muteButton: ReactElement;
+  if (!audioPub || isMuted) {
+    muteButton = (
+      <ControlButton
+        label="Unmute"
+        onClick={async () => {
+          if (audioPub) {
+            (audioPub as LocalTrackPublication).unmute();
+          } else {
+            // track not published
+            const audioTrack = await createLocalAudioTrack();
+            room.localParticipant.publishTrack(audioTrack);
+          }
+        }}
+      />
+    );
+  } else {
+    muteButton = (
+      <ControlButton
+        label="Mute"
+        onClick={() => (audioPub as LocalTrackPublication).mute()}
+      />
+    );
   }
 
   let videoButton: ReactElement;
@@ -56,7 +63,7 @@ export const ControlsView = ({ localParticipant }: ControlsProps) => {
         label="Start video"
         onClick={async () => {
           const videoTrack = await createLocalVideoTrack();
-          await localParticipant.publishTrack(videoTrack);
+          await room.localParticipant.publishTrack(videoTrack);
         }}
       />
     );
@@ -66,6 +73,7 @@ export const ControlsView = ({ localParticipant }: ControlsProps) => {
     <div className={styles.controlsWrapper}>
       {muteButton}
       {videoButton}
+      <ControlButton label="Leave" onClick={() => room.disconnect()} />
     </div>
   );
 };
