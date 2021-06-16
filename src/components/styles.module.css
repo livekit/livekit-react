@@ -1,0 +1,49 @@
+/* add css module styles here (optional) */
+
+video.video {
+  object-fit: contain;
+  object-position: center;
+}
+
+.participant {
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  background: #C4C4C4;
+}
+
+.participantName {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  bottom: 1px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px 4px 8px;
+  font-family: Avenir;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.controlsWrapper {
+
+}
+
+.button {
+  display: inline-block;
+  border-radius: 44px;
+  border: none;
+  background: #2F2F2F;
+  padding: 12px 20px 12px 20px;
+  margin: 8px;
+  cursor: pointer;
+  color: white;
+  font-family: Avenir;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.button:active {
+  border: none;
+}

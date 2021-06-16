@@ -1,8 +1,6 @@
-# livekit-react
+# React components for LiveKit
 
-> React components for LiveKit
-
-[![NPM](https://img.shields.io/npm/v/livekit-react.svg)](https://www.npmjs.com/package/livekit-react) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+This package provides React components that makes working with LiveKit easier.
 
 ## Install
 
@@ -11,6 +9,18 @@ npm install --save livekit-react
 ```
 
 ## Usage
+
+### Video room with built-in UI
+
+`LiveKitRoom`
+
+### Customize rendering
+
+### Rendering video and audio
+
+### Using hooks
+
+The provided components make use of two hooks: `useRoom` and `useParticipant`, they will help you manage internal LiveKit callbacks and map them into state variables that are ready-to-use from React components
 
 ```tsx
 import React, { Component } from 'react'
@@ -24,7 +34,3 @@ class Example extends Component {
   }
 }
 ```
-
-## License
-
-Apache 2.0 © [davidzhao](https://github.com/davidzhao)

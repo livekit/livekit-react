@@ -1,0 +1,32 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: max-content fit-content;
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 100%;
+  gap: 20px;
+  overflow: hidden;
+}
+
+.stageCenter {
+  grid-column: 1 / 11;
+}
+
+.sidebar {
+  grid-column: 11 / 13;
+  display: grid;
+  gap: 20px;
+  grid-auto-rows: min-content;
+}
+
+.controlsArea {
+  height: 100px;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}

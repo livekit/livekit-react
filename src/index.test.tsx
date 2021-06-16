@@ -1,7 +1,7 @@
-import { ExampleComponent } from '.'
+import { LiveKitRoom } from ".";
 
-describe('ExampleComponent', () => {
-  it('is truthy', () => {
-    expect(ExampleComponent).toBeTruthy()
-  })
-})
+describe("LiveKitRoom", () => {
+  it("is truthy", () => {
+    expect(LiveKitRoom).toBeTruthy();
+  });
+});
