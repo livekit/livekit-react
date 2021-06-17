@@ -1,4 +1,4 @@
-# LiveKit React Components and Hooks
+# LiveKit React Component Library
 
 This package provides React components that makes it easier to use LiveKit in a React app.
 
@@ -33,7 +33,7 @@ function onConnected() {
   const audioTrack = await createLocalAudioTrack()
   await room.localParticipant.publishTrack(audioTrack)
   const videoTrack = await createLocalVideoTrack();
-  await room.localParticipant.publishTrack(videoTrack, options)
+  await room.localParticipant.publishTrack(videoTrack)
 }
 ```
 

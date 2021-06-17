@@ -19,14 +19,14 @@
     "typescript": "link:../node_modules/typescript"
   },
   "devDependencies": {
+    "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
     "@testing-library/jest-dom": "link:../node_modules/@testing-library/jest-dom",
     "@testing-library/react": "link:../node_modules/@testing-library/react",
     "@testing-library/user-event": "link:../node_modules/@testing-library/user-event",
     "@types/jest": "link:../node_modules/@types/jest",
     "@types/node": "link:../node_modules/@types/node",
     "@types/react-dom": "link:../node_modules/@types/react-dom",
-    "@types/react-router-dom": "^5.1.7",
-    "@babel/plugin-syntax-object-rest-spread": "^7.8.3"
+    "@types/react-router-dom": "^5.1.7"
   },
   "eslintConfig": {
     "extends": "react-app"
