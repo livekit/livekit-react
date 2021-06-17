@@ -43,12 +43,6 @@ export const DesktopStage = ({
       return;
     }
     p.videoTracks.forEach((track) => {
-      console.log(
-        "trackName",
-        track.trackName,
-        track.isSubscribed,
-        track.track
-      );
       if (track.trackName === "screen" && track.track) {
         screenTrack = track.track as RemoteVideoTrack;
       }
@@ -58,7 +52,6 @@ export const DesktopStage = ({
   let otherParticipants: Participant[];
   let mainView: ReactElement;
   if (screenTrack) {
-    console.log("rendering screen share in middle");
     otherParticipants = participants;
     mainView = (
       <VideoRenderer track={screenTrack} isLocal={false} height="100%" />

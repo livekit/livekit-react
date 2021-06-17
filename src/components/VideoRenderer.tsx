@@ -30,7 +30,7 @@ export const VideoRenderer = ({
     return () => {
       track.detach(el);
     };
-  }, [track]);
+  }, [track, ref]);
 
   const isFrontFacing =
     track.mediaStreamTrack?.getSettings().facingMode !== "environment";
