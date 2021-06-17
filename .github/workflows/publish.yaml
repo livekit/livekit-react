@@ -1,0 +1,44 @@
+name: Publish
+
+on:
+  push:
+    # only publish on version tags
+    tags:
+      - v*
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  docs:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            ~/.config/yarn/global
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Yarn
+        run: |
+          npm install -g yarn
+          yarn install
+
+      - name: Build
+        run: yarn build
+
+      - name: Publish to npm
+        run: |
+          npm config set '//registry.npmjs.org/:_authToken' $NPM_TOKEN
+          npm publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
