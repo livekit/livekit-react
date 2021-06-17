@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import {
+  LocalParticipant,
+  Participant,
+  RemoteVideoTrack,
+} from "livekit-client";
+import React, { ReactElement, useState } from "react";
 import { ControlsView } from "../ControlsView";
 import { ParticipantView } from "../ParticipantView";
 import { StageProps } from "../StageProps";
+import { VideoRenderer } from "../VideoRenderer";
 import styles from "./styles.module.css";
 
 export const DesktopStage = ({
   roomState,
   participantRenderer,
+  controlRenderer,
 }: StageProps) => {
   const { isConnecting, error, participants, room } = roomState;
   const [showOverlay, setShowOverlay] = useState(false);
@@ -26,29 +33,54 @@ export const DesktopStage = ({
     return <div>no one is in the room</div>;
   }
 
-  const mainParticipant = participants[0];
-  const otherParticipants = participants.slice(1);
+  const ParticipantRenderer = participantRenderer ?? ParticipantView;
+  const ControlRenderer = controlRenderer ?? ControlsView;
 
-  // TEST CODE
-  const numToAdd = 8 - otherParticipants.length;
-  for (let i = 0; i < numToAdd; i++) {
-    otherParticipants.push(mainParticipant);
+  // find first participant with screen shared
+  let screenTrack: RemoteVideoTrack | undefined;
+  participants.forEach((p) => {
+    if (p instanceof LocalParticipant) {
+      return;
+    }
+    p.videoTracks.forEach((track) => {
+      console.log(
+        "trackName",
+        track.trackName,
+        track.isSubscribed,
+        track.track
+      );
+      if (track.trackName === "screen" && track.track) {
+        screenTrack = track.track as RemoteVideoTrack;
+      }
+    });
+  });
+
+  let otherParticipants: Participant[];
+  let mainView: ReactElement;
+  if (screenTrack) {
+    console.log("rendering screen share in middle");
+    otherParticipants = participants;
+    mainView = (
+      <VideoRenderer track={screenTrack} isLocal={false} height="100%" />
+    );
+  } else {
+    otherParticipants = participants.slice(1);
+    mainView = (
+      <ParticipantRenderer
+        participant={participants[0]}
+        height="100%"
+        showOverlay={showOverlay}
+        onMouseOver={() => setShowOverlay(true)}
+        onMouseOut={() => setShowOverlay(false)}
+      />
+    );
   }
 
-  const ParticipantRenderer = participantRenderer ?? ParticipantView;
   return (
     // global container
     <div className={styles.container}>
       <div className={styles.stage}>
-        <div className={styles.stageCenter}>
-          <ParticipantRenderer
-            participant={mainParticipant}
-            height="100%"
-            showOverlay={showOverlay}
-            onMouseOver={() => setShowOverlay(true)}
-            onMouseOut={() => setShowOverlay(false)}
-          />
-        </div>
+        <div className={styles.stageCenter}>{mainView}</div>
         <div className={styles.sidebar}>
           {otherParticipants.map((participant) => {
             return (
@@ -65,7 +97,7 @@ export const DesktopStage = ({
         </div>
       </div>
       <div className={styles.controlsArea}>
-        <ControlsView room={room} />
+        <ControlRenderer room={room} />
       </div>
     </div>
   );

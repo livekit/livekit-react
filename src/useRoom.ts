@@ -48,10 +48,14 @@ export function useRoom(): RoomState {
           newRoom.off(RoomEvent.ParticipantConnected, onParticipantsChanged);
           newRoom.off(RoomEvent.ParticipantDisconnected, onParticipantsChanged);
           newRoom.off(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged);
+          newRoom.off(RoomEvent.TrackSubscribed, onParticipantsChanged);
+          newRoom.off(RoomEvent.TrackUnsubscribed, onParticipantsChanged);
         });
         newRoom.on(RoomEvent.ParticipantConnected, onParticipantsChanged);
         newRoom.on(RoomEvent.ParticipantDisconnected, onParticipantsChanged);
         newRoom.on(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged);
+        newRoom.on(RoomEvent.TrackSubscribed, onParticipantsChanged);
+        newRoom.on(RoomEvent.TrackUnsubscribed, onParticipantsChanged);
 
         setIsConnecting(false);
         onParticipantsChanged();

@@ -5,6 +5,7 @@ import {
   LocalVideoTrack,
   Room,
   Track,
+  VideoPresets,
 } from "livekit-client";
 import React, { ReactElement } from "react";
 import { useParticipant } from "../useParticipant";
@@ -22,6 +23,9 @@ export const ControlsView = ({ room }: ControlsProps) => {
   const audioPub = publications.find((val) => val.kind === Track.Kind.Audio);
   const videoPub = publications.find((val) => {
     return val.kind === Track.Kind.Video && val.trackName !== "screen";
+  });
+  const screenPub = publications.find((val) => {
+    return val.kind === Track.Kind.Video && val.trackName === "screen";
   });
 
   let muteButton: ReactElement;
@@ -63,7 +67,46 @@ export const ControlsView = ({ room }: ControlsProps) => {
         label="Start video"
         onClick={async () => {
           const videoTrack = await createLocalVideoTrack();
-          await room.localParticipant.publishTrack(videoTrack);
+          room.localParticipant.publishTrack(videoTrack);
+        }}
+      />
+    );
+  }
+
+  let screenButton: ReactElement;
+  if (screenPub?.track) {
+    screenButton = (
+      <ControlButton
+        label="Stop sharing"
+        onClick={() => unpublishTrack(screenPub.track as LocalVideoTrack)}
+      />
+    );
+  } else {
+    screenButton = (
+      <ControlButton
+        label="Share screen"
+        onClick={async () => {
+          try {
+            // @ts-ignore
+            const captureStream = (await navigator.mediaDevices.getDisplayMedia(
+              {
+                video: {
+                  width: VideoPresets.fhd.resolution.width,
+                  height: VideoPresets.fhd.resolution.height,
+                },
+              }
+            )) as MediaStream;
+
+            room.localParticipant.publishTrack(captureStream.getTracks()[0], {
+              name: "screen",
+              videoEncoding: {
+                maxBitrate: 3000000,
+                maxFramerate: 30,
+              },
+            });
+          } catch (err) {
+            // TODO: display error
+          }
         }}
       />
     );
@@ -73,6 +116,7 @@ export const ControlsView = ({ room }: ControlsProps) => {
     <div className={styles.controlsWrapper}>
       {muteButton}
       {videoButton}
+      {screenButton}
       <ControlButton label="Leave" onClick={() => room.disconnect()} />
     </div>
   );

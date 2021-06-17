@@ -1,13 +1,14 @@
 {
   "name": "livekit-react",
-  "version": "1.0.0",
-  "description": "React components for LiveKit",
+  "version": "0.3.0",
+  "description": "LiveKit SDK & Components",
   "author": "davidzhao",
   "license": "Apache-2.0",
   "repository": "livekit/livekit-react",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.tsx",
+  "homepage": "example.livekit.io",
   "engines": {
     "node": ">=10"
   },

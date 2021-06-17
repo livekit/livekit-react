@@ -1,5 +1,6 @@
 import { ConnectOptions, Room } from "livekit-client";
 import React, { useEffect } from "react";
+import { ControlsProps } from "./components/ControlsView";
 import { ParticipantProps } from "./components/ParticipantView";
 import { StageProps } from "./components/StageProps";
 import { StageView } from "./components/StageView";
@@ -10,14 +11,14 @@ export interface RoomProps {
   token: string;
   connectOptions?: ConnectOptions;
   onConnected?: (room: Room) => void;
-  stageRenderer?: (renderProps: StageProps) => React.ReactElement | null;
-  participantRenderer?: (
-    renderProps: ParticipantProps
-  ) => React.ReactElement | null;
+  stageRenderer?: (props: StageProps) => React.ReactElement | null;
+  participantRenderer?: (props: ParticipantProps) => React.ReactElement | null;
+  controlRenderer?: (props: ControlsProps) => React.ReactElement | null;
 }
 
 export const LiveKitRoom = (props: RoomProps) => {
   const roomState = useRoom();
+  const { participantRenderer, controlRenderer } = props;
 
   useEffect(() => {
     roomState
@@ -31,5 +32,5 @@ export const LiveKitRoom = (props: RoomProps) => {
 
   const stageRenderer = props.stageRenderer ?? StageView;
 
-  return stageRenderer({ roomState });
+  return stageRenderer({ roomState, participantRenderer, controlRenderer });
 };

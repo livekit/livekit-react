@@ -3,6 +3,7 @@
   height: 100%;
   display: grid;
   grid-template-rows: auto min-content;
+  min-height: 0;
 }
 
 .stage {

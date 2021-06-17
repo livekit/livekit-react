@@ -1,6 +1,6 @@
 import { Property } from "csstype";
 import { Participant, Track } from "livekit-client";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { useParticipant } from "../useParticipant";
 import { AudioRenderer } from "./AudioRenderer";
 import styles from "./styles.module.css";
@@ -15,6 +15,7 @@ export interface ParticipantProps {
   showOverlay?: boolean;
   onMouseOver?: () => void;
   onMouseOut?: () => void;
+  onClick?: () => void;
 }
 
 export const ParticipantView = ({
@@ -26,20 +27,26 @@ export const ParticipantView = ({
   showOverlay,
   onMouseOver,
   onMouseOut,
+  onClick,
 }: ParticipantProps) => {
   const { isLocal, subscribedTracks } = useParticipant(participant);
+  const [videoTrack, setVideoTrack] = useState<Track>();
+  const [audioTrack, setAudioTrack] = useState<Track>();
 
-  let audioTrack: Track | undefined;
-  let videoTrack: Track | undefined;
-
-  subscribedTracks.forEach((pub) => {
-    if (pub.kind === Track.Kind.Audio && !audioTrack) {
-      audioTrack = pub.track;
-    }
-    if (pub.kind === Track.Kind.Video && !videoTrack) {
-      videoTrack = pub.track;
-    }
-  });
+  useEffect(() => {
+    let foundVideo = false;
+    let foundAudio = false;
+    subscribedTracks.forEach((pub) => {
+      if (pub.kind === Track.Kind.Audio && !foundAudio) {
+        foundAudio = true;
+        setAudioTrack(pub.track);
+      }
+      if (pub.kind === Track.Kind.Video && !foundVideo) {
+        foundVideo = true;
+        setVideoTrack(pub.track);
+      }
+    });
+  }, [subscribedTracks]);
 
   const containerStyles: CSSProperties = {
     width: width,
@@ -66,6 +73,7 @@ export const ParticipantView = ({
       style={containerStyles}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
+      onClick={onClick}
     >
       {audioTrack && <AudioRenderer track={audioTrack} isLocal={isLocal} />}
 
