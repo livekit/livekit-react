@@ -9,7 +9,7 @@ export const PreJoinPage = () => {
   const [token, setToken] = useState<string>('')
   const [simulcast, setSimulcast] = useState(false)
   const [videoEnabled, setVideoEnabled] = useState(false)
-  const [audioEnabled, setAudioEnabled] = useState(false)
+  const [audioEnabled, setAudioEnabled] = useState(true)
   // disable connect button unless validated
   const [connectDisabled, setConnectDisabled] = useState(true)
   const videoRef = useRef<HTMLVideoElement>(null);
