@@ -1,6 +1,6 @@
 import 'livekit-react/dist/index.css'
 import React from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import { PreJoinPage } from './PreJoinPage'
 import { RoomPage } from './RoomPage'
 
