@@ -1,11 +1,12 @@
 import { Property } from "csstype";
 import { Track } from "livekit-client";
-import React, { useEffect, useRef } from "react";
+import React, { CSSProperties, useEffect, useRef } from "react";
 import styles from "./styles.module.css";
 
 export interface VideoRendererProps {
   track: Track;
   isLocal: boolean;
+  objectFit?: Property.ObjectFit;
   className?: string;
   width?: Property.Width;
   height?: Property.Height;
@@ -14,6 +15,7 @@ export interface VideoRendererProps {
 export const VideoRenderer = ({
   track,
   isLocal,
+  objectFit,
   className,
   width,
   height,
@@ -34,11 +36,14 @@ export const VideoRenderer = ({
 
   const isFrontFacing =
     track.mediaStreamTrack?.getSettings().facingMode !== "environment";
-  const style = {
+  const style: CSSProperties = {
     transform: isLocal && isFrontFacing ? "rotateY(180deg)" : "",
     width: width,
     height: height,
   };
+  if (objectFit) {
+    style.objectFit = objectFit;
+  }
 
   // TODO: could use react native RCTVideoView
 

@@ -40,7 +40,7 @@ export function useParticipant(participant: Participant): ParticipantState {
       throw new Error("could not unpublish, not a local participant");
     }
     (participant as LocalParticipant).unpublishTrack(track);
-    onPublicationsChanged();
+    participant.emit("localtrackchanged");
   };
 
   useEffect(() => {
@@ -72,6 +72,7 @@ export function useParticipant(participant: Participant): ParticipantState {
     participant.on(ParticipantEvent.TrackUnpublished, onPublicationsChanged);
     participant.on(ParticipantEvent.TrackSubscribed, onPublicationsChanged);
     participant.on(ParticipantEvent.TrackUnsubscribed, onPublicationsChanged);
+    participant.on("localtrackchanged", onPublicationsChanged);
 
     // set initial state
     onMetadataChanged();
@@ -94,6 +95,7 @@ export function useParticipant(participant: Participant): ParticipantState {
         ParticipantEvent.TrackUnsubscribed,
         onPublicationsChanged
       );
+      participant.off("localtrackchanged", onPublicationsChanged);
     };
   }, []);
 
