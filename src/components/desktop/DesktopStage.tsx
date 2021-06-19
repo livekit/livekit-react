@@ -60,6 +60,7 @@ export const DesktopStage = ({
     otherParticipants = participants.slice(1);
     mainView = (
       <ParticipantRenderer
+        key={participants[0].identity}
         participant={participants[0]}
         height="100%"
         showOverlay={showOverlay}

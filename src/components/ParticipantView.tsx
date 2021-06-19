@@ -1,6 +1,6 @@
 import { Property } from "csstype";
 import { Participant, Track } from "livekit-client";
-import React, { CSSProperties, useEffect, useState } from "react";
+import React, { CSSProperties } from "react";
 import { useParticipant } from "../useParticipant";
 import { AudioRenderer } from "./AudioRenderer";
 import styles from "./styles.module.css";
@@ -30,23 +30,17 @@ export const ParticipantView = ({
   onClick,
 }: ParticipantProps) => {
   const { isLocal, subscribedTracks } = useParticipant(participant);
-  const [videoTrack, setVideoTrack] = useState<Track>();
-  const [audioTrack, setAudioTrack] = useState<Track>();
 
-  useEffect(() => {
-    let foundVideo = false;
-    let foundAudio = false;
-    subscribedTracks.forEach((pub) => {
-      if (pub.kind === Track.Kind.Audio && !foundAudio) {
-        foundAudio = true;
-        setAudioTrack(pub.track);
-      }
-      if (pub.kind === Track.Kind.Video && !foundVideo) {
-        foundVideo = true;
-        setVideoTrack(pub.track);
-      }
-    });
-  }, [subscribedTracks]);
+  let videoTrack: Track | undefined;
+  let audioTrack: Track | undefined;
+  subscribedTracks.forEach((pub) => {
+    if (pub.kind === Track.Kind.Audio && !audioTrack) {
+      audioTrack = pub.track;
+    }
+    if (pub.kind === Track.Kind.Video && !videoTrack) {
+      videoTrack = pub.track;
+    }
+  });
 
   const containerStyles: CSSProperties = {
     width: width,

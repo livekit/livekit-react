@@ -6,7 +6,7 @@ import {
   Track,
   TrackPublication,
 } from "livekit-client";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export interface ParticipantState {
   isSpeaking: boolean;
@@ -27,21 +27,21 @@ export function useParticipant(participant: Participant): ParticipantState {
     []
   );
 
-  const onPublicationsChanged = useCallback(() => {
+  const onPublicationsChanged = () => {
     setPublications(Array.from(participant.tracks.values()));
     setSubscribedTracks(
       Array.from(participant.tracks.values()).filter((pub) => {
         return pub.track !== undefined;
       })
     );
-  }, []);
-  const unpublishTrack = useCallback(async (track: LocalTrack) => {
+  };
+  const unpublishTrack = async (track: LocalTrack) => {
     if (!(participant instanceof LocalParticipant)) {
       throw new Error("could not unpublish, not a local participant");
     }
     (participant as LocalParticipant).unpublishTrack(track);
     onPublicationsChanged();
-  }, []);
+  };
 
   useEffect(() => {
     const onMuted = (pub: TrackPublication) => {
