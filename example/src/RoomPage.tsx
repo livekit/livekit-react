@@ -1,4 +1,4 @@
-import { createLocalAudioTrack, createLocalVideoTrack, Room, TrackPublishOptions } from 'livekit-client'
+import { CreateAudioTrackOptions, createLocalAudioTrack, createLocalVideoTrack, CreateVideoTrackOptions, Room, TrackPublishOptions } from 'livekit-client'
 import { LiveKitRoom } from 'livekit-react'
 import React from "react"
 import { useHistory, useLocation } from 'react-router-dom'
@@ -32,18 +32,32 @@ export const RoomPage = () => {
 }
 
 async function onConnected(room: Room, query: URLSearchParams) {
-  if (query.get('audioEnabled') === '1') {
-    const audioTrack = await createLocalAudioTrack()
+  if (isSet(query, 'audioEnabled')) {
+    const options: CreateAudioTrackOptions = {}
+    const audioDeviceId = query.get('audioDeviceId');
+    if (audioDeviceId) {
+      options.deviceId = audioDeviceId;
+    }
+    const audioTrack = await createLocalAudioTrack(options)
     await room.localParticipant.publishTrack(audioTrack)
   }
-  if (query.get('videoEnabled') === '1') {
-    const options: TrackPublishOptions = {
+  if (isSet(query, 'videoEnabled')) {
+    const videoDeviceId = query.get('videoDeviceId');
+    const captureOptions: CreateVideoTrackOptions = {}
+    if (videoDeviceId) {
+      captureOptions.deviceId = videoDeviceId;
+    }
+    const videoTrack = await createLocalVideoTrack(captureOptions);
+    const publishOptions: TrackPublishOptions = {
       name: 'camera'
     }
-    if (query.get('simulcast') === '1') {
-      options.simulcast = true
+    if (isSet(query, 'simulcast')) {
+      publishOptions.simulcast = true
     }
-    const videoTrack = await createLocalVideoTrack();
-    await room.localParticipant.publishTrack(videoTrack, options)
+    await room.localParticipant.publishTrack(videoTrack, publishOptions)
   }
+}
+
+function isSet(query: URLSearchParams, key: string): boolean {
+  return query.get(key) === '1' || query.get(key) === 'true'
 }

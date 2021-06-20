@@ -35,13 +35,18 @@ video.video {
 
 }
 
+.buttonWrapper {
+  display: inline-block;
+  margin: 8px;
+  white-space: nowrap;
+}
+
 .button {
   display: inline-block;
   border-radius: 44px;
   border: none;
   background: #2F2F2F;
   padding: 12px 20px 12px 20px;
-  margin: 8px;
   cursor: pointer;
   color: white;
   font-family: Avenir;
@@ -66,4 +71,55 @@ video.video {
 
 button.dangerButton {
   background: #981010;
+}
+
+button.dropdown {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding-left: 12px;
+  padding-right: 15px;
+  margin-left: 0;
+}
+
+button.hasDropdown {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-right: 12px;
+  margin-right: 0;
+}
+
+.separator {
+  display: inline-block;
+  margin-top: -5px;
+  margin-bottom: -5px;
+  margin-right: 8px;
+  margin-left: -12px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  width: 1px;
+  height: 20px;
+}
+
+.popoverMenu {
+  background: #2F2F2F;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+ul.list {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  padding-inline: 0;
+}
+
+ul.list li {
+  font-size: 14px;
+  padding: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+ul.list li:first-child {
+  border: 0;
 }

@@ -1,7 +1,8 @@
-import { faBolt, faMicrophone, faMicrophoneSlash, faVideo, faVideoSlash } from '@fortawesome/free-solid-svg-icons'
-import { createLocalVideoTrack, LocalVideoTrack } from 'livekit-client'
-import { ControlButton, VideoRenderer } from 'livekit-react'
-import React, { useEffect, useRef, useState } from "react"
+import { faBolt } from '@fortawesome/free-solid-svg-icons'
+import { createLocalVideoTrack, CreateVideoTrackOptions, LocalVideoTrack } from 'livekit-client'
+import { AudioSelectButton, ControlButton, VideoRenderer, VideoSelectButton } from 'livekit-react'
+import React, { ReactElement, useEffect, useRef, useState } from "react"
+import AspectRatio from 'react-aspect-ratio'
 import { useHistory } from 'react-router-dom'
 
 export const PreJoinPage = () => {
@@ -15,6 +16,8 @@ export const PreJoinPage = () => {
   const [connectDisabled, setConnectDisabled] = useState(true)
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoTrack, setVideoTrack] = useState<LocalVideoTrack>();
+  const [audioDevice, setAudioDevice] = useState<MediaDeviceInfo>();
+  const [videoDevice, setVideoDevice] = useState<MediaDeviceInfo>();
   const history = useHistory()
 
   useEffect(() => {
@@ -43,7 +46,11 @@ export const PreJoinPage = () => {
       setVideoEnabled(false)
       setVideoTrack(undefined)
     } else {
-      createLocalVideoTrack().then((track) => {
+      const options: CreateVideoTrackOptions = {}
+      if (videoDevice) {
+        options.deviceId = videoDevice.deviceId
+      }
+      createLocalVideoTrack(options).then((track) => {
         setVideoEnabled(true)
         setVideoTrack(track)
       })
@@ -66,6 +73,20 @@ export const PreJoinPage = () => {
     }
   }
 
+  const selectVideoDevice = (device: MediaDeviceInfo) => {
+    setVideoDevice(device);
+    if (videoTrack) {
+      if (videoTrack.mediaStreamTrack.getSettings().deviceId === device.deviceId) {
+        return
+      }
+      // stop video
+      toggleVideo();
+    }
+
+    // start video with correct device
+    toggleVideo();
+  }
+
   const connectToRoom = () => {
     const params: {[key: string]: string} = {
       url,
@@ -74,10 +95,23 @@ export const PreJoinPage = () => {
       audioEnabled: audioEnabled ? '1' : '0',
       simulcast: simulcast ? '1' : '0',
     }
+    if (audioDevice) {
+      params.audioDeviceId = audioDevice.deviceId;
+    }
+    if (videoDevice) {
+      params.videoDeviceId = videoDevice.deviceId;
+    }
     history.push({
       pathname: '/room',
       search: "?" + new URLSearchParams(params).toString()
     })
+  }
+
+  let videoElement: ReactElement;
+  if (videoTrack) {
+    videoElement = <VideoRenderer track={videoTrack} isLocal={true} />;
+  } else {
+    videoElement = <div className="placeholder"/>
   }
 
   return (
@@ -109,20 +143,23 @@ export const PreJoinPage = () => {
         </div>
 
         <div className="videoSection">
-          {videoTrack && <VideoRenderer track={videoTrack} isLocal={true} />}
-          {!videoTrack && <div className="placeholder"/>}
+          <AspectRatio ratio={16 / 9}>
+            {videoElement}
+          </AspectRatio>
         </div>
 
         <div className="controlSection">
           <div>
-            <ControlButton
-              label={audioEnabled ? 'Mute' : 'Unmute'}
-              icon={audioEnabled ? faMicrophone : faMicrophoneSlash}
-              onClick={toggleAudio} />
-            <ControlButton
-              label={videoTrack ? 'Disable Video' : 'Enable Video'}
-              icon={videoTrack ? faVideo : faVideoSlash}
-              onClick={toggleVideo}/>
+            <AudioSelectButton
+              isMuted={!audioEnabled}
+              onClick={toggleAudio}
+              onSourceSelected={setAudioDevice}
+              />
+            <VideoSelectButton
+              isEnabled={videoTrack !== undefined}
+              onClick={toggleVideo}
+              onSourceSelected={selectVideoDevice}
+            />
           </div>
           <div className="right">
             <ControlButton
