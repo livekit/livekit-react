@@ -46,7 +46,8 @@ video.video {
   color: white;
   font-family: Avenir;
   font-weight: 800;
-  font-size: 12px;
+  font-size: 14px;
+  white-space: nowrap;
 }
 
 .button:active {
@@ -56,4 +57,13 @@ video.video {
 .button:disabled {
   opacity: 0.5;
   cursor: default;
+}
+
+.button .icon {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+button.dangerButton {
+  background: #981010;
 }

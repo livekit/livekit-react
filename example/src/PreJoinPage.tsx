@@ -1,3 +1,4 @@
+import { faBolt, faMicrophone, faMicrophoneSlash, faVideo, faVideoSlash } from '@fortawesome/free-solid-svg-icons'
 import { createLocalVideoTrack, LocalVideoTrack } from 'livekit-client'
 import { ControlButton, VideoRenderer } from 'livekit-react'
 import React, { useEffect, useRef, useState } from "react"
@@ -7,7 +8,7 @@ export const PreJoinPage = () => {
   // state to pass onto room
   const [url, setUrl] = useState('ws://localhost:7880')
   const [token, setToken] = useState<string>('')
-  const [simulcast, setSimulcast] = useState(false)
+  const [simulcast, setSimulcast] = useState(true)
   const [videoEnabled, setVideoEnabled] = useState(false)
   const [audioEnabled, setAudioEnabled] = useState(true)
   // disable connect button unless validated
@@ -109,15 +110,26 @@ export const PreJoinPage = () => {
 
         <div className="videoSection">
           {videoTrack && <VideoRenderer track={videoTrack} isLocal={true} />}
+          {!videoTrack && <div className="placeholder"/>}
         </div>
 
         <div className="controlSection">
           <div>
-            <ControlButton label={audioEnabled ? 'Mute' : 'Unmute'} onClick={toggleAudio}/>
-            <ControlButton label={videoTrack ? 'Disable Video' : 'Enable Video'} onClick={toggleVideo}/>
+            <ControlButton
+              label={audioEnabled ? 'Mute' : 'Unmute'}
+              icon={audioEnabled ? faMicrophone : faMicrophoneSlash}
+              onClick={toggleAudio} />
+            <ControlButton
+              label={videoTrack ? 'Disable Video' : 'Enable Video'}
+              icon={videoTrack ? faVideo : faVideoSlash}
+              onClick={toggleVideo}/>
           </div>
           <div className="right">
-            <ControlButton label="Connect" disabled={connectDisabled} onClick={connectToRoom}/>
+            <ControlButton
+              label="Connect"
+              disabled={connectDisabled}
+              icon={faBolt}
+              onClick={connectToRoom}/>
           </div>
         </div>
       </main>

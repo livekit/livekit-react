@@ -1,4 +1,12 @@
 import {
+  faDesktop,
+  faMicrophone,
+  faMicrophoneSlash,
+  faStop,
+  faVideo,
+  faVideoSlash,
+} from "@fortawesome/free-solid-svg-icons";
+import {
   createLocalAudioTrack,
   createLocalVideoTrack,
   LocalTrackPublication,
@@ -34,6 +42,7 @@ export const ControlsView = ({ room, onLeave }: ControlsProps) => {
     muteButton = (
       <ControlButton
         label="Unmute"
+        icon={faMicrophoneSlash}
         onClick={async () => {
           if (audioPub) {
             (audioPub as LocalTrackPublication).unmute();
@@ -49,6 +58,7 @@ export const ControlsView = ({ room, onLeave }: ControlsProps) => {
     muteButton = (
       <ControlButton
         label="Mute"
+        icon={faMicrophone}
         onClick={() => (audioPub as LocalTrackPublication).mute()}
       />
     );
@@ -59,6 +69,7 @@ export const ControlsView = ({ room, onLeave }: ControlsProps) => {
     videoButton = (
       <ControlButton
         label="Stop video"
+        icon={faVideo}
         onClick={() => unpublishTrack(videoPub.track as LocalVideoTrack)}
       />
     );
@@ -66,6 +77,7 @@ export const ControlsView = ({ room, onLeave }: ControlsProps) => {
     videoButton = (
       <ControlButton
         label="Start video"
+        icon={faVideoSlash}
         onClick={async () => {
           const videoTrack = await createLocalVideoTrack();
           room.localParticipant.publishTrack(videoTrack);
@@ -79,6 +91,7 @@ export const ControlsView = ({ room, onLeave }: ControlsProps) => {
     screenButton = (
       <ControlButton
         label="Stop sharing"
+        icon={faStop}
         onClick={() => unpublishTrack(screenPub.track as LocalVideoTrack)}
       />
     );
@@ -86,6 +99,7 @@ export const ControlsView = ({ room, onLeave }: ControlsProps) => {
     screenButton = (
       <ControlButton
         label="Share screen"
+        icon={faDesktop}
         onClick={async () => {
           try {
             // @ts-ignore
@@ -119,7 +133,8 @@ export const ControlsView = ({ room, onLeave }: ControlsProps) => {
       {videoButton}
       {screenButton}
       <ControlButton
-        label="Leave"
+        label="End"
+        className={styles.dangerButton}
         onClick={() => {
           room.disconnect();
           if (onLeave) {
