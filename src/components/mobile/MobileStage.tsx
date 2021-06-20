@@ -1,8 +1,4 @@
-import {
-  LocalParticipant,
-  Participant,
-  RemoteVideoTrack,
-} from "livekit-client";
+import { LocalParticipant, RemoteVideoTrack } from "livekit-client";
 import React, { ReactElement, useState } from "react";
 import { ControlsView } from "../ControlsView";
 import { ParticipantView } from "../ParticipantView";
@@ -10,7 +6,7 @@ import { StageProps } from "../StageProps";
 import { VideoRenderer } from "../VideoRenderer";
 import styles from "./styles.module.css";
 
-export const DesktopStage = ({
+export const MobileStage = ({
   roomState,
   participantRenderer,
   controlRenderer,
@@ -50,20 +46,19 @@ export const DesktopStage = ({
     });
   });
 
-  let otherParticipants: Participant[];
   let mainView: ReactElement;
   if (screenTrack) {
-    otherParticipants = participants;
     mainView = (
       <VideoRenderer track={screenTrack} isLocal={false} height="100%" />
     );
   } else {
-    otherParticipants = participants.slice(1);
     mainView = (
       <ParticipantRenderer
         key={participants[0].identity}
         participant={participants[0]}
         showOverlay={showOverlay}
+        width="100%"
+        height="100%"
         onMouseOver={() => setShowOverlay(true)}
         onMouseOut={() => setShowOverlay(false)}
       />
@@ -73,25 +68,7 @@ export const DesktopStage = ({
   return (
     // global container
     <div className={styles.container}>
-      <div className={styles.stage}>
-        <div className={styles.stageCenter}>{mainView}</div>
-        <div className={styles.sidebar}>
-          {otherParticipants.map((participant) => {
-            return (
-              <ParticipantRenderer
-                key={participant.identity}
-                participant={participant}
-                width="100%"
-                aspectWidth={16}
-                aspectHeight={9}
-                showOverlay={showOverlay}
-                onMouseOver={() => setShowOverlay(true)}
-                onMouseOut={() => setShowOverlay(false)}
-              />
-            );
-          })}
-        </div>
-      </div>
+      <div className={styles.stage}>{mainView}</div>
       <div className={styles.controlsArea}>
         <ControlRenderer room={room} onLeave={onLeave} />
       </div>

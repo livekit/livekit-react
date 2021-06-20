@@ -10,7 +10,10 @@ export interface RoomProps {
   url: string;
   token: string;
   connectOptions?: ConnectOptions;
+  // when first connected to room
   onConnected?: (room: Room) => void;
+  // when user leaves the room
+  onLeave?: (room: Room) => void;
   stageRenderer?: (props: StageProps) => React.ReactElement | null;
   participantRenderer?: (props: ParticipantProps) => React.ReactElement | null;
   controlRenderer?: (props: ControlsProps) => React.ReactElement | null;
@@ -18,7 +21,7 @@ export interface RoomProps {
 
 export const LiveKitRoom = (props: RoomProps) => {
   const roomState = useRoom();
-  const { participantRenderer, controlRenderer } = props;
+  const { participantRenderer, controlRenderer, onLeave } = props;
 
   useEffect(() => {
     roomState
@@ -32,5 +35,10 @@ export const LiveKitRoom = (props: RoomProps) => {
 
   const stageRenderer = props.stageRenderer ?? StageView;
 
-  return stageRenderer({ roomState, participantRenderer, controlRenderer });
+  return stageRenderer({
+    roomState,
+    participantRenderer,
+    controlRenderer,
+    onLeave,
+  });
 };

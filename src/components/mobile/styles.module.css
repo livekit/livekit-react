@@ -1,0 +1,19 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto min-content;
+  min-height: 0;
+}
+
+.stage {
+  display: grid;
+  overflow: hidden;
+}
+
+.controlsArea {
+  height: 100px;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}

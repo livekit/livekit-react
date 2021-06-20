@@ -1,6 +1,6 @@
 import { Property } from "csstype";
 import { Participant, Track, TrackPublication } from "livekit-client";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, ReactElement } from "react";
 import AspectRatio from "react-aspect-ratio";
 import "react-aspect-ratio/aspect-ratio.css";
 import { useParticipant } from "../useParticipant";
@@ -57,17 +57,11 @@ export const ParticipantView = ({
     height: height,
   };
 
-  if (!aspectWidth || !aspectHeight) {
-    aspectWidth = 16;
-    aspectHeight = 9;
-  }
-  // // when height unspecified and width is, conform to aspect ratio
-  // if (width && height === undefined) {
-  //   containerStyles.aspectRatio = `${aspectWidth} / ${aspectHeight}`;
-  // }
   // when aspect matches, cover instead
   let objectFit: Property.ObjectFit = "contain";
   if (
+    aspectWidth &&
+    aspectHeight &&
     videoPub?.dimensions &&
     (aspectWidth - aspectHeight) *
       (videoPub.dimensions.width - videoPub.dimensions.height) >
@@ -83,6 +77,21 @@ export const ParticipantView = ({
     }
   }
 
+  let mainElement: ReactElement;
+  if (videoTrack) {
+    mainElement = (
+      <VideoRenderer
+        track={videoTrack}
+        isLocal={isLocal}
+        objectFit={objectFit}
+        width="100%"
+        height="100%"
+      />
+    );
+  } else {
+    mainElement = <div className={styles.placeholder} />;
+  }
+
   return (
     <div
       className={styles.participant}
@@ -93,22 +102,12 @@ export const ParticipantView = ({
     >
       {audioTrack && <AudioRenderer track={audioTrack} isLocal={isLocal} />}
 
-      {videoTrack && (
+      {aspectWidth && aspectHeight && (
         <AspectRatio ratio={aspectWidth / aspectHeight}>
-          <VideoRenderer
-            track={videoTrack}
-            isLocal={isLocal}
-            objectFit={objectFit}
-            width="100%"
-            height="100%"
-          />
+          {mainElement}
         </AspectRatio>
       )}
-      {!videoTrack && (
-        <AspectRatio ratio={aspectWidth / aspectHeight}>
-          <div className={styles.placeholder} />
-        </AspectRatio>
-      )}
+      {(!aspectWidth || !aspectHeight) && mainElement}
 
       {showOverlay && (
         <div className={styles.participantName}>{displayName}</div>

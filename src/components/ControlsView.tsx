@@ -13,9 +13,10 @@ import { ControlButton } from "./ControlButton";
 import styles from "./styles.module.css";
 export interface ControlsProps {
   room: Room;
+  onLeave?: (room: Room) => void;
 }
 
-export const ControlsView = ({ room }: ControlsProps) => {
+export const ControlsView = ({ room, onLeave }: ControlsProps) => {
   const { publications, isMuted, unpublishTrack } = useParticipant(
     room.localParticipant
   );
@@ -117,7 +118,15 @@ export const ControlsView = ({ room }: ControlsProps) => {
       {muteButton}
       {videoButton}
       {screenButton}
-      <ControlButton label="Leave" onClick={() => room.disconnect()} />
+      <ControlButton
+        label="Leave"
+        onClick={() => {
+          room.disconnect();
+          if (onLeave) {
+            onLeave(room);
+          }
+        }}
+      />
     </div>
   );
 };

@@ -1,9 +1,10 @@
 import { createLocalAudioTrack, createLocalVideoTrack, Room, TrackPublishOptions } from 'livekit-client'
 import { LiveKitRoom } from 'livekit-react'
 import React from "react"
-import { useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 export const RoomPage = () => {
+  const history = useHistory()
   const query = new URLSearchParams(useLocation().search)
   const url = query.get('url')
   const token = query.get('token')
@@ -16,10 +17,16 @@ export const RoomPage = () => {
     )
   }
 
+  const onLeave = () => {
+    history.push({
+      pathname: '/',
+    })
+  }
+
   return (
     <div className="roomContainer">
       <h2>LiveKit Video</h2>
-      <LiveKitRoom url={url} token={token} onConnected={room => onConnected(room, query)}/>
+      <LiveKitRoom url={url} token={token} onConnected={room => onConnected(room, query)} onLeave={onLeave}/>
     </div>
   )
 }
