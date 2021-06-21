@@ -10,7 +10,6 @@ import AspectRatio from "react-aspect-ratio";
 import "react-aspect-ratio/aspect-ratio.css";
 import { useInView } from "react-intersection-observer";
 import { useParticipant } from "../useParticipant";
-import { AudioRenderer } from "./AudioRenderer";
 import styles from "./styles.module.css";
 import { VideoRenderer } from "./VideoRenderer";
 
@@ -57,12 +56,8 @@ export const ParticipantView = ({
     }
   }, [inView, disableHiddenVideo]);
 
-  let audioTrack: Track | undefined;
   let videoPub: TrackPublication | undefined;
   subscribedTracks.forEach((pub) => {
-    if (pub.kind === Track.Kind.Audio && !audioTrack) {
-      audioTrack = pub.track;
-    }
     if (pub.kind === Track.Kind.Video && !videoPub) {
       videoPub = pub;
     }
@@ -117,8 +112,6 @@ export const ParticipantView = ({
       onMouseOut={onMouseOut}
       onClick={onClick}
     >
-      {audioTrack && <AudioRenderer track={audioTrack} isLocal={isLocal} />}
-
       {aspectWidth && aspectHeight && (
         <AspectRatio ratio={aspectWidth / aspectHeight}>
           {mainElement}

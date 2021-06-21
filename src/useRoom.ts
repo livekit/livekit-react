@@ -1,10 +1,13 @@
 import {
+  AudioTrack,
   connect,
   ConnectOptions,
   LocalParticipant,
   Participant,
+  RemoteTrack,
   Room,
   RoomEvent,
+  Track,
 } from "livekit-client";
 import { useCallback, useState } from "react";
 
@@ -16,7 +19,10 @@ export interface RoomState {
   ) => Promise<Room | undefined>;
   isConnecting: boolean;
   room?: Room;
+  /* all participants in the room, including the local participant. */
   participants: Participant[];
+  /* all subscribed audio tracks in the room, not including local participant. */
+  audioTracks: AudioTrack[];
   error?: Error;
 }
 
@@ -25,6 +31,7 @@ export function useRoom(): RoomState {
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<Error>();
   const [participants, setParticipants] = useState<Participant[]>([]);
+  const [audioTracks, setAudioTracks] = useState<AudioTrack[]>([]);
 
   const connectFn = useCallback(
     async (url: string, token: string, options?: ConnectOptions) => {
@@ -40,6 +47,22 @@ export function useRoom(): RoomState {
           sortParticipants(participants, newRoom.localParticipant);
           setParticipants(participants);
         };
+        const onSubscribedTrackChanged = (track?: RemoteTrack) => {
+          // ordering may have changed, re-sort
+          onParticipantsChanged();
+          if (track && track.kind !== Track.Kind.Audio) {
+            return;
+          }
+          const tracks: AudioTrack[] = [];
+          newRoom.participants.forEach((p) => {
+            p.audioTracks.forEach((pub) => {
+              if (pub.track && pub.kind === Track.Kind.Audio) {
+                tracks.push(pub.track);
+              }
+            });
+          });
+          setAudioTracks(tracks);
+        };
 
         newRoom.once(RoomEvent.Disconnected, () => {
           setTimeout(() => setRoom(undefined));
@@ -48,17 +71,17 @@ export function useRoom(): RoomState {
           newRoom.off(RoomEvent.ParticipantConnected, onParticipantsChanged);
           newRoom.off(RoomEvent.ParticipantDisconnected, onParticipantsChanged);
           newRoom.off(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged);
-          newRoom.off(RoomEvent.TrackSubscribed, onParticipantsChanged);
-          newRoom.off(RoomEvent.TrackUnsubscribed, onParticipantsChanged);
+          newRoom.off(RoomEvent.TrackSubscribed, onSubscribedTrackChanged);
+          newRoom.off(RoomEvent.TrackUnsubscribed, onSubscribedTrackChanged);
         });
         newRoom.on(RoomEvent.ParticipantConnected, onParticipantsChanged);
         newRoom.on(RoomEvent.ParticipantDisconnected, onParticipantsChanged);
         newRoom.on(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged);
-        newRoom.on(RoomEvent.TrackSubscribed, onParticipantsChanged);
-        newRoom.on(RoomEvent.TrackUnsubscribed, onParticipantsChanged);
+        newRoom.on(RoomEvent.TrackSubscribed, onSubscribedTrackChanged);
+        newRoom.on(RoomEvent.TrackUnsubscribed, onSubscribedTrackChanged);
 
         setIsConnecting(false);
-        onParticipantsChanged();
+        onSubscribedTrackChanged();
 
         window.addEventListener("beforeunload", disconnect);
 
@@ -79,6 +102,7 @@ export function useRoom(): RoomState {
     room,
     error,
     participants,
+    audioTracks,
   };
 }
 
