@@ -5,7 +5,8 @@ import {
   Track,
   TrackPublication,
 } from "livekit-client";
-import React, { CSSProperties, ReactElement, useEffect } from "react";
+import { VideoQuality } from "livekit-client/dist/proto/livekit_rtc";
+import React, { CSSProperties, ReactElement, useEffect, useState } from "react";
 import AspectRatio from "react-aspect-ratio";
 import "react-aspect-ratio/aspect-ratio.css";
 import { useInView } from "react-intersection-observer";
@@ -25,6 +26,7 @@ export interface ParticipantProps {
   // aspect ratio height
   aspectHeight?: number;
   showOverlay?: boolean;
+  quality?: VideoQuality;
   disableHiddenVideo?: Boolean;
   onMouseOver?: () => void;
   onMouseOut?: () => void;
@@ -39,13 +41,15 @@ export const ParticipantView = ({
   aspectHeight,
   displayName,
   showOverlay,
+  quality,
+  disableHiddenVideo,
   onMouseOver,
   onMouseOut,
   onClick,
-  disableHiddenVideo,
 }: ParticipantProps) => {
   const { isLocal, subscribedTracks } = useParticipant(participant);
   const { ref, inView } = useInView();
+  const [videoPub, setVideoPub] = useState<TrackPublication>();
 
   // when video is hidden, disable it to optimize for bandwidth
   useEffect(() => {
@@ -54,14 +58,23 @@ export const ParticipantView = ({
         (videoPub as RemoteTrackPublication).setEnabled(inView);
       }
     }
-  }, [inView, disableHiddenVideo]);
+  }, [videoPub, inView, disableHiddenVideo]);
 
-  let videoPub: TrackPublication | undefined;
-  subscribedTracks.forEach((pub) => {
-    if (pub.kind === Track.Kind.Video && !videoPub) {
-      videoPub = pub;
+  // effect to control video quality
+  useEffect(() => {
+    if (videoPub instanceof RemoteTrackPublication) {
+      videoPub.setVideoQuality(quality ?? VideoQuality.HIGH);
     }
-  });
+  }, [videoPub, quality]);
+
+  // effect to set videoPub
+  useEffect(() => {
+    subscribedTracks.forEach((pub) => {
+      if (pub.kind === Track.Kind.Video && !videoPub) {
+        setVideoPub(pub);
+      }
+    });
+  }, [subscribedTracks]);
 
   const containerStyles: CSSProperties = {
     width: width,

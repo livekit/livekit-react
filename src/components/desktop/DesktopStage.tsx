@@ -3,6 +3,7 @@ import {
   Participant,
   RemoteVideoTrack,
 } from "livekit-client";
+import { VideoQuality } from "livekit-client/dist/proto/livekit_rtc";
 import React, { ReactElement, useState } from "react";
 import { ControlsView } from "../ControlsView";
 import { ParticipantView } from "../ParticipantView";
@@ -65,6 +66,7 @@ export const DesktopStage = ({
         key={participants[0].identity}
         participant={participants[0]}
         showOverlay={showOverlay}
+        quality={VideoQuality.HIGH}
         onMouseOver={() => setShowOverlay(true)}
         onMouseOut={() => setShowOverlay(false)}
         disableHiddenVideo={disableHiddenVideo}
@@ -87,6 +89,7 @@ export const DesktopStage = ({
                 aspectWidth={16}
                 aspectHeight={9}
                 showOverlay={showOverlay}
+                quality={VideoQuality.MEDIUM}
                 onMouseOver={() => setShowOverlay(true)}
                 onMouseOut={() => setShowOverlay(false)}
                 disableHiddenVideo={disableHiddenVideo}
