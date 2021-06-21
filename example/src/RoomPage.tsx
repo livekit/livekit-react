@@ -26,7 +26,13 @@ export const RoomPage = () => {
   return (
     <div className="roomContainer">
       <h2>LiveKit Video</h2>
-      <LiveKitRoom url={url} token={token} onConnected={room => onConnected(room, query)} onLeave={onLeave}/>
+      <LiveKitRoom
+        url={url}
+        token={token}
+        onConnected={room => onConnected(room, query)}
+        onLeave={onLeave}
+        disableHiddenVideo={true}
+      />
     </div>
   )
 }

@@ -1,8 +1,14 @@
 import { Property } from "csstype";
-import { Participant, Track, TrackPublication } from "livekit-client";
-import React, { CSSProperties, ReactElement } from "react";
+import {
+  Participant,
+  RemoteTrackPublication,
+  Track,
+  TrackPublication,
+} from "livekit-client";
+import React, { CSSProperties, ReactElement, useEffect } from "react";
 import AspectRatio from "react-aspect-ratio";
 import "react-aspect-ratio/aspect-ratio.css";
+import { useInView } from "react-intersection-observer";
 import { useParticipant } from "../useParticipant";
 import { AudioRenderer } from "./AudioRenderer";
 import styles from "./styles.module.css";
@@ -20,6 +26,7 @@ export interface ParticipantProps {
   // aspect ratio height
   aspectHeight?: number;
   showOverlay?: boolean;
+  disableHiddenVideo?: Boolean;
   onMouseOver?: () => void;
   onMouseOut?: () => void;
   onClick?: () => void;
@@ -36,18 +43,27 @@ export const ParticipantView = ({
   onMouseOver,
   onMouseOut,
   onClick,
+  disableHiddenVideo,
 }: ParticipantProps) => {
   const { isLocal, subscribedTracks } = useParticipant(participant);
+  const { ref, inView } = useInView();
 
-  let videoTrack: Track | undefined;
+  // when video is hidden, disable it to optimize for bandwidth
+  useEffect(() => {
+    if (disableHiddenVideo && videoPub instanceof RemoteTrackPublication) {
+      if (inView !== videoPub.isEnabled) {
+        (videoPub as RemoteTrackPublication).setEnabled(inView);
+      }
+    }
+  }, [inView, disableHiddenVideo]);
+
   let audioTrack: Track | undefined;
   let videoPub: TrackPublication | undefined;
   subscribedTracks.forEach((pub) => {
     if (pub.kind === Track.Kind.Audio && !audioTrack) {
       audioTrack = pub.track;
     }
-    if (pub.kind === Track.Kind.Video && !videoTrack) {
-      videoTrack = pub.track;
+    if (pub.kind === Track.Kind.Video && !videoPub) {
       videoPub = pub;
     }
   });
@@ -78,10 +94,10 @@ export const ParticipantView = ({
   }
 
   let mainElement: ReactElement;
-  if (videoTrack) {
+  if (videoPub) {
     mainElement = (
       <VideoRenderer
-        track={videoTrack}
+        track={videoPub.track!}
         isLocal={isLocal}
         objectFit={objectFit}
         width="100%"
@@ -94,6 +110,7 @@ export const ParticipantView = ({
 
   return (
     <div
+      ref={ref}
       className={styles.participant}
       style={containerStyles}
       onMouseOver={onMouseOver}

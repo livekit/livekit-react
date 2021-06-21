@@ -6788,16 +6788,20 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-livekit-client@^0.8.3:
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.8.3.tgz#9a0f5b4677a8bd5b6195ddbc5b69bbea4127e128"
-  integrity sha512-jc0CGfVVG6ucWVmm/Gfc/ZCjwY4//FN6KLR3vX5+iWTU0I8YKoII05F56QwzPO1CBMZ3Qdclyed/wVI9czClOA==
+livekit-client@^0.8.4:
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.8.4.tgz#4edd29403f17713293739ccaa84c68d64360bd78"
+  integrity sha512-UxBDOLHciam5i6CivQAC1mZODiIniiYiclTWpJsYbq7MccShZGBArbrn5QP0HDRTQ9oWtUGcEMrPAT+EMsrA2w==
   dependencies:
     "@types/ws" "^7.4.0"
     events "^3.3.0"
     loglevel "^1.7.1"
     protobufjs "^6.10.2"
     webrtc-adapter "^7.7.1"
+
+"livekit-client@link:../node_modules/livekit-client":
+  version "0.0.0"
+  uid ""
 
 "livekit-react@link:..":
   version "0.0.0"
@@ -9031,6 +9035,11 @@ react-error-overlay@^6.0.7:
   version "6.0.9"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
+
+react-intersection-observer@^8.32.0:
+  version "8.32.0"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-8.32.0.tgz#47249332e12e8bb99ed35a10bb7dd10446445a7b"
+  integrity sha512-RlC6FvS3MFShxTn4FHAy904bVjX5Nn4/eTjUkurW0fHK+M/fyQdXuyCy9+L7yjA+YMGogzzSJNc7M4UtfSKvtw==
 
 react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.13.1"

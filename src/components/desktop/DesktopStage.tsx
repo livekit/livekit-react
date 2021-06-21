@@ -15,6 +15,7 @@ export const DesktopStage = ({
   participantRenderer,
   controlRenderer,
   onLeave,
+  disableHiddenVideo,
 }: StageProps) => {
   const { isConnecting, error, participants, room } = roomState;
   const [showOverlay, setShowOverlay] = useState(false);
@@ -66,6 +67,7 @@ export const DesktopStage = ({
         showOverlay={showOverlay}
         onMouseOver={() => setShowOverlay(true)}
         onMouseOut={() => setShowOverlay(false)}
+        disableHiddenVideo={disableHiddenVideo}
       />
     );
   }
@@ -87,6 +89,7 @@ export const DesktopStage = ({
                 showOverlay={showOverlay}
                 onMouseOver={() => setShowOverlay(true)}
                 onMouseOut={() => setShowOverlay(false)}
+                disableHiddenVideo={disableHiddenVideo}
               />
             );
           })}

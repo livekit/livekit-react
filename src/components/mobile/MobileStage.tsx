@@ -11,6 +11,7 @@ export const MobileStage = ({
   participantRenderer,
   controlRenderer,
   onLeave,
+  disableHiddenVideo,
 }: StageProps) => {
   const { isConnecting, error, participants, room } = roomState;
   const [showOverlay, setShowOverlay] = useState(false);
@@ -61,9 +62,12 @@ export const MobileStage = ({
         height="100%"
         onMouseOver={() => setShowOverlay(true)}
         onMouseOut={() => setShowOverlay(false)}
+        disableHiddenVideo={disableHiddenVideo}
       />
     );
   }
+
+  // TODO: since only first is visible, disable other tracks
 
   return (
     // global container

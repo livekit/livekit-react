@@ -10,6 +10,11 @@ export interface RoomProps {
   url: string;
   token: string;
   connectOptions?: ConnectOptions;
+  /**
+   * when set to true, optimize bandwidth (and room capacity)
+   * by disabling video streams that are not visible on screen
+   */
+  disableHiddenVideo?: Boolean;
   // when first connected to room
   onConnected?: (room: Room) => void;
   // when user leaves the room
@@ -19,26 +24,37 @@ export interface RoomProps {
   controlRenderer?: (props: ControlsProps) => React.ReactElement | null;
 }
 
-export const LiveKitRoom = (props: RoomProps) => {
+export const LiveKitRoom = ({
+  url,
+  token,
+  connectOptions,
+  stageRenderer,
+  participantRenderer,
+  controlRenderer,
+  onConnected,
+  onLeave,
+  disableHiddenVideo,
+}: RoomProps) => {
   const roomState = useRoom();
-  const { participantRenderer, controlRenderer, onLeave } = props;
 
   useEffect(() => {
-    roomState
-      .connect(props.url, props.token, props.connectOptions)
-      .then((room) => {
-        if (room && props.onConnected) {
-          props.onConnected(room);
-        }
-      });
+    roomState.connect(url, token, connectOptions).then((room) => {
+      if (!room) {
+        return;
+      }
+      if (onConnected) {
+        onConnected(room);
+      }
+    });
   }, []);
 
-  const stageRenderer = props.stageRenderer ?? StageView;
+  const selectedStageRenderer = stageRenderer ?? StageView;
 
-  return stageRenderer({
+  return selectedStageRenderer({
     roomState,
     participantRenderer,
     controlRenderer,
     onLeave,
+    disableHiddenVideo,
   });
 };
