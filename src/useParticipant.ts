@@ -97,7 +97,7 @@ export function useParticipant(participant: Participant): ParticipantState {
       );
       participant.off("localtrackchanged", onPublicationsChanged);
     };
-  }, []);
+  }, [participant]);
 
   return {
     isLocal: participant instanceof LocalParticipant,
