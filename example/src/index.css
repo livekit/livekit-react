@@ -123,6 +123,22 @@ code {
   height: calc(100vh - 100px);
 }
 
+.topBar {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.participantCount {
+  font-size: 14px;
+}
+
+.participantCount span {
+  display: inline-block;
+  margin-left: 5px;
+}
+
 .roomContainer main {
 
 }

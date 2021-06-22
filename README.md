@@ -8,13 +8,17 @@ This package provides React components that makes it easier to use LiveKit in a 
 npm install --save livekit-react
 ```
 
-## Usage
+## Demo
 
-See full example at https://example.livekit.io. Source available in [example](example/)
+https://example.livekit.io.
+
+Source available in [example](example/)
+
+## Usage
 
 ### Video room with built-in UI
 
-Without customization, the component would use a default skin.
+Without customization, the component would use a default skin as seen in the demo above.
 
 ```tsx
 import { LiveKitRoom } from 'livekit-react'
@@ -39,7 +43,7 @@ function onConnected() {
 
 ### Customize rendering
 
-To provide your own rendering, override one or more of `stageRenderer`, `participantRenderer`, and `controlRenderer`. It's possible customize a single renderer and use defaults for the other ones.
+To provide your own rendering, override one or more of `stageRenderer`, `participantRenderer`, and `controlRenderer`. It's possible customize a single renderer and use defaults for the others.
 
 ```tsx
 export const RoomPage = () => {
@@ -58,7 +62,7 @@ export const RoomPage = () => {
 }
 ```
 
-### Using hooks
+### Using custom hooks
 
 The provided components make use of two hooks: `useRoom` and `useParticipant`, they will help you manage internal LiveKit callbacks and map them into state variables that are ready-to-use from React components.
 
@@ -68,7 +72,7 @@ Using the `connect` function returned by useRoom will ensure that callbacks are 
 import { useRoom, useParticipant } from 'livekit-react'
 
 export const MyComponent = () => {
-  const { connect, isConnecting, room, error, participants } = useRoom();
+  const { connect, isConnecting, room, error, participants, audioTracks } = useRoom();
   ...
 }
 

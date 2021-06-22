@@ -60,8 +60,8 @@ export const MobileStage = ({
         showOverlay={showOverlay}
         width="100%"
         height="100%"
-        onMouseOver={() => setShowOverlay(true)}
-        onMouseOut={() => setShowOverlay(false)}
+        onMouseEnter={() => setShowOverlay(true)}
+        onMouseLeave={() => setShowOverlay(false)}
         disableHiddenVideo={disableHiddenVideo}
       />
     );

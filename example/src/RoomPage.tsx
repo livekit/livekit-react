@@ -1,9 +1,12 @@
-import { CreateAudioTrackOptions, createLocalAudioTrack, createLocalVideoTrack, CreateVideoTrackOptions, Room, TrackPublishOptions } from 'livekit-client'
+import { faUserFriends } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { CreateAudioTrackOptions, createLocalAudioTrack, createLocalVideoTrack, CreateVideoTrackOptions, Room, RoomEvent, TrackPublishOptions } from 'livekit-client'
 import { LiveKitRoom } from 'livekit-react'
-import React from "react"
+import React, { useState } from "react"
 import { useHistory, useLocation } from 'react-router-dom'
 
 export const RoomPage = () => {
+  const [numParticipants, setNumParticipants] = useState(0)
   const history = useHistory()
   const query = new URLSearchParams(useLocation().search)
   const url = query.get('url')
@@ -23,13 +26,28 @@ export const RoomPage = () => {
     })
   }
 
+  const updateParticipantSize = (room: Room) => {
+    setNumParticipants(room.participants.size + 1);
+  }
+
   return (
     <div className="roomContainer">
-      <h2>LiveKit Video</h2>
+      <div className="topBar">
+        <h2>LiveKit Video</h2>
+        <div className="participantCount">
+          <FontAwesomeIcon icon={faUserFriends} />
+          <span>{numParticipants}</span>
+        </div>
+      </div>
       <LiveKitRoom
         url={url}
         token={token}
-        onConnected={room => onConnected(room, query)}
+        onConnected={room => {
+          onConnected(room, query);
+          room.on(RoomEvent.ParticipantConnected, () => updateParticipantSize(room))
+          room.on(RoomEvent.ParticipantDisconnected, () => updateParticipantSize(room))
+          updateParticipantSize(room);
+        }}
         onLeave={onLeave}
         disableHiddenVideo={true}
       />

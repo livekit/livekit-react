@@ -15,18 +15,24 @@ video.video {
   height: 100%;
 }
 
-.participantName {
+.participantBar {
   position: absolute;
   z-index: 5;
   left: 0;
   bottom: 0;
-  border-radius: 4px;
+  width: calc(100% - 16px);
   background: rgba(0, 0, 0, 0.8);
   color: white;
-  padding: 4px 8px 4px 8px;
-  font-family: Avenir;
+  padding: 6px 8px 6px 8px;
   font-weight: 500;
   font-size: 12px;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+}
+
+.iconRed {
+  color: #981010;
 }
 
 .controlsWrapper {
@@ -35,7 +41,7 @@ video.video {
 
 .buttonWrapper {
   display: inline-block;
-  margin: 8px;
+  margin: 4px;
   white-space: nowrap;
 }
 
@@ -47,14 +53,17 @@ video.video {
   padding: 12px 20px 12px 20px;
   cursor: pointer;
   color: white;
-  font-family: Avenir;
-  font-weight: 800;
+  font-weight: normal;
   font-size: 14px;
   white-space: nowrap;
 }
 
 .button:active {
   border: none;
+}
+
+.button:hover {
+  background: #434343;
 }
 
 .button:disabled {
@@ -69,6 +78,10 @@ video.video {
 
 button.dangerButton {
   background: #981010;
+}
+
+button.dangerButton:hover {
+  background: #b81212;
 }
 
 button.dropdown {

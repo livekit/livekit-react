@@ -1,3 +1,8 @@
+import {
+  faMicrophone,
+  faMicrophoneSlash,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Property } from "csstype";
 import {
   Participant,
@@ -28,8 +33,8 @@ export interface ParticipantProps {
   showOverlay?: boolean;
   quality?: VideoQuality;
   disableHiddenVideo?: Boolean;
-  onMouseOver?: () => void;
-  onMouseOut?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
   onClick?: () => void;
 }
 
@@ -43,11 +48,11 @@ export const ParticipantView = ({
   showOverlay,
   quality,
   disableHiddenVideo,
-  onMouseOver,
-  onMouseOut,
+  onMouseEnter,
+  onMouseLeave,
   onClick,
 }: ParticipantProps) => {
-  const { isLocal, subscribedTracks } = useParticipant(participant);
+  const { isLocal, isMuted, subscribedTracks } = useParticipant(participant);
   const { ref, inView } = useInView();
   const [videoPub, setVideoPub] = useState<TrackPublication>();
 
@@ -121,8 +126,8 @@ export const ParticipantView = ({
       ref={ref}
       className={styles.participant}
       style={containerStyles}
-      onMouseOver={onMouseOver}
-      onMouseOut={onMouseOut}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       onClick={onClick}
     >
       {aspectWidth && aspectHeight && (
@@ -133,7 +138,16 @@ export const ParticipantView = ({
       {(!aspectWidth || !aspectHeight) && mainElement}
 
       {showOverlay && (
-        <div className={styles.participantName}>{displayName}</div>
+        <div className={styles.participantBar}>
+          <div>{displayName}</div>
+          <div>
+            <FontAwesomeIcon
+              icon={isMuted ? faMicrophoneSlash : faMicrophone}
+              height={24}
+              className={isMuted ? styles.iconRed : styles.iconNormal}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

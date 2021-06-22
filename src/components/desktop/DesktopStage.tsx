@@ -67,8 +67,8 @@ export const DesktopStage = ({
         participant={participants[0]}
         showOverlay={showOverlay}
         quality={VideoQuality.HIGH}
-        onMouseOver={() => setShowOverlay(true)}
-        onMouseOut={() => setShowOverlay(false)}
+        onMouseEnter={() => setShowOverlay(true)}
+        onMouseLeave={() => setShowOverlay(false)}
         disableHiddenVideo={disableHiddenVideo}
       />
     );
@@ -90,8 +90,8 @@ export const DesktopStage = ({
                 aspectHeight={9}
                 showOverlay={showOverlay}
                 quality={VideoQuality.MEDIUM}
-                onMouseOver={() => setShowOverlay(true)}
-                onMouseOut={() => setShowOverlay(false)}
+                onMouseEnter={() => setShowOverlay(true)}
+                onMouseLeave={() => setShowOverlay(false)}
                 disableHiddenVideo={disableHiddenVideo}
               />
             );
