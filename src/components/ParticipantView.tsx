@@ -32,7 +32,7 @@ export interface ParticipantProps {
   aspectHeight?: number;
   showOverlay?: boolean;
   quality?: VideoQuality;
-  disableHiddenVideo?: Boolean;
+  adaptiveVideo?: Boolean;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
   onClick?: () => void;
@@ -47,7 +47,7 @@ export const ParticipantView = ({
   displayName,
   showOverlay,
   quality,
-  disableHiddenVideo,
+  adaptiveVideo,
   onMouseEnter,
   onMouseLeave,
   onClick,
@@ -58,24 +58,29 @@ export const ParticipantView = ({
 
   // when video is hidden, disable it to optimize for bandwidth
   useEffect(() => {
-    if (disableHiddenVideo && videoPub instanceof RemoteTrackPublication) {
+    if (adaptiveVideo && videoPub instanceof RemoteTrackPublication) {
       if (inView !== videoPub.isEnabled) {
         (videoPub as RemoteTrackPublication).setEnabled(inView);
       }
     }
-  }, [videoPub, inView, disableHiddenVideo]);
+  }, [videoPub, inView, adaptiveVideo]);
 
   // effect to control video quality
   useEffect(() => {
-    if (videoPub instanceof RemoteTrackPublication) {
+    if (adaptiveVideo && videoPub instanceof RemoteTrackPublication) {
       videoPub.setVideoQuality(quality ?? VideoQuality.HIGH);
     }
-  }, [videoPub, quality]);
+  }, [videoPub, quality, adaptiveVideo]);
 
   // effect to set videoPub
   useEffect(() => {
     subscribedTracks.forEach((pub) => {
-      if (pub.kind === Track.Kind.Video && !videoPub) {
+      if (
+        pub.isSubscribed &&
+        pub.kind === Track.Kind.Video &&
+        !videoPub &&
+        pub.trackName !== "screen"
+      ) {
         setVideoPub(pub);
       }
     });

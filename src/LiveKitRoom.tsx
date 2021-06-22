@@ -11,10 +11,11 @@ export interface RoomProps {
   token: string;
   connectOptions?: ConnectOptions;
   /**
-   * when set to true, optimize bandwidth (and room capacity)
-   * by disabling video streams that are not visible on screen
+   * when set to true, optimize bandwidth (and room capacity) by
+   * * disabling receiving video when participant is hidden
+   * * use lower quality video when participant is displayed as thumbnail
    */
-  disableHiddenVideo?: Boolean;
+  adaptiveVideo?: Boolean;
   // when first connected to room
   onConnected?: (room: Room) => void;
   // when user leaves the room
@@ -33,7 +34,7 @@ export const LiveKitRoom = ({
   controlRenderer,
   onConnected,
   onLeave,
-  disableHiddenVideo,
+  adaptiveVideo,
 }: RoomProps) => {
   const roomState = useRoom();
 
@@ -55,6 +56,6 @@ export const LiveKitRoom = ({
     participantRenderer,
     controlRenderer,
     onLeave,
-    disableHiddenVideo,
+    adaptiveVideo,
   });
 };

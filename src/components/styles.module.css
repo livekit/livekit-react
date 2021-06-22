@@ -1,6 +1,8 @@
 video.video {
   object-position: center;
   border-radius: 4px;
+  min-height: 0;
+  min-width: 0;
 }
 
 .participant {
@@ -29,6 +31,14 @@ video.video {
   display: grid;
   grid-template-columns: auto auto;
   justify-content: space-between;
+}
+
+.screenShare {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 .iconRed {

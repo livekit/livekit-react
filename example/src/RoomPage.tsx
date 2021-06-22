@@ -49,7 +49,7 @@ export const RoomPage = () => {
           updateParticipantSize(room);
         }}
         onLeave={onLeave}
-        disableHiddenVideo={true}
+        adaptiveVideo={true}
       />
     </div>
   )

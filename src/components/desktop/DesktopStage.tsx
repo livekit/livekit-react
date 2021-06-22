@@ -7,8 +7,8 @@ import { VideoQuality } from "livekit-client/dist/proto/livekit_rtc";
 import React, { ReactElement, useState } from "react";
 import { ControlsView } from "../ControlsView";
 import { ParticipantView } from "../ParticipantView";
+import { ScreenShareView } from "../ScreenShareView";
 import { StageProps } from "../StageProps";
-import { VideoRenderer } from "../VideoRenderer";
 import styles from "./styles.module.css";
 
 export const DesktopStage = ({
@@ -16,7 +16,7 @@ export const DesktopStage = ({
   participantRenderer,
   controlRenderer,
   onLeave,
-  disableHiddenVideo,
+  adaptiveVideo,
 }: StageProps) => {
   const { isConnecting, error, participants, room } = roomState;
   const [showOverlay, setShowOverlay] = useState(false);
@@ -57,7 +57,7 @@ export const DesktopStage = ({
   if (screenTrack) {
     otherParticipants = participants;
     mainView = (
-      <VideoRenderer track={screenTrack} isLocal={false} height="100%" />
+      <ScreenShareView track={screenTrack} height="100%" width="100%" />
     );
   } else {
     otherParticipants = participants.slice(1);
@@ -69,7 +69,7 @@ export const DesktopStage = ({
         quality={VideoQuality.HIGH}
         onMouseEnter={() => setShowOverlay(true)}
         onMouseLeave={() => setShowOverlay(false)}
-        disableHiddenVideo={disableHiddenVideo}
+        adaptiveVideo={adaptiveVideo}
       />
     );
   }
@@ -92,7 +92,7 @@ export const DesktopStage = ({
                 quality={VideoQuality.MEDIUM}
                 onMouseEnter={() => setShowOverlay(true)}
                 onMouseLeave={() => setShowOverlay(false)}
-                disableHiddenVideo={disableHiddenVideo}
+                adaptiveVideo={adaptiveVideo}
               />
             );
           })}

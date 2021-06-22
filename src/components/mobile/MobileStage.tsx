@@ -2,8 +2,8 @@ import { LocalParticipant, RemoteVideoTrack } from "livekit-client";
 import React, { ReactElement, useState } from "react";
 import { ControlsView } from "../ControlsView";
 import { ParticipantView } from "../ParticipantView";
+import { ScreenShareView } from "../ScreenShareView";
 import { StageProps } from "../StageProps";
-import { VideoRenderer } from "../VideoRenderer";
 import styles from "./styles.module.css";
 
 export const MobileStage = ({
@@ -11,7 +11,7 @@ export const MobileStage = ({
   participantRenderer,
   controlRenderer,
   onLeave,
-  disableHiddenVideo,
+  adaptiveVideo,
 }: StageProps) => {
   const { isConnecting, error, participants, room } = roomState;
   const [showOverlay, setShowOverlay] = useState(false);
@@ -50,7 +50,7 @@ export const MobileStage = ({
   let mainView: ReactElement;
   if (screenTrack) {
     mainView = (
-      <VideoRenderer track={screenTrack} isLocal={false} height="100%" />
+      <ScreenShareView track={screenTrack} height="100%" width="100%" />
     );
   } else {
     mainView = (
@@ -62,7 +62,7 @@ export const MobileStage = ({
         height="100%"
         onMouseEnter={() => setShowOverlay(true)}
         onMouseLeave={() => setShowOverlay(false)}
-        disableHiddenVideo={disableHiddenVideo}
+        adaptiveVideo={adaptiveVideo}
       />
     );
   }
