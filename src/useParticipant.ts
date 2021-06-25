@@ -78,9 +78,6 @@ export function useParticipant(participant: Participant): ParticipantState {
     onMetadataChanged();
     onIsSpeakingChanged();
     onPublicationsChanged();
-    participant.audioTracks.forEach((pub) => {
-      setMuted(pub.isMuted);
-    });
 
     return () => {
       // cleanup
@@ -98,6 +95,17 @@ export function useParticipant(participant: Participant): ParticipantState {
       participant.off("localtrackchanged", onPublicationsChanged);
     };
   }, [participant]);
+
+  let muted: boolean | undefined;
+  participant.audioTracks.forEach((pub) => {
+    muted = pub.isMuted;
+  });
+  if (muted === undefined) {
+    muted = true;
+  }
+  if (isMuted !== muted) {
+    setMuted(muted);
+  }
 
   return {
     isLocal: participant instanceof LocalParticipant,
