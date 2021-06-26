@@ -9,6 +9,7 @@ video.video {
   border-radius: 4px;
   overflow: hidden;
   position: relative;
+  height: 100%;
 }
 
 .placeholder {
