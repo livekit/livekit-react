@@ -74,18 +74,18 @@ export const ParticipantView = ({
 
   // effect to set videoPub
   useEffect(() => {
+    let newVideoPub: TrackPublication | undefined;
     subscribedTracks.forEach((pub) => {
       if (
         pub.isSubscribed &&
         pub.kind === Track.Kind.Video &&
-        !videoPub &&
-        pub.trackName !== "screen"
+        pub.trackName !== "screen" &&
+        !newVideoPub
       ) {
-        setVideoPub(pub);
-      } else {
-        setVideoPub(undefined);
+        newVideoPub = pub;
       }
     });
+    setVideoPub(newVideoPub);
   }, [subscribedTracks]);
 
   const containerStyles: CSSProperties = {
