@@ -82,6 +82,8 @@ export const ParticipantView = ({
         pub.trackName !== "screen"
       ) {
         setVideoPub(pub);
+      } else {
+        setVideoPub(undefined);
       }
     });
   }, [subscribedTracks]);
@@ -112,10 +114,10 @@ export const ParticipantView = ({
   }
 
   let mainElement: ReactElement;
-  if (videoPub) {
+  if (videoPub?.track) {
     mainElement = (
       <VideoRenderer
-        track={videoPub.track!}
+        track={videoPub.track}
         isLocal={isLocal}
         objectFit={objectFit}
         width="100%"

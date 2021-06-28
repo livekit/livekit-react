@@ -65,6 +65,7 @@ export const DesktopStage = ({
       <ParticipantRenderer
         key={participants[0].identity}
         participant={participants[0]}
+        height="100%"
         showOverlay={showOverlay}
         quality={VideoQuality.HIGH}
         onMouseEnter={() => setShowOverlay(true)}
