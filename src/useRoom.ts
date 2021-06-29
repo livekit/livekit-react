@@ -39,7 +39,6 @@ export function useRoom(): RoomState {
       try {
         const newRoom = await connect(url, token, options);
         setRoom(newRoom);
-        const disconnect = () => newRoom.disconnect();
         const onParticipantsChanged = () => {
           const remotes = Array.from(newRoom.participants.values());
           const participants: Participant[] = [newRoom.localParticipant];
@@ -66,7 +65,6 @@ export function useRoom(): RoomState {
 
         newRoom.once(RoomEvent.Disconnected, () => {
           setTimeout(() => setRoom(undefined));
-          window.removeEventListener("beforeunload", disconnect);
 
           newRoom.off(RoomEvent.ParticipantConnected, onParticipantsChanged);
           newRoom.off(RoomEvent.ParticipantDisconnected, onParticipantsChanged);
@@ -82,8 +80,6 @@ export function useRoom(): RoomState {
 
         setIsConnecting(false);
         onSubscribedTrackChanged();
-
-        window.addEventListener("beforeunload", disconnect);
 
         return newRoom;
       } catch (error) {
