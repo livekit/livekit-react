@@ -56,6 +56,9 @@ export const RoomPage = () => {
 }
 
 async function onConnected(room: Room, query: URLSearchParams) {
+  // make it easier to debug
+  (window as any).currentRoom = room;
+
   if (isSet(query, 'audioEnabled')) {
     const options: CreateAudioTrackOptions = {}
     const audioDeviceId = query.get('audioDeviceId');

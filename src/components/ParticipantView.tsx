@@ -55,22 +55,26 @@ export const ParticipantView = ({
   const { isLocal, isMuted, subscribedTracks } = useParticipant(participant);
   const { ref, inView } = useInView();
   const [videoPub, setVideoPub] = useState<TrackPublication>();
+  const [videoEnabled, setVideoEnabled] = useState(true);
+  const [callbackTimeout, setCallbackTimeout] =
+    useState<ReturnType<typeof setTimeout>>();
 
   // when video is hidden, disable it to optimize for bandwidth
   useEffect(() => {
-    if (adaptiveVideo && videoPub instanceof RemoteTrackPublication) {
-      if (inView !== videoPub.isEnabled) {
-        (videoPub as RemoteTrackPublication).setEnabled(inView);
-      }
+    if (!ref) {
+      return;
     }
-  }, [videoPub, inView, adaptiveVideo]);
-
-  // effect to control video quality
-  useEffect(() => {
-    if (adaptiveVideo && videoPub instanceof RemoteTrackPublication) {
-      videoPub.setVideoQuality(quality ?? VideoQuality.HIGH);
+    if (!(videoPub instanceof RemoteTrackPublication)) {
+      return;
     }
-  }, [videoPub, quality, adaptiveVideo]);
+    let enabled = inView;
+    if (!adaptiveVideo) {
+      enabled = true;
+    }
+    if (videoEnabled !== enabled) {
+      setVideoEnabled(true);
+    }
+  }, [inView, adaptiveVideo]);
 
   // effect to set videoPub
   useEffect(() => {
@@ -87,6 +91,37 @@ export const ParticipantView = ({
     });
     setVideoPub(newVideoPub);
   }, [subscribedTracks]);
+
+  // debounce adaptive settings, to ensure less twitchy responses
+  useEffect(() => {
+    if (callbackTimeout) {
+      clearTimeout(callbackTimeout);
+      setCallbackTimeout(undefined);
+    }
+    if (!(videoPub instanceof RemoteTrackPublication)) {
+      return;
+    }
+
+    // always enable right away, while disable quality changes are delayed
+    if (videoEnabled) {
+      videoPub.setEnabled(true);
+    }
+
+    setCallbackTimeout(
+      setTimeout(() => {
+        videoPub.setEnabled(videoEnabled);
+        if (videoEnabled) {
+          videoPub.setVideoQuality(quality ?? VideoQuality.HIGH);
+        }
+      }, 3000)
+    );
+    return () => {
+      if (callbackTimeout) {
+        clearTimeout(callbackTimeout);
+        setCallbackTimeout(undefined);
+      }
+    };
+  }, [quality, videoEnabled, videoPub]);
 
   const containerStyles: CSSProperties = {
     width: width,

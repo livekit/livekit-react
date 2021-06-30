@@ -70,7 +70,6 @@ export const DesktopStage = ({
         quality={VideoQuality.HIGH}
         onMouseEnter={() => setShowOverlay(true)}
         onMouseLeave={() => setShowOverlay(false)}
-        adaptiveVideo={adaptiveVideo}
       />
     );
   }
