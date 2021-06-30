@@ -65,7 +65,6 @@ export const DesktopStage = ({
       <ParticipantRenderer
         key={participants[0].identity}
         participant={participants[0]}
-        height="100%"
         showOverlay={showOverlay}
         quality={VideoQuality.HIGH}
         onMouseEnter={() => setShowOverlay(true)}
@@ -80,7 +79,11 @@ export const DesktopStage = ({
       <div className={styles.stage}>
         <div className={styles.stageCenter}>{mainView}</div>
         <div className={styles.sidebar}>
-          {otherParticipants.map((participant) => {
+          {otherParticipants.map((participant, i) => {
+            let quality = VideoQuality.HIGH;
+            if (adaptiveVideo && i > 4) {
+              quality = VideoQuality.LOW;
+            }
             return (
               <ParticipantRenderer
                 key={participant.identity}
@@ -89,7 +92,7 @@ export const DesktopStage = ({
                 aspectWidth={16}
                 aspectHeight={9}
                 showOverlay={showOverlay}
-                quality={VideoQuality.MEDIUM}
+                quality={quality}
                 onMouseEnter={() => setShowOverlay(true)}
                 onMouseLeave={() => setShowOverlay(false)}
                 adaptiveVideo={adaptiveVideo}

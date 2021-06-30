@@ -50,6 +50,10 @@ code {
 }
 
 @media only screen and (max-width: 800px) {
+  .container {
+    padding: 8px;
+  }
+
   .entrySection {
     grid-template-columns: 1fr;
     margin-top: 20px;

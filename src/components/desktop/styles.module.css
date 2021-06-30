@@ -10,7 +10,7 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: 100%;
-  gap: 20px;
+  gap: 8px;
   overflow: hidden;
 }
 
@@ -21,7 +21,7 @@
 .sidebar {
   grid-column: 11 / 13;
   display: grid;
-  gap: 20px;
+  gap: 8px;
   grid-auto-rows: min-content;
 }
 

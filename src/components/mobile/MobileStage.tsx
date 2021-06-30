@@ -1,4 +1,9 @@
-import { LocalParticipant, RemoteVideoTrack } from "livekit-client";
+import {
+  LocalParticipant,
+  Participant,
+  RemoteVideoTrack,
+} from "livekit-client";
+import { VideoQuality } from "livekit-client/dist/proto/livekit_rtc";
 import React, { ReactElement, useState } from "react";
 import { ControlsView } from "../ControlsView";
 import { ParticipantView } from "../ParticipantView";
@@ -47,12 +52,15 @@ export const MobileStage = ({
     });
   });
 
+  let otherParticipants: Participant[];
   let mainView: ReactElement;
   if (screenTrack) {
+    otherParticipants = participants;
     mainView = (
       <ScreenShareView track={screenTrack} height="100%" width="100%" />
     );
   } else {
+    otherParticipants = participants.slice(1);
     mainView = (
       <ParticipantRenderer
         key={participants[0].identity}
@@ -60,6 +68,7 @@ export const MobileStage = ({
         showOverlay={showOverlay}
         width="100%"
         height="100%"
+        quality={VideoQuality.MEDIUM}
         onMouseEnter={() => setShowOverlay(true)}
         onMouseLeave={() => setShowOverlay(false)}
         adaptiveVideo={adaptiveVideo}
@@ -73,8 +82,34 @@ export const MobileStage = ({
     // global container
     <div className={styles.container}>
       <div className={styles.stage}>{mainView}</div>
+      <div className={styles.participantsArea}>
+        {otherParticipants.map((participant, i) => {
+          let quality = VideoQuality.MEDIUM;
+          if (adaptiveVideo && i > 4) {
+            quality = VideoQuality.LOW;
+          }
+          return (
+            <ParticipantRenderer
+              key={participant.identity}
+              participant={participant}
+              height="100%"
+              aspectWidth={4}
+              aspectHeight={3}
+              showOverlay={showOverlay}
+              quality={quality}
+              onMouseEnter={() => setShowOverlay(true)}
+              onMouseLeave={() => setShowOverlay(false)}
+              adaptiveVideo={adaptiveVideo}
+            />
+          );
+        })}
+      </div>
       <div className={styles.controlsArea}>
-        <ControlRenderer room={room} onLeave={onLeave} />
+        <ControlRenderer
+          room={room}
+          enableScreenShare={false}
+          onLeave={onLeave}
+        />
       </div>
     </div>
   );

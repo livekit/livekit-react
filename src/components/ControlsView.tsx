@@ -21,10 +21,15 @@ import { ControlButton } from "./ControlButton";
 import styles from "./styles.module.css";
 export interface ControlsProps {
   room: Room;
+  enableScreenShare?: boolean;
   onLeave?: (room: Room) => void;
 }
 
-export const ControlsView = ({ room, onLeave }: ControlsProps) => {
+export const ControlsView = ({
+  room,
+  enableScreenShare,
+  onLeave,
+}: ControlsProps) => {
   const { publications, isMuted, unpublishTrack } = useParticipant(
     room.localParticipant
   );
@@ -36,6 +41,9 @@ export const ControlsView = ({ room, onLeave }: ControlsProps) => {
   const screenPub = publications.find((val) => {
     return val.kind === Track.Kind.Video && val.trackName === "screen";
   });
+  if (enableScreenShare === undefined) {
+    enableScreenShare = true;
+  }
 
   let muteButton: ReactElement;
   if (!audioPub || isMuted) {
@@ -86,45 +94,46 @@ export const ControlsView = ({ room, onLeave }: ControlsProps) => {
     );
   }
 
-  let screenButton: ReactElement;
-  if (screenPub?.track) {
-    screenButton = (
-      <ControlButton
-        label="Stop sharing"
-        icon={faStop}
-        onClick={() => unpublishTrack(screenPub.track as LocalVideoTrack)}
-      />
-    );
-  } else {
-    screenButton = (
-      <ControlButton
-        label="Share screen"
-        icon={faDesktop}
-        onClick={async () => {
-          try {
-            // @ts-ignore
-            const captureStream = (await navigator.mediaDevices.getDisplayMedia(
-              {
-                video: {
-                  width: VideoPresets.fhd.resolution.width,
-                  height: VideoPresets.fhd.resolution.height,
-                },
-              }
-            )) as MediaStream;
+  let screenButton: ReactElement | undefined;
+  if (enableScreenShare) {
+    if (screenPub?.track) {
+      screenButton = (
+        <ControlButton
+          label="Stop sharing"
+          icon={faStop}
+          onClick={() => unpublishTrack(screenPub.track as LocalVideoTrack)}
+        />
+      );
+    } else {
+      screenButton = (
+        <ControlButton
+          label="Share screen"
+          icon={faDesktop}
+          onClick={async () => {
+            try {
+              const captureStream =
+                // @ts-ignore
+                (await navigator.mediaDevices.getDisplayMedia({
+                  video: {
+                    width: VideoPresets.fhd.resolution.width,
+                    height: VideoPresets.fhd.resolution.height,
+                  },
+                })) as MediaStream;
 
-            room.localParticipant.publishTrack(captureStream.getTracks()[0], {
-              name: "screen",
-              videoEncoding: {
-                maxBitrate: 3000000,
-                maxFramerate: 30,
-              },
-            });
-          } catch (err) {
-            // TODO: display error
-          }
-        }}
-      />
-    );
+              room.localParticipant.publishTrack(captureStream.getTracks()[0], {
+                name: "screen",
+                videoEncoding: {
+                  maxBitrate: 3000000,
+                  maxFramerate: 30,
+                },
+              });
+            } catch (err) {
+              // TODO: display error
+            }
+          }}
+        />
+      );
+    }
   }
 
   return (
@@ -132,16 +141,16 @@ export const ControlsView = ({ room, onLeave }: ControlsProps) => {
       {muteButton}
       {videoButton}
       {screenButton}
-      <ControlButton
-        label="End"
-        className={styles.dangerButton}
-        onClick={() => {
-          room.disconnect();
-          if (onLeave) {
+      {onLeave && (
+        <ControlButton
+          label="End"
+          className={styles.dangerButton}
+          onClick={() => {
+            room.disconnect();
             onLeave(room);
-          }
-        }}
-      />
+          }}
+        />
+      )}
     </div>
   );
 };
