@@ -22,6 +22,10 @@ Without customization, the component would use a default skin as seen in the dem
 
 ```tsx
 import { LiveKitRoom } from 'livekit-react'
+// used by the default ParticipantView to maintain video aspect ratio.
+// this CSS must be imported globally
+// if you are using a custom Participant renderer, this import isn't necessary.
+import "react-aspect-ratio/aspect-ratio.css";
 
 export const RoomPage = () => {
   const url = 'wss://your_host'
