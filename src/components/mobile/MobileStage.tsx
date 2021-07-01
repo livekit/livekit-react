@@ -1,15 +1,15 @@
 import {
   LocalParticipant,
   Participant,
-  RemoteVideoTrack,
-} from "livekit-client";
-import { VideoQuality } from "livekit-client/dist/proto/livekit_rtc";
-import React, { ReactElement, useState } from "react";
-import { ControlsView } from "../ControlsView";
-import { ParticipantView } from "../ParticipantView";
-import { ScreenShareView } from "../ScreenShareView";
-import { StageProps } from "../StageProps";
-import styles from "./styles.module.css";
+  RemoteVideoTrack
+} from "livekit-client"
+import { VideoQuality } from "livekit-client/dist/proto/livekit_rtc"
+import React, { ReactElement, useState } from "react"
+import { ControlsView } from "../ControlsView"
+import { ParticipantView } from "../ParticipantView"
+import { ScreenShareView } from "../ScreenShareView"
+import { StageProps } from "../StageProps"
+import styles from "./styles.module.css"
 
 export const MobileStage = ({
   roomState,
@@ -76,8 +76,6 @@ export const MobileStage = ({
     );
   }
 
-  // TODO: since only first is visible, disable other tracks
-
   return (
     // global container
     <div className={styles.container}>
@@ -92,7 +90,7 @@ export const MobileStage = ({
             <ParticipantRenderer
               key={participant.identity}
               participant={participant}
-              height="100%"
+              className={styles.participant}
               aspectWidth={4}
               aspectHeight={3}
               showOverlay={showOverlay}

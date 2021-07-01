@@ -26,12 +26,14 @@ export interface ParticipantProps {
   width?: Property.Width;
   // height in CSS
   height?: Property.Height;
-  // aspect ratio width
+  className?: string;
+  // aspect ratio width, if set, maintains aspect ratio
   aspectWidth?: number;
   // aspect ratio height
   aspectHeight?: number;
   showOverlay?: boolean;
   quality?: VideoQuality;
+  // when set, video will be disabled when not in view
   adaptiveVideo?: Boolean;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
@@ -42,6 +44,7 @@ export const ParticipantView = ({
   participant,
   width,
   height,
+  className,
   aspectWidth,
   aspectHeight,
   displayName,
@@ -64,17 +67,14 @@ export const ParticipantView = ({
     if (!ref) {
       return;
     }
-    if (!(videoPub instanceof RemoteTrackPublication)) {
-      return;
-    }
     let enabled = inView;
     if (!adaptiveVideo) {
       enabled = true;
     }
     if (videoEnabled !== enabled) {
-      setVideoEnabled(true);
+      setVideoEnabled(enabled);
     }
-  }, [inView, adaptiveVideo]);
+  }, [ref, participant, inView, adaptiveVideo]);
 
   // effect to set videoPub
   useEffect(() => {
@@ -163,10 +163,15 @@ export const ParticipantView = ({
     mainElement = <div className={styles.placeholder} />;
   }
 
+  const classes = [styles.participant];
+  if (className) {
+    classes.push(className);
+  }
+
   return (
     <div
       ref={ref}
-      className={styles.participant}
+      className={classes.join(" ")}
       style={containerStyles}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

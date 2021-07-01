@@ -23,6 +23,7 @@
   display: grid;
   gap: 8px;
   grid-auto-rows: min-content;
+  overflow-y: scroll;
 }
 
 .controlsArea {

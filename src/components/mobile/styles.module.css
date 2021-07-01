@@ -13,9 +13,22 @@
 }
 
 .participantsArea {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 180px);
+  display: flex;
+  flex-direction: row;
   column-gap: 8px;
+  overflow-x: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.participantsArea::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.participant {
+  flex-shrink: 0;
+  width: 180px;
 }
 
 .controlsArea {
