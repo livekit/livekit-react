@@ -1,15 +1,15 @@
 import {
   LocalParticipant,
   Participant,
-  RemoteVideoTrack
-} from "livekit-client"
-import { VideoQuality } from "livekit-client/dist/proto/livekit_rtc"
-import React, { ReactElement, useState } from "react"
-import { ControlsView } from "../ControlsView"
-import { ParticipantView } from "../ParticipantView"
-import { ScreenShareView } from "../ScreenShareView"
-import { StageProps } from "../StageProps"
-import styles from "./styles.module.css"
+  RemoteVideoTrack,
+} from "livekit-client";
+import { VideoQuality } from "livekit-client/dist/proto/livekit_rtc";
+import React, { ReactElement, useState } from "react";
+import { ControlsView } from "../ControlsView";
+import { ParticipantView } from "../ParticipantView";
+import { ScreenShareView } from "../ScreenShareView";
+import { StageProps } from "../StageProps";
+import styles from "./styles.module.css";
 
 export const MobileStage = ({
   roomState,
