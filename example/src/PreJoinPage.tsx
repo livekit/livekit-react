@@ -9,7 +9,7 @@ export const PreJoinPage = () => {
   // state to pass onto room
   const [url, setUrl] = useState('ws://localhost:7880')
   const [token, setToken] = useState<string>('')
-  const [simulcast, setSimulcast] = useState(true)
+  const [simulcast, setSimulcast] = useState(false)
   const [videoEnabled, setVideoEnabled] = useState(false)
   const [audioEnabled, setAudioEnabled] = useState(true)
   // disable connect button unless validated
