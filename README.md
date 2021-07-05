@@ -22,6 +22,8 @@ Without customization, the component would use a default skin as seen in the dem
 
 ```tsx
 import { LiveKitRoom } from 'livekit-react'
+// CSS should be explicitly imported if using the default UI
+import 'livekit-react/dist/index.css'
 // used by the default ParticipantView to maintain video aspect ratio.
 // this CSS must be imported globally
 // if you are using a custom Participant renderer, this import isn't necessary.

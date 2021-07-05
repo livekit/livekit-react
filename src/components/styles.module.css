@@ -18,11 +18,12 @@ video.video {
 }
 
 .participantBar {
+  box-sizing: border-box;
   position: absolute;
   z-index: 5;
   left: 0;
   bottom: 0;
-  width: calc(100% - 16px);
+  width: 100%;
   background: rgba(0, 0, 0, 0.8);
   color: white;
   padding: 6px 8px 6px 8px;

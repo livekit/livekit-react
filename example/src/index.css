@@ -19,7 +19,8 @@ code {
 }
 
 .container {
-  height: calc(100vh - 64px);
+  box-sizing: border-box;
+  height: 100vh;
   padding: 32px;
 }
 
