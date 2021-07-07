@@ -88,6 +88,12 @@ export const PreJoinPage = () => {
   }
 
   const connectToRoom = () => {
+    if (window.location.protocol === 'https:' &&
+        url.startsWith('ws://') && !url.startsWith('ws://localhost')) {
+      alert('Unable to connect to insecure websocket from https');
+      return
+    }
+
     const params: {[key: string]: string} = {
       url,
       token,

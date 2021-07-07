@@ -19,15 +19,20 @@ import React, { ReactElement } from "react";
 import { useParticipant } from "../useParticipant";
 import { ControlButton } from "./ControlButton";
 import styles from "./styles.module.css";
+
 export interface ControlsProps {
   room: Room;
   enableScreenShare?: boolean;
+  enableAudio?: boolean;
+  enableVideo?: boolean;
   onLeave?: (room: Room) => void;
 }
 
 export const ControlsView = ({
   room,
   enableScreenShare,
+  enableAudio,
+  enableVideo,
   onLeave,
 }: ControlsProps) => {
   const { publications, isMuted, unpublishTrack } = useParticipant(
@@ -44,54 +49,64 @@ export const ControlsView = ({
   if (enableScreenShare === undefined) {
     enableScreenShare = true;
   }
-
-  let muteButton: ReactElement;
-  if (!audioPub || isMuted) {
-    muteButton = (
-      <ControlButton
-        label="Unmute"
-        icon={faMicrophoneSlash}
-        onClick={async () => {
-          if (audioPub) {
-            (audioPub as LocalTrackPublication).unmute();
-          } else {
-            // track not published
-            const audioTrack = await createLocalAudioTrack();
-            room.localParticipant.publishTrack(audioTrack);
-          }
-        }}
-      />
-    );
-  } else {
-    muteButton = (
-      <ControlButton
-        label="Mute"
-        icon={faMicrophone}
-        onClick={() => (audioPub as LocalTrackPublication).mute()}
-      />
-    );
+  if (enableVideo === undefined) {
+    enableVideo = true;
+  }
+  if (enableAudio === undefined) {
+    enableAudio = true;
   }
 
-  let videoButton: ReactElement;
-  if (videoPub?.track) {
-    videoButton = (
-      <ControlButton
-        label="Stop video"
-        icon={faVideo}
-        onClick={() => unpublishTrack(videoPub.track as LocalVideoTrack)}
-      />
-    );
-  } else {
-    videoButton = (
-      <ControlButton
-        label="Start video"
-        icon={faVideoSlash}
-        onClick={async () => {
-          const videoTrack = await createLocalVideoTrack();
-          room.localParticipant.publishTrack(videoTrack);
-        }}
-      />
-    );
+  let muteButton: ReactElement | undefined;
+  if (enableAudio) {
+    if (!audioPub || isMuted) {
+      muteButton = (
+        <ControlButton
+          label="Unmute"
+          icon={faMicrophoneSlash}
+          onClick={async () => {
+            if (audioPub) {
+              (audioPub as LocalTrackPublication).unmute();
+            } else {
+              // track not published
+              const audioTrack = await createLocalAudioTrack();
+              room.localParticipant.publishTrack(audioTrack);
+            }
+          }}
+        />
+      );
+    } else {
+      muteButton = (
+        <ControlButton
+          label="Mute"
+          icon={faMicrophone}
+          onClick={() => (audioPub as LocalTrackPublication).mute()}
+        />
+      );
+    }
+  }
+
+  let videoButton: ReactElement | undefined;
+  if (enableVideo) {
+    if (videoPub?.track) {
+      videoButton = (
+        <ControlButton
+          label="Stop video"
+          icon={faVideo}
+          onClick={() => unpublishTrack(videoPub.track as LocalVideoTrack)}
+        />
+      );
+    } else {
+      videoButton = (
+        <ControlButton
+          label="Start video"
+          icon={faVideoSlash}
+          onClick={async () => {
+            const videoTrack = await createLocalVideoTrack();
+            room.localParticipant.publishTrack(videoTrack);
+          }}
+        />
+      );
+    }
   }
 
   let screenButton: ReactElement | undefined;
