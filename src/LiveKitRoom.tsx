@@ -1,4 +1,4 @@
-import { ConnectOptions, Room } from "livekit-client";
+import { ConnectOptions, Participant, Room } from "livekit-client";
 import React, { useEffect } from "react";
 import { ControlsProps } from "./components/ControlsView";
 import { ParticipantProps } from "./components/ParticipantView";
@@ -10,6 +10,8 @@ export interface RoomProps {
   url: string;
   token: string;
   connectOptions?: ConnectOptions;
+  // override default participant sort
+  sortParticipants?: (participants: Participant[]) => void;
   /**
    * when set to true, optimize bandwidth (and room capacity) by
    * * disabling receiving video when participant is hidden
@@ -29,6 +31,7 @@ export const LiveKitRoom = ({
   url,
   token,
   connectOptions,
+  sortParticipants,
   stageRenderer,
   participantRenderer,
   controlRenderer,
@@ -36,7 +39,7 @@ export const LiveKitRoom = ({
   onLeave,
   adaptiveVideo,
 }: RoomProps) => {
-  const roomState = useRoom();
+  const roomState = useRoom({ sortParticipants });
 
   useEffect(() => {
     roomState.connect(url, token, connectOptions).then((room) => {
