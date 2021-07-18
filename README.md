@@ -39,7 +39,7 @@ export const RoomPage = () => {
   )
 }
 
-function onConnected() {
+function onConnected(room) {
   const audioTrack = await createLocalAudioTrack()
   await room.localParticipant.publishTrack(audioTrack)
   const videoTrack = await createLocalVideoTrack();
