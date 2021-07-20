@@ -176,6 +176,10 @@ export const PreJoinPage = () => {
           </div>
         </div>
       </main>
+      <footer>
+        This page is built with <a href="https://github.com/livekit/livekit-react">LiveKit React</a>&nbsp;
+        (<a href="https://github.com/livekit/livekit-react/blob/master/example/src/PreJoinPage.tsx">source</a>)
+      </footer>
     </div>
   )
 }
