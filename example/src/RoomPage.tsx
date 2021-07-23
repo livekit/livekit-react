@@ -12,6 +12,7 @@ export const RoomPage = () => {
   const query = new URLSearchParams(useLocation().search)
   const url = query.get('url')
   const token = query.get('token')
+  const recorder = query.get('recorder')
 
   if (!url || !token) {
     return (
@@ -31,6 +32,15 @@ export const RoomPage = () => {
     setNumParticipants(room.participants.size + 1);
   }
 
+  const onParticipantDisconnected = (room: Room) => {
+    updateParticipantSize(room)
+    
+    /* Special rule for recorder */
+    if (recorder && parseInt(recorder, 10) === 1 && room.participants.size === 0) {
+      console.log("END_RECORDING")
+    }
+  }
+
   return (
     <div className="roomContainer">
       <div className="topBar">
@@ -46,7 +56,7 @@ export const RoomPage = () => {
         onConnected={room => {
           onConnected(room, query);
           room.on(RoomEvent.ParticipantConnected, () => updateParticipantSize(room))
-          room.on(RoomEvent.ParticipantDisconnected, () => updateParticipantSize(room))
+          room.on(RoomEvent.ParticipantDisconnected, () => onParticipantDisconnected(room))
           updateParticipantSize(room);
         }}
         onLeave={onLeave}
