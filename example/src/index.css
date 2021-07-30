@@ -18,6 +18,14 @@ code {
     monospace;
 }
 
+a {
+  color: #5a8bff;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
 .container {
   box-sizing: border-box;
   height: 100vh;
@@ -46,6 +54,7 @@ code {
 .prejoin footer {
   font-size: 14px;
   margin-top: 50px;
+  margin-bottom: 40px;
 }
 
 .entrySection {
