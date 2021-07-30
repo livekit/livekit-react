@@ -45,8 +45,6 @@ export const VideoRenderer = ({
     style.objectFit = objectFit;
   }
 
-  // TODO: could use react native RCTVideoView
-
   return (
     <video ref={ref} className={className ?? styles.video} style={style} />
   );

@@ -68,6 +68,7 @@ export const MobileStage = ({
         showOverlay={showOverlay}
         width="100%"
         height="100%"
+        orientation="portrait"
         quality={VideoQuality.MEDIUM}
         onMouseEnter={() => setShowOverlay(true)}
         onMouseLeave={() => setShowOverlay(false)}

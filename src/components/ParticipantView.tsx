@@ -30,6 +30,10 @@ export interface ParticipantProps {
   aspectWidth?: number;
   // aspect ratio height
   aspectHeight?: number;
+  // determine whether to contain or cover video.
+  // cover mode is used when layout orientation matches video orientation
+  orientation?: "landscape" | "portrait";
+  // true if overlay with participant info should be shown
   showOverlay?: boolean;
   quality?: VideoQuality;
   // when set, video will be disabled when not in view
@@ -46,6 +50,7 @@ export const ParticipantView = ({
   className,
   aspectWidth,
   aspectHeight,
+  orientation,
   displayName,
   showOverlay,
   quality,
@@ -63,9 +68,6 @@ export const ParticipantView = ({
 
   // when video is hidden, disable it to optimize for bandwidth
   useEffect(() => {
-    if (!ref) {
-      return;
-    }
     let enabled = inView;
     if (!adaptiveVideo) {
       enabled = true;
@@ -73,7 +75,7 @@ export const ParticipantView = ({
     if (videoEnabled !== enabled) {
       setVideoEnabled(enabled);
     }
-  }, [ref, participant, inView, adaptiveVideo]);
+  }, [participant, inView, adaptiveVideo]);
 
   // effect to set videoPub
   useEffect(() => {
@@ -129,14 +131,18 @@ export const ParticipantView = ({
 
   // when aspect matches, cover instead
   let objectFit: Property.ObjectFit = "contain";
-  if (
-    aspectWidth &&
-    aspectHeight &&
-    videoPub?.dimensions &&
-    (aspectWidth - aspectHeight) *
-      (videoPub.dimensions.width - videoPub.dimensions.height) >
-      0
-  ) {
+  let videoOrientation: "landscape" | "portrait" | undefined;
+  if (!orientation && aspectWidth && aspectHeight) {
+    orientation = aspectWidth > aspectHeight ? "landscape" : "portrait";
+  }
+  if (videoPub?.dimensions) {
+    videoOrientation =
+      videoPub.dimensions.width > videoPub.dimensions.height
+        ? "landscape"
+        : "portrait";
+  }
+
+  if (videoOrientation === orientation) {
     objectFit = "cover";
   }
 
@@ -148,7 +154,7 @@ export const ParticipantView = ({
   }
 
   let mainElement: ReactElement;
-  if (videoPub?.track) {
+  if (videoPub?.track && videoEnabled) {
     mainElement = (
       <VideoRenderer
         track={videoPub.track}
