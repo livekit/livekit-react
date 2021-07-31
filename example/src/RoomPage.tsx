@@ -1,6 +1,6 @@
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { CreateAudioTrackOptions, createLocalAudioTrack, createLocalVideoTrack, CreateVideoTrackOptions, Room, RoomEvent, TrackPublishOptions } from 'livekit-client'
+import { createLocalTracks, CreateLocalTracksOptions, Room, RoomEvent, Track, TrackPublishOptions } from 'livekit-client'
 import { LiveKitRoom } from 'livekit-react'
 import React, { useState } from "react"
 import "react-aspect-ratio/aspect-ratio.css"
@@ -34,7 +34,7 @@ export const RoomPage = () => {
 
   const onParticipantDisconnected = (room: Room) => {
     updateParticipantSize(room)
-    
+
     /* Special rule for recorder */
     if (recorder && parseInt(recorder, 10) === 1 && room.participants.size === 0) {
       console.log("END_RECORDING")
@@ -70,32 +70,36 @@ async function onConnected(room: Room, query: URLSearchParams) {
   // make it easier to debug
   (window as any).currentRoom = room;
 
+  createLocalTracks();
+  const opts: CreateLocalTracksOptions = {};
+
   if (isSet(query, 'audioEnabled')) {
-    const options: CreateAudioTrackOptions = {}
+    opts.audio = {}
     const audioDeviceId = query.get('audioDeviceId');
     if (audioDeviceId) {
-      options.deviceId = audioDeviceId;
+      opts.audio.deviceId = audioDeviceId;
     }
-    const audioTrack = await createLocalAudioTrack(options)
-    await room.localParticipant.publishTrack(audioTrack)
   }
+
   if (isSet(query, 'videoEnabled')) {
+    opts.video = {
+      name: 'camera',
+    }
     const videoDeviceId = query.get('videoDeviceId');
-    const captureOptions: CreateVideoTrackOptions = {}
     if (videoDeviceId) {
-      captureOptions.deviceId = videoDeviceId;
+      opts.video.deviceId = videoDeviceId;
     }
-    const videoTrack = await createLocalVideoTrack(captureOptions);
-    const publishOptions: TrackPublishOptions = {
-      name: 'camera'
-    }
-    if (isSet(query, 'simulcast')) {
-      publishOptions.simulcast = true
-    }
-    await room.localParticipant.publishTrack(videoTrack, publishOptions)
   }
+  const tracks = await createLocalTracks(opts);
+  tracks.forEach((track) => {
+    const publishOptions: TrackPublishOptions = {};
+    if (isSet(query, 'simulcast') && track.kind === Track.Kind.Video) {
+      publishOptions.simulcast = true;
+    }
+    room.localParticipant.publishTrack(track, publishOptions);
+  });
 }
 
 function isSet(query: URLSearchParams, key: string): boolean {
-  return query.get(key) === '1' || query.get(key) === 'true'
+  return query.get(key) === '1' || query.get(key) === 'true';
 }

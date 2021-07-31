@@ -145,3 +145,43 @@ ul.list li {
 ul.list li:first-child {
   border: 0;
 }
+
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.unmuteButton {
+  display: block;
+  background-color: #5A8BFF;
+  cursor: pointer;
+  padding: 12px 20px;
+  border: none;
+  color: white;
+  font-weight: 700;
+  filter: drop-shadow(3px 7px 13px rgba(0, 0, 0, 0.17));
+  border-radius: 8px;
+  text-transform: uppercase;
+}
+
+.unmuteButton:active {
+  border: none;
+}
+
+.unmuteButton .icon {
+  display: inline-block;
+  margin-right: 12px;
+}

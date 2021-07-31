@@ -11,7 +11,10 @@ import { useEffect, useState } from "react";
 export interface ParticipantState {
   isSpeaking: boolean;
   isLocal: boolean;
+  /** @deprecated use isAudioMuted instead */
   isMuted: boolean;
+  isAudioMuted: boolean;
+  isVideoMuted: boolean;
   metadata?: string;
   publications: TrackPublication[];
   subscribedTracks: TrackPublication[];
@@ -19,7 +22,8 @@ export interface ParticipantState {
 }
 
 export function useParticipant(participant: Participant): ParticipantState {
-  const [isMuted, setMuted] = useState(false);
+  const [isAudioMuted, setAudioMuted] = useState(false);
+  const [isVideoMuted, setVideoMuted] = useState(false);
   const [isSpeaking, setSpeaking] = useState(false);
   const [metadata, setMetadata] = useState<string>();
   const [publications, setPublications] = useState<TrackPublication[]>([]);
@@ -46,12 +50,16 @@ export function useParticipant(participant: Participant): ParticipantState {
   useEffect(() => {
     const onMuted = (pub: TrackPublication) => {
       if (pub.kind === Track.Kind.Audio) {
-        setMuted(true);
+        setAudioMuted(true);
+      } else if (pub.kind === Track.Kind.Video) {
+        setVideoMuted(true);
       }
     };
     const onUnmuted = (pub: TrackPublication) => {
       if (pub.kind === Track.Kind.Audio) {
-        setMuted(false);
+        setAudioMuted(false);
+      } else if (pub.kind === Track.Kind.Video) {
+        setVideoMuted(false);
       }
     };
     const onMetadataChanged = () => {
@@ -103,14 +111,16 @@ export function useParticipant(participant: Participant): ParticipantState {
   if (muted === undefined) {
     muted = true;
   }
-  if (isMuted !== muted) {
-    setMuted(muted);
+  if (isAudioMuted !== muted) {
+    setAudioMuted(muted);
   }
 
   return {
     isLocal: participant instanceof LocalParticipant,
     isSpeaking,
-    isMuted,
+    isMuted: isAudioMuted,
+    isAudioMuted,
+    isVideoMuted,
     publications,
     subscribedTracks,
     metadata,

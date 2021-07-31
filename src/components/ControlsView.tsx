@@ -35,9 +35,8 @@ export const ControlsView = ({
   enableVideo,
   onLeave,
 }: ControlsProps) => {
-  const { publications, isMuted, unpublishTrack } = useParticipant(
-    room.localParticipant
-  );
+  const { publications, isAudioMuted, isVideoMuted, unpublishTrack } =
+    useParticipant(room.localParticipant);
 
   const audioPub = publications.find((val) => val.kind === Track.Kind.Audio);
   const videoPub = publications.find((val) => {
@@ -58,7 +57,7 @@ export const ControlsView = ({
 
   let muteButton: ReactElement | undefined;
   if (enableAudio) {
-    if (!audioPub || isMuted) {
+    if (!audioPub || isAudioMuted) {
       muteButton = (
         <ControlButton
           label="Unmute"
@@ -87,12 +86,12 @@ export const ControlsView = ({
 
   let videoButton: ReactElement | undefined;
   if (enableVideo) {
-    if (videoPub?.track) {
+    if (videoPub?.track && !isVideoMuted) {
       videoButton = (
         <ControlButton
           label="Stop video"
           icon={faVideo}
-          onClick={() => unpublishTrack(videoPub.track as LocalVideoTrack)}
+          onClick={() => (videoPub as LocalTrackPublication).mute()}
         />
       );
     } else {
@@ -101,8 +100,12 @@ export const ControlsView = ({
           label="Start video"
           icon={faVideoSlash}
           onClick={async () => {
-            const videoTrack = await createLocalVideoTrack();
-            room.localParticipant.publishTrack(videoTrack);
+            if (videoPub) {
+              (videoPub as LocalTrackPublication).unmute();
+            } else {
+              const videoTrack = await createLocalVideoTrack();
+              room.localParticipant.publishTrack(videoTrack);
+            }
           }}
         />
       );

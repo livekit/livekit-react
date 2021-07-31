@@ -59,7 +59,8 @@ export const ParticipantView = ({
   onMouseLeave,
   onClick,
 }: ParticipantProps) => {
-  const { isLocal, isMuted, subscribedTracks } = useParticipant(participant);
+  const { isLocal, isAudioMuted, subscribedTracks } =
+    useParticipant(participant);
   const { ref, inView } = useInView();
   const [videoPub, setVideoPub] = useState<TrackPublication>();
   const [videoEnabled, setVideoEnabled] = useState(true);
@@ -154,7 +155,7 @@ export const ParticipantView = ({
   }
 
   let mainElement: ReactElement;
-  if (videoPub?.track && videoEnabled) {
+  if (videoPub?.track && videoEnabled && !videoPub?.isMuted) {
     mainElement = (
       <VideoRenderer
         track={videoPub.track}
@@ -194,9 +195,9 @@ export const ParticipantView = ({
           <div>{displayName}</div>
           <div>
             <FontAwesomeIcon
-              icon={isMuted ? faMicrophoneSlash : faMicrophone}
+              icon={isAudioMuted ? faMicrophoneSlash : faMicrophone}
               height={24}
-              className={isMuted ? styles.iconRed : styles.iconNormal}
+              className={isAudioMuted ? styles.iconRed : styles.iconNormal}
             />
           </div>
         </div>
