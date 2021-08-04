@@ -30,7 +30,9 @@ export const StageView = (stageProps: StageProps) => {
         <div className={styles.overlay}>
           <button
             className={styles.unmuteButton}
-            onClick={() => room?.startAudio()}
+            onClick={() => {
+              room.startAudio();
+            }}
           >
             <FontAwesomeIcon
               className={styles.icon}
