@@ -13,7 +13,7 @@
     "livekit-react": "link:..",
     "livekit-client": "link:../node_modules/livekit-client",
     "react": "link:../node_modules/react",
-    "react-aspect-ratio": "^1.0.49",
+    "react-aspect-ratio": "^1.0.50",
     "react-dom": "link:../node_modules/react-dom",
     "react-router-dom": "^5.2.0",
     "react-scripts": "link:../node_modules/react-scripts",

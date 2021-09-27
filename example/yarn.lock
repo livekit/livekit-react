@@ -6788,10 +6788,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-livekit-client@^0.8.4:
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.8.4.tgz#4edd29403f17713293739ccaa84c68d64360bd78"
-  integrity sha512-UxBDOLHciam5i6CivQAC1mZODiIniiYiclTWpJsYbq7MccShZGBArbrn5QP0HDRTQ9oWtUGcEMrPAT+EMsrA2w==
+livekit-client@^0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.11.2.tgz#899f4ae5ceb7ba3df03b21c5e02456edd978ec53"
+  integrity sha512-RYNKw9dNAcrCviLbdn7FhjmmfO0KQ6nc2JPE11nimKkVCo/taZCFsZLiMq5QlLNRYaNzQ1ul+03bY2SevOvIUA==
   dependencies:
     "@types/ws" "^7.4.0"
     events "^3.3.0"
@@ -8992,10 +8992,10 @@ react-app-polyfill@^1.0.6:
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
 
-react-aspect-ratio@^1.0.49:
-  version "1.0.49"
-  resolved "https://registry.yarnpkg.com/react-aspect-ratio/-/react-aspect-ratio-1.0.49.tgz#346863ebb7eec542b8a5a4d6548440bf95a88608"
-  integrity sha512-zSKVJdy7QjmFeWTNNoL+gLf4KugIVln6XdKNIxjY8yebJ0buCeKcKoEQPfxruSbPGFakFGVl/abtF9SDpauh/A==
+react-aspect-ratio@^1.0.50:
+  version "1.0.50"
+  resolved "https://registry.yarnpkg.com/react-aspect-ratio/-/react-aspect-ratio-1.0.50.tgz#b46bfc6a701d829bd0cb6d001cf271e443874213"
+  integrity sha512-AEAPqmPMLlcuhp4t3z6crb+gGckc0lFPYNL/654a6rrcblcvZGtgh+VpcUbC7AwIE+MT8u5uGeJ7shx0hUOKSw==
 
 react-dev-utils@^10.2.1:
   version "10.2.1"

@@ -12,7 +12,7 @@ import {
 } from "livekit-client";
 import { VideoQuality } from "livekit-client/dist/proto/livekit_rtc";
 import React, { CSSProperties, ReactElement, useEffect, useState } from "react";
-import AspectRatio from "react-aspect-ratio";
+import { AspectRatio } from "react-aspect-ratio";
 import { useInView } from "react-intersection-observer";
 import { useParticipant } from "../useParticipant";
 import styles from "./styles.module.css";
