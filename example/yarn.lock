@@ -6788,15 +6788,16 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-livekit-client@^0.11.2:
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.11.2.tgz#899f4ae5ceb7ba3df03b21c5e02456edd978ec53"
-  integrity sha512-RYNKw9dNAcrCviLbdn7FhjmmfO0KQ6nc2JPE11nimKkVCo/taZCFsZLiMq5QlLNRYaNzQ1ul+03bY2SevOvIUA==
+livekit-client@^0.12.2:
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.12.2.tgz#89b06c2e6208fb08522565cd17cc7bbd6353c900"
+  integrity sha512-QyPtaGz6c8X0BfmdVyRrL5kSgZtnulT9IIYBZRekrCmE5RVN8p7O+UKU9uFutOUMPLia4qLHHFVBVbiQeNolSQ==
   dependencies:
     "@types/ws" "^7.4.0"
     events "^3.3.0"
     loglevel "^1.7.1"
     protobufjs "^6.10.2"
+    ts-debounce "^3.0.0"
     webrtc-adapter "^7.7.1"
 
 "livekit-client@link:../node_modules/livekit-client":
@@ -10508,6 +10509,11 @@ tr46@^1.0.1:
   integrity sha1-qLE/1r/SSJUZZ0zN5VujaTtwbQk=
   dependencies:
     punycode "^2.1.0"
+
+ts-debounce@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/ts-debounce/-/ts-debounce-3.0.0.tgz#9beedf59c04de3b5bef8ff28bd6885624df357be"
+  integrity sha512-7jiRWgN4/8IdvCxbIwnwg2W0bbYFBH6BxFqBjMKk442t7+liF2Z1H6AUCcl8e/pD93GjPru+axeiJwFmRww1WQ==
 
 ts-pnp@1.1.6:
   version "1.1.6"
