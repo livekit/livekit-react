@@ -11,19 +11,18 @@ import { useEffect, useState } from "react";
 export interface ParticipantState {
   isSpeaking: boolean;
   isLocal: boolean;
-  /** @deprecated use isAudioMuted instead */
-  isMuted: boolean;
-  isAudioMuted: boolean;
-  isVideoMuted: boolean;
   metadata?: string;
   publications: TrackPublication[];
   subscribedTracks: TrackPublication[];
+  cameraPublication?: TrackPublication;
+  microphonePublication?: TrackPublication;
+  screenSharePublication?: TrackPublication;
   unpublishTrack: (track: LocalTrack) => void;
 }
 
 export function useParticipant(participant: Participant): ParticipantState {
   const [isAudioMuted, setAudioMuted] = useState(false);
-  const [isVideoMuted, setVideoMuted] = useState(false);
+  const [, setVideoMuted] = useState(false);
   const [isSpeaking, setSpeaking] = useState(false);
   const [metadata, setMetadata] = useState<string>();
   const [publications, setPublications] = useState<TrackPublication[]>([]);
@@ -35,7 +34,7 @@ export function useParticipant(participant: Participant): ParticipantState {
     setPublications(Array.from(participant.tracks.values()));
     setSubscribedTracks(
       Array.from(participant.tracks.values()).filter((pub) => {
-        return pub.track !== undefined;
+        return pub.isSubscribed && pub.track !== undefined;
       })
     );
   };
@@ -80,6 +79,7 @@ export function useParticipant(participant: Participant): ParticipantState {
     participant.on(ParticipantEvent.TrackUnpublished, onPublicationsChanged);
     participant.on(ParticipantEvent.TrackSubscribed, onPublicationsChanged);
     participant.on(ParticipantEvent.TrackUnsubscribed, onPublicationsChanged);
+    participant.on(ParticipantEvent.LocalTrackPublished, onPublicationsChanged);
     participant.on("localtrackchanged", onPublicationsChanged);
 
     // set initial state
@@ -100,6 +100,10 @@ export function useParticipant(participant: Participant): ParticipantState {
         ParticipantEvent.TrackUnsubscribed,
         onPublicationsChanged
       );
+      participant.off(
+        ParticipantEvent.LocalTrackPublished,
+        onPublicationsChanged
+      );
       participant.off("localtrackchanged", onPublicationsChanged);
     };
   }, [participant]);
@@ -118,11 +122,11 @@ export function useParticipant(participant: Participant): ParticipantState {
   return {
     isLocal: participant instanceof LocalParticipant,
     isSpeaking,
-    isMuted: isAudioMuted,
-    isAudioMuted,
-    isVideoMuted,
     publications,
     subscribedTracks,
+    cameraPublication: participant.getTrack(Track.Source.Camera),
+    microphonePublication: participant.getTrack(Track.Source.Microphone),
+    screenSharePublication: participant.getTrack(Track.Source.ScreenShare),
     metadata,
     unpublishTrack,
   };

@@ -1,5 +1,6 @@
 import { faVideo, faVideoSlash } from "@fortawesome/free-solid-svg-icons";
-import React, { useEffect, useState } from "react";
+import { Room } from "livekit-client";
+import React, { useCallback, useEffect, useState } from "react";
 import { ControlButton, MenuItem } from "./ControlButton";
 
 export interface VideoSelectButtonProps {
@@ -16,19 +17,26 @@ export const VideoSelectButton = ({
   const [sources, setSources] = useState<MediaDeviceInfo[]>([]);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
+  const listVideoDevices = useCallback(async () => {
+    const devices = await Room.getLocalDevices("videoinput");
+    setSources(devices);
+    setMenuItems(
+      devices.map((item) => {
+        return { label: item.label };
+      })
+    );
+  }, []);
+
   useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then((devices) => {
-      const videoDevices = devices.filter(
-        (item) => item.kind === "videoinput" && item.deviceId
+    listVideoDevices();
+    navigator.mediaDevices.addEventListener("devicechange", listVideoDevices);
+    return () => {
+      navigator.mediaDevices.removeEventListener(
+        "devicechange",
+        listVideoDevices
       );
-      setSources(videoDevices);
-      setMenuItems(
-        videoDevices.map((item) => {
-          return { label: item.label };
-        })
-      );
-    });
-  }, [isEnabled]);
+    };
+  }, []);
 
   const handleMenuItem = (item: MenuItem) => {
     const device = sources.find((d) => d.label === item.label);

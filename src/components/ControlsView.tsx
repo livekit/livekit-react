@@ -1,24 +1,11 @@
-import {
-  faDesktop,
-  faMicrophone,
-  faMicrophoneSlash,
-  faStop,
-  faVideo,
-  faVideoSlash,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  createLocalAudioTrack,
-  createLocalVideoTrack,
-  LocalTrackPublication,
-  LocalVideoTrack,
-  Room,
-  Track,
-  VideoPresets,
-} from "livekit-client";
+import { faDesktop, faStop } from "@fortawesome/free-solid-svg-icons";
+import { Room, Track } from "livekit-client";
 import React, { ReactElement } from "react";
 import { useParticipant } from "../useParticipant";
+import { AudioSelectButton } from "./AudioSelectButton";
 import { ControlButton } from "./ControlButton";
 import styles from "./styles.module.css";
+import { VideoSelectButton } from "./VideoSelectButton";
 
 export interface ControlsProps {
   room: Room;
@@ -35,16 +22,8 @@ export const ControlsView = ({
   enableVideo,
   onLeave,
 }: ControlsProps) => {
-  const { publications, isAudioMuted, isVideoMuted, unpublishTrack } =
-    useParticipant(room.localParticipant);
+  const { unpublishTrack } = useParticipant(room.localParticipant);
 
-  const audioPub = publications.find((val) => val.kind === Track.Kind.Audio);
-  const videoPub = publications.find((val) => {
-    return val.kind === Track.Kind.Video && val.trackName !== "screen";
-  });
-  const screenPub = publications.find((val) => {
-    return val.kind === Track.Kind.Video && val.trackName === "screen";
-  });
   if (enableScreenShare === undefined) {
     enableScreenShare = true;
   }
@@ -57,101 +36,53 @@ export const ControlsView = ({
 
   let muteButton: ReactElement | undefined;
   if (enableAudio) {
-    if (!audioPub || isAudioMuted) {
-      muteButton = (
-        <ControlButton
-          label="Unmute"
-          icon={faMicrophoneSlash}
-          onClick={async () => {
-            if (audioPub) {
-              (audioPub as LocalTrackPublication).unmute();
-            } else {
-              // track not published
-              const audioTrack = await createLocalAudioTrack();
-              room.localParticipant.publishTrack(audioTrack);
-            }
-          }}
-        />
-      );
-    } else {
-      muteButton = (
-        <ControlButton
-          label="Mute"
-          icon={faMicrophone}
-          onClick={() => (audioPub as LocalTrackPublication).mute()}
-        />
-      );
-    }
+    const enabled = room.localParticipant.isMicrophoneEnabled;
+    muteButton = (
+      <AudioSelectButton
+        isMuted={!enabled}
+        onClick={() => room.localParticipant.setMicrophoneEnabled(!enabled)}
+        onSourceSelected={(device) =>
+          room.switchActiveDevice("audioinput", device.deviceId)
+        }
+      />
+    );
   }
 
   let videoButton: ReactElement | undefined;
   if (enableVideo) {
-    if (videoPub?.track && !isVideoMuted) {
-      videoButton = (
-        <ControlButton
-          label="Stop video"
-          icon={faVideo}
-          onClick={() => (videoPub as LocalTrackPublication).mute()}
-        />
-      );
-    } else {
-      videoButton = (
-        <ControlButton
-          label="Start video"
-          icon={faVideoSlash}
-          onClick={async () => {
-            if (videoPub) {
-              (videoPub as LocalTrackPublication).unmute();
-            } else {
-              const videoTrack = await createLocalVideoTrack();
-              room.localParticipant.publishTrack(videoTrack);
-            }
-          }}
-        />
-      );
-    }
+    const enabled = room.localParticipant.isCameraEnabled;
+    videoButton = (
+      <VideoSelectButton
+        isEnabled={enabled}
+        onClick={() => room.localParticipant.setCameraEnabled(!enabled)}
+        onSourceSelected={(device) => {
+          room.switchActiveDevice("videoinput", device.deviceId);
+        }}
+      />
+    );
   }
 
   let screenButton: ReactElement | undefined;
   if (enableScreenShare) {
-    if (screenPub?.track) {
-      screenButton = (
-        <ControlButton
-          label="Stop sharing"
-          icon={faStop}
-          onClick={() => unpublishTrack(screenPub.track as LocalVideoTrack)}
-        />
-      );
-    } else {
-      screenButton = (
-        <ControlButton
-          label="Share screen"
-          icon={faDesktop}
-          onClick={async () => {
-            try {
-              const captureStream =
-                // @ts-ignore
-                (await navigator.mediaDevices.getDisplayMedia({
-                  video: {
-                    width: VideoPresets.fhd.resolution.width,
-                    height: VideoPresets.fhd.resolution.height,
-                  },
-                })) as MediaStream;
-
-              room.localParticipant.publishTrack(captureStream.getTracks()[0], {
-                name: "screen",
-                videoEncoding: {
-                  maxBitrate: 3000000,
-                  maxFramerate: 30,
-                },
-              });
-            } catch (err) {
-              // TODO: display error
+    const enabled = room.localParticipant.isScreenShareEnabled;
+    screenButton = (
+      <ControlButton
+        label={enabled ? "Stop sharing" : "Share screen"}
+        icon={enabled ? faStop : faDesktop}
+        onClick={() => {
+          if (enabled) {
+            const pub = room.localParticipant.getTrack(
+              Track.Source.ScreenShare
+            );
+            if (pub?.track) {
+              unpublishTrack(pub.track);
             }
-          }}
-        />
-      );
-    }
+          } else {
+            room.localParticipant.setScreenShareEnabled(true);
+          }
+        }}
+      />
+    );
   }
 
   return (

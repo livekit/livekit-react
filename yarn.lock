@@ -7363,10 +7363,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-livekit-client@^0.12.2:
-  version "0.12.2"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.12.2.tgz#89b06c2e6208fb08522565cd17cc7bbd6353c900"
-  integrity sha512-QyPtaGz6c8X0BfmdVyRrL5kSgZtnulT9IIYBZRekrCmE5RVN8p7O+UKU9uFutOUMPLia4qLHHFVBVbiQeNolSQ==
+livekit-client@^0.13.4:
+  version "0.13.4"
+  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.13.4.tgz#00a95217129e91e71b513ae70f5387ddefd15d11"
+  integrity sha512-yA3t40scv2/HYwPAI6+yOnYGNUbxp9evDbEAmn0mMVBGLN+qRwJEdKqmfpzRfIX9X4KfalRa8YLXiELZIomLRA==
   dependencies:
     "@types/ws" "^7.4.0"
     events "^3.3.0"

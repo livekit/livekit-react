@@ -1,5 +1,5 @@
 import { faBolt } from '@fortawesome/free-solid-svg-icons'
-import { createLocalVideoTrack, CreateVideoTrackOptions, LocalVideoTrack } from 'livekit-client'
+import { createLocalVideoTrack, LocalVideoTrack } from 'livekit-client'
 import { AudioSelectButton, ControlButton, VideoRenderer, VideoSelectButton } from 'livekit-react'
 import React, { ReactElement, useEffect, useRef, useState } from "react"
 import { AspectRatio } from 'react-aspect-ratio'
@@ -40,30 +40,29 @@ export const PreJoinPage = () => {
     }
   }, [token, url])
 
-  const toggleVideo = () => {
+  const toggleVideo = async () => {
     if (videoTrack) {
       videoTrack.stop()
       setVideoEnabled(false)
       setVideoTrack(undefined)
     } else {
-      const options: CreateVideoTrackOptions = {}
-      if (videoDevice) {
-        options.deviceId = videoDevice.deviceId
-      }
-      createLocalVideoTrack(options).then((track) => {
-        setVideoEnabled(true)
-        setVideoTrack(track)
+      const track = await createLocalVideoTrack({
+        deviceId: videoDevice?.deviceId,
       })
+      setVideoEnabled(true)
+      setVideoTrack(track)
     }
   }
 
   useEffect(() => {
     // enable video by default
-    createLocalVideoTrack().then((track) => {
+    createLocalVideoTrack({
+      deviceId: videoDevice?.deviceId,
+    }).then((track) => {
       setVideoEnabled(true)
       setVideoTrack(track)
     })
-  }, [])
+  }, [videoDevice])
 
   const toggleAudio = () => {
     if (audioEnabled) {
@@ -80,14 +79,15 @@ export const PreJoinPage = () => {
         return
       }
       // stop video
-      toggleVideo();
+      videoTrack.stop()
     }
-
-    // start video with correct device
-    toggleVideo();
   }
 
   const connectToRoom = () => {
+    if (videoTrack) {
+      videoTrack.stop()
+    }
+
     if (window.location.protocol === 'https:' &&
         url.startsWith('ws://') && !url.startsWith('ws://localhost')) {
       alert('Unable to connect to insecure websocket from https');

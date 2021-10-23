@@ -2,7 +2,8 @@ import {
   faMicrophone,
   faMicrophoneSlash,
 } from "@fortawesome/free-solid-svg-icons";
-import React, { useEffect, useState } from "react";
+import { Room } from "livekit-client";
+import React, { useCallback, useEffect, useState } from "react";
 import { ControlButton, MenuItem } from "./ControlButton";
 
 export interface AudioSelectButtonProps {
@@ -19,19 +20,27 @@ export const AudioSelectButton = ({
   const [sources, setSources] = useState<MediaDeviceInfo[]>([]);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
+  const listAudioDevices = useCallback(async () => {
+    const devices = await Room.getLocalDevices("audioinput");
+    setSources(devices);
+    setMenuItems(
+      devices.map((item) => {
+        return { label: item.label };
+      })
+    );
+  }, []);
+
   useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then((devices) => {
-      const audioDevices = devices.filter(
-        (item) => item.kind === "audioinput" && item.deviceId
+    listAudioDevices();
+    navigator.mediaDevices.addEventListener("devicechange", listAudioDevices);
+
+    return () => {
+      navigator.mediaDevices.removeEventListener(
+        "devicechange",
+        listAudioDevices
       );
-      setSources(audioDevices);
-      setMenuItems(
-        audioDevices.map((item) => {
-          return { label: item.label };
-        })
-      );
-    });
-  }, [isMuted]);
+    };
+  }, []);
 
   const handleMenuItem = (item: MenuItem) => {
     const device = sources.find((d) => d.label === item.label);

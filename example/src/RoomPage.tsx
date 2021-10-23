@@ -1,6 +1,6 @@
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { createLocalTracks, CreateLocalTracksOptions, Room, RoomEvent, Track, TrackPublishOptions } from 'livekit-client'
+import { ConnectOptions, Room, RoomEvent } from 'livekit-client'
 import { LiveKitRoom } from 'livekit-react'
 import React, { useState } from "react"
 import "react-aspect-ratio/aspect-ratio.css"
@@ -70,34 +70,29 @@ async function onConnected(room: Room, query: URLSearchParams) {
   // make it easier to debug
   (window as any).currentRoom = room;
 
-  createLocalTracks();
-  const opts: CreateLocalTracksOptions = {};
+  const opts: ConnectOptions = {};
+
+  if (isSet(query, 'simulcast')) {
+    room.defaultPublishOptions.simulcast = true;
+  }
 
   if (isSet(query, 'audioEnabled')) {
-    opts.audio = {}
+    opts.audio = true
     const audioDeviceId = query.get('audioDeviceId');
     if (audioDeviceId) {
-      opts.audio.deviceId = audioDeviceId;
+      room.defaultCaptureOptions.audioDeviceId = audioDeviceId;
     }
+    await room.localParticipant.setMicrophoneEnabled(true);
   }
 
   if (isSet(query, 'videoEnabled')) {
-    opts.video = {
-      name: 'camera',
-    }
+    opts.video = true
     const videoDeviceId = query.get('videoDeviceId');
     if (videoDeviceId) {
-      opts.video.deviceId = videoDeviceId;
+      room.defaultCaptureOptions.videoDeviceId = videoDeviceId;
     }
+    await room.localParticipant.setCameraEnabled(true);
   }
-  const tracks = await createLocalTracks(opts);
-  tracks.forEach((track) => {
-    const publishOptions: TrackPublishOptions = {};
-    if (isSet(query, 'simulcast') && track.kind === Track.Kind.Video) {
-      publishOptions.simulcast = true;
-    }
-    room.localParticipant.publishTrack(track, publishOptions);
-  });
 }
 
 function isSet(query: URLSearchParams, key: string): boolean {

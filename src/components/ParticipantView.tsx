@@ -4,12 +4,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Property } from "csstype";
-import {
-  Participant,
-  RemoteTrackPublication,
-  Track,
-  TrackPublication,
-} from "livekit-client";
+import { Participant, RemoteTrackPublication } from "livekit-client";
 import { VideoQuality } from "livekit-client/dist/proto/livekit_rtc";
 import React, { CSSProperties, ReactElement, useEffect, useState } from "react";
 import { AspectRatio } from "react-aspect-ratio";
@@ -59,10 +54,8 @@ export const ParticipantView = ({
   onMouseLeave,
   onClick,
 }: ParticipantProps) => {
-  const { isLocal, isAudioMuted, subscribedTracks } =
-    useParticipant(participant);
+  const { cameraPublication, isLocal } = useParticipant(participant);
   const { ref, inView } = useInView();
-  const [videoPub, setVideoPub] = useState<TrackPublication>();
   const [videoEnabled, setVideoEnabled] = useState(true);
   const [callbackTimeout, setCallbackTimeout] =
     useState<ReturnType<typeof setTimeout>>();
@@ -78,42 +71,26 @@ export const ParticipantView = ({
     }
   }, [participant, inView, adaptiveVideo]);
 
-  // effect to set videoPub
-  useEffect(() => {
-    let newVideoPub: TrackPublication | undefined;
-    subscribedTracks.forEach((pub) => {
-      if (
-        pub.isSubscribed &&
-        pub.kind === Track.Kind.Video &&
-        pub.trackName !== "screen" &&
-        !newVideoPub
-      ) {
-        newVideoPub = pub;
-      }
-    });
-    setVideoPub(newVideoPub);
-  }, [subscribedTracks]);
-
   // debounce adaptive settings, to ensure less twitchy responses
   useEffect(() => {
     if (callbackTimeout) {
       clearTimeout(callbackTimeout);
       setCallbackTimeout(undefined);
     }
-    if (!(videoPub instanceof RemoteTrackPublication)) {
+    if (!(cameraPublication instanceof RemoteTrackPublication)) {
       return;
     }
 
     // always enable right away, while disable quality changes are delayed
     if (videoEnabled) {
-      videoPub.setEnabled(true);
+      cameraPublication.setEnabled(true);
     }
 
     setCallbackTimeout(
       setTimeout(() => {
-        videoPub.setEnabled(videoEnabled);
+        cameraPublication.setEnabled(videoEnabled);
         if (videoEnabled) {
-          videoPub.setVideoQuality(quality ?? VideoQuality.HIGH);
+          cameraPublication.setVideoQuality(quality ?? VideoQuality.HIGH);
         }
       }, 3000)
     );
@@ -123,7 +100,7 @@ export const ParticipantView = ({
         setCallbackTimeout(undefined);
       }
     };
-  }, [quality, videoEnabled, videoPub]);
+  }, [quality, videoEnabled, cameraPublication]);
 
   const containerStyles: CSSProperties = {
     width: width,
@@ -136,9 +113,9 @@ export const ParticipantView = ({
   if (!orientation && aspectWidth && aspectHeight) {
     orientation = aspectWidth > aspectHeight ? "landscape" : "portrait";
   }
-  if (videoPub?.dimensions) {
+  if (cameraPublication?.dimensions) {
     videoOrientation =
-      videoPub.dimensions.width > videoPub.dimensions.height
+      cameraPublication.dimensions.width > cameraPublication.dimensions.height
         ? "landscape"
         : "portrait";
   }
@@ -155,10 +132,15 @@ export const ParticipantView = ({
   }
 
   let mainElement: ReactElement;
-  if (videoPub?.track && videoEnabled && !videoPub?.isMuted) {
+  if (
+    cameraPublication?.isSubscribed &&
+    cameraPublication?.track &&
+    videoEnabled &&
+    !cameraPublication?.isMuted
+  ) {
     mainElement = (
       <VideoRenderer
-        track={videoPub.track}
+        track={cameraPublication.track}
         isLocal={isLocal}
         objectFit={objectFit}
         width="100%"
@@ -173,6 +155,7 @@ export const ParticipantView = ({
   if (className) {
     classes.push(className);
   }
+  const isAudioMuted = !participant.isMicrophoneEnabled;
 
   return (
     <div

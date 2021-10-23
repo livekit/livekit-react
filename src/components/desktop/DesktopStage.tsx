@@ -1,8 +1,4 @@
-import {
-  LocalParticipant,
-  Participant,
-  RemoteVideoTrack,
-} from "livekit-client";
+import { Track, VideoTrack } from "livekit-client";
 import { VideoQuality } from "livekit-client/dist/proto/livekit_rtc";
 import React, { ReactElement, useState } from "react";
 import { ControlsView } from "../ControlsView";
@@ -40,27 +36,24 @@ export const DesktopStage = ({
   const ControlRenderer = controlRenderer ?? ControlsView;
 
   // find first participant with screen shared
-  let screenTrack: RemoteVideoTrack | undefined;
+  let screenTrack: VideoTrack | undefined;
   participants.forEach((p) => {
-    if (p instanceof LocalParticipant) {
+    if (screenTrack) {
       return;
     }
-    p.videoTracks.forEach((track) => {
-      if (track.trackName === "screen" && track.track) {
-        screenTrack = track.track as RemoteVideoTrack;
-      }
-    });
+    const track = p.getTrack(Track.Source.ScreenShare);
+    if (track?.isSubscribed && track.videoTrack) {
+      screenTrack = track.videoTrack;
+    }
   });
 
-  let otherParticipants: Participant[];
+  const otherParticipants = participants;
   let mainView: ReactElement;
   if (screenTrack) {
-    otherParticipants = participants;
     mainView = (
       <ScreenShareView track={screenTrack} height="100%" width="100%" />
     );
   } else {
-    otherParticipants = participants.slice(1);
     mainView = (
       <ParticipantRenderer
         key={participants[0].identity}

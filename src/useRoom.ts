@@ -77,12 +77,22 @@ export function useRoom(options?: RoomOptions): RoomState {
           newRoom.off(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged);
           newRoom.off(RoomEvent.TrackSubscribed, onSubscribedTrackChanged);
           newRoom.off(RoomEvent.TrackUnsubscribed, onSubscribedTrackChanged);
+          newRoom.off(RoomEvent.LocalTrackPublished, onSubscribedTrackChanged);
+          newRoom.localParticipant.off(
+            "localtrackchanged",
+            onSubscribedTrackChanged
+          );
         });
         newRoom.on(RoomEvent.ParticipantConnected, onParticipantsChanged);
         newRoom.on(RoomEvent.ParticipantDisconnected, onParticipantsChanged);
         newRoom.on(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged);
         newRoom.on(RoomEvent.TrackSubscribed, onSubscribedTrackChanged);
         newRoom.on(RoomEvent.TrackUnsubscribed, onSubscribedTrackChanged);
+        newRoom.on(RoomEvent.LocalTrackPublished, onSubscribedTrackChanged);
+        newRoom.localParticipant.on(
+          "localtrackchanged",
+          onSubscribedTrackChanged
+        );
 
         setIsConnecting(false);
         onSubscribedTrackChanged();
@@ -90,7 +100,11 @@ export function useRoom(options?: RoomOptions): RoomState {
         return newRoom;
       } catch (error) {
         setIsConnecting(false);
-        setError(error);
+        if (error instanceof Error) {
+          setError(error);
+        } else {
+          setError(new Error("an error has occured"));
+        }
 
         return undefined;
       }
