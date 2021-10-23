@@ -39,11 +39,9 @@ export const RoomPage = () => {
   )
 }
 
-function onConnected(room) {
-  const audioTrack = await createLocalAudioTrack()
-  await room.localParticipant.publishTrack(audioTrack)
-  const videoTrack = await createLocalVideoTrack();
-  await room.localParticipant.publishTrack(videoTrack)
+async function onConnected(room) {
+  await room.localParticipant.setCameraEnabled(true)
+  await room.localParticipant.setMicrophoneEnabled(true)
 }
 ```
 
@@ -83,7 +81,7 @@ export const MyComponent = () => {
 }
 
 export const ParticipantRenderer = ({ participant }) => {
-  const { isMuted, isSpeaking, subscribedTracks } = useParticipant(participant)
+  const { isSpeaking, subscribedTracks } = useParticipant(participant)
   ...
 }
 ```
