@@ -40,6 +40,12 @@ export const LiveKitRoom = ({
   adaptiveVideo,
 }: RoomProps) => {
   const roomState = useRoom({ sortParticipants });
+  if (!connectOptions) {
+    connectOptions = {};
+  }
+  if (adaptiveVideo) {
+    connectOptions.autoManageVideo = true;
+  }
 
   useEffect(() => {
     roomState.connect(url, token, connectOptions).then((room) => {
@@ -62,6 +68,5 @@ export const LiveKitRoom = ({
     participantRenderer,
     controlRenderer,
     onLeave,
-    adaptiveVideo,
   });
 };

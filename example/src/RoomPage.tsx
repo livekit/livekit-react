@@ -1,6 +1,6 @@
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ConnectOptions, Room, RoomEvent } from 'livekit-client'
+import { ConnectOptions, LogLevel, Room, RoomEvent } from 'livekit-client'
 import { LiveKitRoom } from 'livekit-react'
 import React, { useState } from "react"
 import "react-aspect-ratio/aspect-ratio.css"
@@ -59,8 +59,11 @@ export const RoomPage = () => {
           room.on(RoomEvent.ParticipantDisconnected, () => onParticipantDisconnected(room))
           updateParticipantSize(room);
         }}
+        connectOptions={{
+          autoManageVideo: true,
+          logLevel: LogLevel.debug,
+        }}
         onLeave={onLeave}
-        adaptiveVideo={true}
       />
     </div>
   )

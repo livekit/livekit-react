@@ -1,5 +1,4 @@
 import { Track, VideoTrack } from "livekit-client";
-import { VideoQuality } from "livekit-client/dist/proto/livekit_rtc";
 import React, { ReactElement, useState } from "react";
 import { ControlsView } from "../ControlsView";
 import { ParticipantView } from "../ParticipantView";
@@ -12,7 +11,6 @@ export const DesktopStage = ({
   participantRenderer,
   controlRenderer,
   onLeave,
-  adaptiveVideo,
 }: StageProps) => {
   const { isConnecting, error, participants, room } = roomState;
   const [showOverlay, setShowOverlay] = useState(false);
@@ -62,7 +60,6 @@ export const DesktopStage = ({
         height="100%"
         orientation="landscape"
         showOverlay={showOverlay}
-        quality={VideoQuality.HIGH}
         onMouseEnter={() => setShowOverlay(true)}
         onMouseLeave={() => setShowOverlay(false)}
       />
@@ -75,11 +72,7 @@ export const DesktopStage = ({
       <div className={styles.stage}>
         <div className={styles.stageCenter}>{mainView}</div>
         <div className={styles.sidebar}>
-          {otherParticipants.map((participant, i) => {
-            let quality = VideoQuality.HIGH;
-            if (adaptiveVideo && i > 4) {
-              quality = VideoQuality.LOW;
-            }
+          {otherParticipants.map((participant) => {
             return (
               <ParticipantRenderer
                 key={participant.identity}
@@ -88,10 +81,8 @@ export const DesktopStage = ({
                 aspectWidth={16}
                 aspectHeight={9}
                 showOverlay={showOverlay}
-                quality={quality}
                 onMouseEnter={() => setShowOverlay(true)}
                 onMouseLeave={() => setShowOverlay(false)}
-                adaptiveVideo={adaptiveVideo}
               />
             );
           })}

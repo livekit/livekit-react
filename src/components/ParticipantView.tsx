@@ -4,11 +4,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Property } from "csstype";
-import { Participant, RemoteTrackPublication } from "livekit-client";
-import { VideoQuality } from "livekit-client/dist/proto/livekit_rtc";
-import React, { CSSProperties, ReactElement, useEffect, useState } from "react";
+import { Participant } from "livekit-client";
+import React, { CSSProperties, ReactElement } from "react";
 import { AspectRatio } from "react-aspect-ratio";
-import { useInView } from "react-intersection-observer";
 import { useParticipant } from "../useParticipant";
 import styles from "./styles.module.css";
 import { VideoRenderer } from "./VideoRenderer";
@@ -30,9 +28,6 @@ export interface ParticipantProps {
   orientation?: "landscape" | "portrait";
   // true if overlay with participant info should be shown
   showOverlay?: boolean;
-  quality?: VideoQuality;
-  // when set, video will be disabled when not in view
-  adaptiveVideo?: Boolean;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
   onClick?: () => void;
@@ -48,59 +43,11 @@ export const ParticipantView = ({
   orientation,
   displayName,
   showOverlay,
-  quality,
-  adaptiveVideo,
   onMouseEnter,
   onMouseLeave,
   onClick,
 }: ParticipantProps) => {
   const { cameraPublication, isLocal } = useParticipant(participant);
-  const { ref, inView } = useInView();
-  const [videoEnabled, setVideoEnabled] = useState(true);
-  const [callbackTimeout, setCallbackTimeout] =
-    useState<ReturnType<typeof setTimeout>>();
-
-  // when video is hidden, disable it to optimize for bandwidth
-  useEffect(() => {
-    let enabled = inView;
-    if (!adaptiveVideo) {
-      enabled = true;
-    }
-    if (videoEnabled !== enabled) {
-      setVideoEnabled(enabled);
-    }
-  }, [participant, inView, adaptiveVideo]);
-
-  // debounce adaptive settings, to ensure less twitchy responses
-  useEffect(() => {
-    if (callbackTimeout) {
-      clearTimeout(callbackTimeout);
-      setCallbackTimeout(undefined);
-    }
-    if (!(cameraPublication instanceof RemoteTrackPublication)) {
-      return;
-    }
-
-    // always enable right away, while disable quality changes are delayed
-    if (videoEnabled) {
-      cameraPublication.setEnabled(true);
-    }
-
-    setCallbackTimeout(
-      setTimeout(() => {
-        cameraPublication.setEnabled(videoEnabled);
-        if (videoEnabled) {
-          cameraPublication.setVideoQuality(quality ?? VideoQuality.HIGH);
-        }
-      }, 3000)
-    );
-    return () => {
-      if (callbackTimeout) {
-        clearTimeout(callbackTimeout);
-        setCallbackTimeout(undefined);
-      }
-    };
-  }, [quality, videoEnabled, cameraPublication]);
 
   const containerStyles: CSSProperties = {
     width: width,
@@ -135,7 +82,6 @@ export const ParticipantView = ({
   if (
     cameraPublication?.isSubscribed &&
     cameraPublication?.track &&
-    videoEnabled &&
     !cameraPublication?.isMuted
   ) {
     mainElement = (
@@ -159,7 +105,6 @@ export const ParticipantView = ({
 
   return (
     <div
-      ref={ref}
       className={classes.join(" ")}
       style={containerStyles}
       onMouseEnter={onMouseEnter}

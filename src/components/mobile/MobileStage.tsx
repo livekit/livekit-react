@@ -1,5 +1,4 @@
 import { Track, VideoTrack } from "livekit-client";
-import { VideoQuality } from "livekit-client/dist/proto/livekit_rtc";
 import React, { ReactElement, useState } from "react";
 import { ControlsView } from "../ControlsView";
 import { ParticipantView } from "../ParticipantView";
@@ -12,7 +11,6 @@ export const MobileStage = ({
   participantRenderer,
   controlRenderer,
   onLeave,
-  adaptiveVideo,
 }: StageProps) => {
   const { isConnecting, error, participants, room } = roomState;
   const [showOverlay, setShowOverlay] = useState(false);
@@ -62,10 +60,8 @@ export const MobileStage = ({
         width="100%"
         height="100%"
         orientation="portrait"
-        quality={VideoQuality.MEDIUM}
         onMouseEnter={() => setShowOverlay(true)}
         onMouseLeave={() => setShowOverlay(false)}
-        adaptiveVideo={adaptiveVideo}
       />
     );
   }
@@ -75,11 +71,7 @@ export const MobileStage = ({
     <div className={styles.container}>
       <div className={styles.stage}>{mainView}</div>
       <div className={styles.participantsArea}>
-        {otherParticipants.map((participant, i) => {
-          let quality = VideoQuality.MEDIUM;
-          if (adaptiveVideo && i > 4) {
-            quality = VideoQuality.LOW;
-          }
+        {otherParticipants.map((participant) => {
           return (
             <ParticipantRenderer
               key={participant.identity}
@@ -88,10 +80,8 @@ export const MobileStage = ({
               aspectWidth={4}
               aspectHeight={3}
               showOverlay={showOverlay}
-              quality={quality}
               onMouseEnter={() => setShowOverlay(true)}
               onMouseLeave={() => setShowOverlay(false)}
-              adaptiveVideo={adaptiveVideo}
             />
           );
         })}

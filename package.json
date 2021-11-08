@@ -67,9 +67,8 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@types/react-responsive": "^8.0.2",
-    "livekit-client": "^0.13.4",
+    "livekit-client": "^0.14.1",
     "react-aspect-ratio": "^1.0.50",
-    "react-intersection-observer": "^8.32.0",
     "react-responsive": "^8.2.0",
     "react-tiny-popover": "^6.0.5"
   }
