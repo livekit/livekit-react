@@ -7,16 +7,16 @@ export interface VideoSelectButtonProps {
   isEnabled: boolean;
   onClick?: () => void;
   onSourceSelected?: (device: MediaDeviceInfo) => void;
-  disableText?:string;
-  enableText?:string;
+  disableText?: string;
+  enableText?: string;
 }
 
 export const VideoSelectButton = ({
   isEnabled,
   onClick,
   onSourceSelected,
-  disableText='Disable Video',
-  enableText='Enable Video'
+  disableText = "Disable Video",
+  enableText = "Enable Video",
 }: VideoSelectButtonProps) => {
   const [sources, setSources] = useState<MediaDeviceInfo[]>([]);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
