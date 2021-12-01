@@ -11,6 +11,9 @@ interface ButtonProps {
   onClick?: () => void;
   icon?: IconProp;
   className?: string;
+  popoverContainerClassName?: string;
+  popoverTriggerBtnClassName?: string;
+  popoverTriggerBtnSeparatorClassName?: string;
   menuItems?: MenuItem[];
   onMenuItemClick?: (item: MenuItem) => void;
 }
@@ -26,6 +29,9 @@ export const ControlButton = ({
   icon,
   className,
   menuItems,
+  popoverContainerClassName,
+  popoverTriggerBtnClassName,
+  popoverTriggerBtnSeparatorClassName,
   onMenuItemClick,
 }: ButtonProps) => {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -49,16 +55,18 @@ export const ControlButton = ({
     menuTrigger = (
       <button
         disabled={disabled}
-        className={`${styles.button} ${styles.dropdown}`}
+        className={`${styles.button} ${popoverTriggerBtnClassName}  ${styles.dropdown}`}
         onClick={() => setMenuVisible(!menuVisible)}
       >
-        <div className={styles.separator} />
+        <div
+          className={`${styles.separator} ${popoverTriggerBtnSeparatorClassName}`}
+        />
         <FontAwesomeIcon height={32} icon={faChevronDown} />
       </button>
     );
 
     menu = (
-      <div className={styles.popoverMenu}>
+      <div className={`${styles.popoverMenu} ${popoverContainerClassName}`}>
         <ul className={styles.list}>
           {menuItems?.map((item, i) => {
             return (
