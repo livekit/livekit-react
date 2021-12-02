@@ -9,6 +9,10 @@ export interface VideoSelectButtonProps {
   onSourceSelected?: (device: MediaDeviceInfo) => void;
   disableText?: string;
   enableText?: string;
+  className?: string;
+  popoverContainerClassName?: string;
+  popoverTriggerBtnClassName?: string;
+  popoverTriggerBtnSeparatorClassName?: string;
 }
 
 export const VideoSelectButton = ({
@@ -17,6 +21,10 @@ export const VideoSelectButton = ({
   onSourceSelected,
   disableText = "Disable Video",
   enableText = "Enable Video",
+  className,
+  popoverContainerClassName,
+  popoverTriggerBtnClassName,
+  popoverTriggerBtnSeparatorClassName,
 }: VideoSelectButtonProps) => {
   const [sources, setSources] = useState<MediaDeviceInfo[]>([]);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -56,6 +64,10 @@ export const VideoSelectButton = ({
       onClick={onClick}
       menuItems={menuItems}
       onMenuItemClick={handleMenuItem}
+      className={className}
+      popoverContainerClassName={popoverContainerClassName}
+      popoverTriggerBtnClassName={popoverTriggerBtnClassName}
+      popoverTriggerBtnSeparatorClassName={popoverTriggerBtnSeparatorClassName}
     />
   );
 };
