@@ -11,6 +11,30 @@ export const MobileStage = ({
   participantRenderer,
   controlRenderer,
   onLeave,
+  onClickParticipant,
+  endLabel,
+  stopShareLabel,
+  shareScreenLabel,
+  videoBtnClassName,
+  videoBtnPopoverContainerClassName,
+  videoBtnPopoverTriggerBtnClassName,
+  videoBtnPopoverTriggerBtnSeparatorClassName,
+  audioBtnClassName,
+  audioBtnPopoverContainerClassName,
+  audioBtnPopoverTriggerBtnClassName,
+  audioBtnPopoverTriggerBtnSeparatorClassName,
+  screenBtnClassName,
+  screenBtnPopoverContainerClassName,
+  screenBtnPopoverTriggerBtnClassName,
+  screenBtnPopoverTriggerBtnSeparatorClassName,
+  endBtnClassName,
+  endBtnPopoverContainerClassName,
+  endBtnPopoverTriggerBtnClassName,
+  endBtnPopoverTriggerBtnSeparatorClassName,
+  disableText,
+  enableText,
+  muteText,
+  unmuteText,
 }: StageProps) => {
   const { isConnecting, error, participants, room } = roomState;
   const [showOverlay, setShowOverlay] = useState(false);
@@ -62,6 +86,9 @@ export const MobileStage = ({
         orientation="portrait"
         onMouseEnter={() => setShowOverlay(true)}
         onMouseLeave={() => setShowOverlay(false)}
+        onClick={() =>
+          onClickParticipant ? onClickParticipant(participants[0]) : {}
+        }
       />
     );
   }
@@ -82,6 +109,9 @@ export const MobileStage = ({
               showOverlay={showOverlay}
               onMouseEnter={() => setShowOverlay(true)}
               onMouseLeave={() => setShowOverlay(false)}
+              onClick={() =>
+                onClickParticipant ? onClickParticipant(participant) : {}
+              }
             />
           );
         })}
@@ -91,6 +121,45 @@ export const MobileStage = ({
           room={room}
           enableScreenShare={false}
           onLeave={onLeave}
+          endLabel={endLabel}
+          stopShareLabel={stopShareLabel}
+          shareScreenLabel={shareScreenLabel}
+          videoBtnClassName={videoBtnClassName}
+          videoBtnPopoverContainerClassName={videoBtnPopoverContainerClassName}
+          videoBtnPopoverTriggerBtnClassName={
+            videoBtnPopoverTriggerBtnClassName
+          }
+          videoBtnPopoverTriggerBtnSeparatorClassName={
+            videoBtnPopoverTriggerBtnSeparatorClassName
+          }
+          audioBtnClassName={audioBtnClassName}
+          audioBtnPopoverContainerClassName={audioBtnPopoverContainerClassName}
+          audioBtnPopoverTriggerBtnClassName={
+            audioBtnPopoverTriggerBtnClassName
+          }
+          audioBtnPopoverTriggerBtnSeparatorClassName={
+            audioBtnPopoverTriggerBtnSeparatorClassName
+          }
+          screenBtnClassName={screenBtnClassName}
+          screenBtnPopoverContainerClassName={
+            screenBtnPopoverContainerClassName
+          }
+          screenBtnPopoverTriggerBtnClassName={
+            screenBtnPopoverTriggerBtnClassName
+          }
+          screenBtnPopoverTriggerBtnSeparatorClassName={
+            screenBtnPopoverTriggerBtnSeparatorClassName
+          }
+          endBtnClassName={endBtnClassName}
+          endBtnPopoverContainerClassName={endBtnPopoverContainerClassName}
+          endBtnPopoverTriggerBtnClassName={endBtnPopoverTriggerBtnClassName}
+          endBtnPopoverTriggerBtnSeparatorClassName={
+            endBtnPopoverTriggerBtnSeparatorClassName
+          }
+          disableText={disableText}
+          enableText={enableText}
+          muteText={muteText}
+          unmuteText={unmuteText}
         />
       </div>
     </div>

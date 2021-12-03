@@ -25,6 +25,30 @@ export interface RoomProps {
   stageRenderer?: (props: StageProps) => React.ReactElement | null;
   participantRenderer?: (props: ParticipantProps) => React.ReactElement | null;
   controlRenderer?: (props: ControlsProps) => React.ReactElement | null;
+  onClickParticipant?: (participant: Participant) => void;
+  endLabel?: string;
+  stopShareLabel?: string;
+  shareScreenLabel?: string;
+  videoBtnClassName?: string;
+  videoBtnPopoverContainerClassName?: string;
+  videoBtnPopoverTriggerBtnClassName?: string;
+  videoBtnPopoverTriggerBtnSeparatorClassName?: string;
+  audioBtnClassName?: string;
+  audioBtnPopoverContainerClassName?: string;
+  audioBtnPopoverTriggerBtnClassName?: string;
+  audioBtnPopoverTriggerBtnSeparatorClassName?: string;
+  screenBtnClassName?: string;
+  screenBtnPopoverContainerClassName?: string;
+  screenBtnPopoverTriggerBtnClassName?: string;
+  screenBtnPopoverTriggerBtnSeparatorClassName?: string;
+  endBtnClassName?: string;
+  endBtnPopoverContainerClassName?: string;
+  endBtnPopoverTriggerBtnClassName?: string;
+  endBtnPopoverTriggerBtnSeparatorClassName?: string;
+  disableText?: string;
+  enableText?: string;
+  muteText?: string;
+  unmuteText?: string;
 }
 
 export const LiveKitRoom = ({
@@ -38,6 +62,30 @@ export const LiveKitRoom = ({
   onConnected,
   onLeave,
   adaptiveVideo,
+  onClickParticipant,
+  endLabel,
+  stopShareLabel,
+  shareScreenLabel,
+  videoBtnClassName,
+  videoBtnPopoverContainerClassName,
+  videoBtnPopoverTriggerBtnClassName,
+  videoBtnPopoverTriggerBtnSeparatorClassName,
+  audioBtnClassName,
+  audioBtnPopoverContainerClassName,
+  audioBtnPopoverTriggerBtnClassName,
+  audioBtnPopoverTriggerBtnSeparatorClassName,
+  screenBtnClassName,
+  screenBtnPopoverContainerClassName,
+  screenBtnPopoverTriggerBtnClassName,
+  screenBtnPopoverTriggerBtnSeparatorClassName,
+  endBtnClassName,
+  endBtnPopoverContainerClassName,
+  endBtnPopoverTriggerBtnClassName,
+  endBtnPopoverTriggerBtnSeparatorClassName,
+  disableText,
+  enableText,
+  muteText,
+  unmuteText,
 }: RoomProps) => {
   const roomState = useRoom({ sortParticipants });
   if (!connectOptions) {
@@ -68,5 +116,29 @@ export const LiveKitRoom = ({
     participantRenderer,
     controlRenderer,
     onLeave,
+    onClickParticipant,
+    endLabel,
+    stopShareLabel,
+    shareScreenLabel,
+    videoBtnClassName,
+    videoBtnPopoverContainerClassName,
+    videoBtnPopoverTriggerBtnClassName,
+    videoBtnPopoverTriggerBtnSeparatorClassName,
+    audioBtnClassName,
+    audioBtnPopoverContainerClassName,
+    audioBtnPopoverTriggerBtnClassName,
+    audioBtnPopoverTriggerBtnSeparatorClassName,
+    screenBtnClassName,
+    screenBtnPopoverContainerClassName,
+    screenBtnPopoverTriggerBtnClassName,
+    screenBtnPopoverTriggerBtnSeparatorClassName,
+    endBtnClassName,
+    endBtnPopoverContainerClassName,
+    endBtnPopoverTriggerBtnClassName,
+    endBtnPopoverTriggerBtnSeparatorClassName,
+    disableText,
+    enableText,
+    muteText,
+    unmuteText,
   });
 };

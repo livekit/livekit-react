@@ -13,6 +13,29 @@ export interface ControlsProps {
   enableAudio?: boolean;
   enableVideo?: boolean;
   onLeave?: (room: Room) => void;
+  endLabel?: string;
+  stopShareLabel?: string;
+  shareScreenLabel?: string;
+  videoBtnClassName?: string;
+  videoBtnPopoverContainerClassName?: string;
+  videoBtnPopoverTriggerBtnClassName?: string;
+  videoBtnPopoverTriggerBtnSeparatorClassName?: string;
+  audioBtnClassName?: string;
+  audioBtnPopoverContainerClassName?: string;
+  audioBtnPopoverTriggerBtnClassName?: string;
+  audioBtnPopoverTriggerBtnSeparatorClassName?: string;
+  screenBtnClassName?: string;
+  screenBtnPopoverContainerClassName?: string;
+  screenBtnPopoverTriggerBtnClassName?: string;
+  screenBtnPopoverTriggerBtnSeparatorClassName?: string;
+  endBtnClassName?: string;
+  endBtnPopoverContainerClassName?: string;
+  endBtnPopoverTriggerBtnClassName?: string;
+  endBtnPopoverTriggerBtnSeparatorClassName?: string;
+  disableText?: string;
+  enableText?: string;
+  muteText?: string;
+  unmuteText?: string;
 }
 
 export const ControlsView = ({
@@ -21,6 +44,29 @@ export const ControlsView = ({
   enableAudio,
   enableVideo,
   onLeave,
+  endLabel = "End",
+  stopShareLabel = "Stop sharing",
+  shareScreenLabel = "Share screen",
+  videoBtnClassName,
+  videoBtnPopoverContainerClassName,
+  videoBtnPopoverTriggerBtnClassName,
+  videoBtnPopoverTriggerBtnSeparatorClassName,
+  audioBtnClassName,
+  audioBtnPopoverContainerClassName,
+  audioBtnPopoverTriggerBtnClassName,
+  audioBtnPopoverTriggerBtnSeparatorClassName,
+  screenBtnClassName,
+  screenBtnPopoverContainerClassName,
+  screenBtnPopoverTriggerBtnClassName,
+  screenBtnPopoverTriggerBtnSeparatorClassName,
+  endBtnClassName,
+  endBtnPopoverContainerClassName,
+  endBtnPopoverTriggerBtnClassName,
+  endBtnPopoverTriggerBtnSeparatorClassName,
+  disableText,
+  enableText,
+  muteText,
+  unmuteText,
 }: ControlsProps) => {
   const { unpublishTrack } = useParticipant(room.localParticipant);
 
@@ -39,6 +85,14 @@ export const ControlsView = ({
     const enabled = room.localParticipant.isMicrophoneEnabled;
     muteButton = (
       <AudioSelectButton
+        muteText={muteText}
+        unmuteText={unmuteText}
+        className={audioBtnClassName}
+        popoverContainerClassName={audioBtnPopoverContainerClassName}
+        popoverTriggerBtnClassName={audioBtnPopoverTriggerBtnClassName}
+        popoverTriggerBtnSeparatorClassName={
+          audioBtnPopoverTriggerBtnSeparatorClassName
+        }
         isMuted={!enabled}
         onClick={() => room.localParticipant.setMicrophoneEnabled(!enabled)}
         onSourceSelected={(device) =>
@@ -53,6 +107,14 @@ export const ControlsView = ({
     const enabled = room.localParticipant.isCameraEnabled;
     videoButton = (
       <VideoSelectButton
+        disableText={disableText}
+        enableText={enableText}
+        className={videoBtnClassName}
+        popoverContainerClassName={videoBtnPopoverContainerClassName}
+        popoverTriggerBtnClassName={videoBtnPopoverTriggerBtnClassName}
+        popoverTriggerBtnSeparatorClassName={
+          videoBtnPopoverTriggerBtnSeparatorClassName
+        }
         isEnabled={enabled}
         onClick={() => room.localParticipant.setCameraEnabled(!enabled)}
         onSourceSelected={(device) => {
@@ -67,8 +129,14 @@ export const ControlsView = ({
     const enabled = room.localParticipant.isScreenShareEnabled;
     screenButton = (
       <ControlButton
-        label={enabled ? "Stop sharing" : "Share screen"}
+        label={enabled ? stopShareLabel : shareScreenLabel}
         icon={enabled ? faStop : faDesktop}
+        className={screenBtnClassName}
+        popoverContainerClassName={screenBtnPopoverContainerClassName}
+        popoverTriggerBtnClassName={screenBtnPopoverTriggerBtnClassName}
+        popoverTriggerBtnSeparatorClassName={
+          screenBtnPopoverTriggerBtnSeparatorClassName
+        }
         onClick={() => {
           if (enabled) {
             const pub = room.localParticipant.getTrack(
@@ -92,8 +160,13 @@ export const ControlsView = ({
       {screenButton}
       {onLeave && (
         <ControlButton
-          label="End"
-          className={styles.dangerButton}
+          className={endBtnClassName || styles.dangerButton}
+          popoverContainerClassName={endBtnPopoverContainerClassName}
+          popoverTriggerBtnClassName={endBtnPopoverTriggerBtnClassName}
+          popoverTriggerBtnSeparatorClassName={
+            endBtnPopoverTriggerBtnSeparatorClassName
+          }
+          label={endLabel}
           onClick={() => {
             room.disconnect();
             onLeave(room);
