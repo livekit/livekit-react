@@ -12,6 +12,10 @@ export interface AudioSelectButtonProps {
   onSourceSelected?: (device: MediaDeviceInfo) => void;
   muteText?: string;
   unmuteText?: string;
+  className?: string;
+  popoverContainerClassName?: string;
+  popoverTriggerBtnClassName?: string;
+  popoverTriggerBtnSeparatorClassName?: string;
 }
 
 export const AudioSelectButton = ({
@@ -20,6 +24,10 @@ export const AudioSelectButton = ({
   onSourceSelected,
   muteText = "Mute",
   unmuteText = "Unmute",
+  className,
+  popoverContainerClassName,
+  popoverTriggerBtnClassName,
+  popoverTriggerBtnSeparatorClassName,
 }: AudioSelectButtonProps) => {
   const [sources, setSources] = useState<MediaDeviceInfo[]>([]);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -60,6 +68,10 @@ export const AudioSelectButton = ({
       onClick={onClick}
       menuItems={menuItems}
       onMenuItemClick={handleMenuItem}
+      className={className}
+      popoverContainerClassName={popoverContainerClassName}
+      popoverTriggerBtnClassName={popoverTriggerBtnClassName}
+      popoverTriggerBtnSeparatorClassName={popoverTriggerBtnSeparatorClassName}
     />
   );
 };
