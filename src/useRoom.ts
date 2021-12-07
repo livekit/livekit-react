@@ -68,27 +68,31 @@ export function useRoom(options?: RoomOptions): RoomState {
           });
           setAudioTracks(tracks);
         };
-
         newRoom.once(RoomEvent.Disconnected, () => {
           setTimeout(() => setRoom(undefined));
 
-          newRoom.off(RoomEvent.ParticipantConnected, onParticipantsChanged);
-          newRoom.off(RoomEvent.ParticipantDisconnected, onParticipantsChanged);
-          newRoom.off(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged);
-          newRoom.off(RoomEvent.TrackSubscribed, onSubscribedTrackChanged);
-          newRoom.off(RoomEvent.TrackUnsubscribed, onSubscribedTrackChanged);
-          newRoom.off(RoomEvent.LocalTrackPublished, onSubscribedTrackChanged);
+          newRoom
+            .off(RoomEvent.ParticipantConnected, onParticipantsChanged)
+            .off(RoomEvent.ParticipantDisconnected, onParticipantsChanged)
+            .off(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged)
+            .off(RoomEvent.TrackSubscribed, onSubscribedTrackChanged)
+            .off(RoomEvent.TrackUnsubscribed, onSubscribedTrackChanged)
+            .off(RoomEvent.LocalTrackPublished, onSubscribedTrackChanged)
+            // trigger a change by re-sorting participants
+            .off(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged);
           newRoom.localParticipant.off(
             "localtrackchanged",
             onSubscribedTrackChanged
           );
         });
-        newRoom.on(RoomEvent.ParticipantConnected, onParticipantsChanged);
-        newRoom.on(RoomEvent.ParticipantDisconnected, onParticipantsChanged);
-        newRoom.on(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged);
-        newRoom.on(RoomEvent.TrackSubscribed, onSubscribedTrackChanged);
-        newRoom.on(RoomEvent.TrackUnsubscribed, onSubscribedTrackChanged);
-        newRoom.on(RoomEvent.LocalTrackPublished, onSubscribedTrackChanged);
+        newRoom
+          .on(RoomEvent.ParticipantConnected, onParticipantsChanged)
+          .on(RoomEvent.ParticipantDisconnected, onParticipantsChanged)
+          .on(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged)
+          .on(RoomEvent.TrackSubscribed, onSubscribedTrackChanged)
+          .on(RoomEvent.TrackUnsubscribed, onSubscribedTrackChanged)
+          .on(RoomEvent.LocalTrackPublished, onSubscribedTrackChanged)
+          .on(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged);
         newRoom.localParticipant.on(
           "localtrackchanged",
           onSubscribedTrackChanged
