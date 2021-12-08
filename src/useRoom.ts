@@ -78,7 +78,6 @@ export function useRoom(options?: RoomOptions): RoomState {
             .off(RoomEvent.TrackSubscribed, onSubscribedTrackChanged)
             .off(RoomEvent.TrackUnsubscribed, onSubscribedTrackChanged)
             .off(RoomEvent.LocalTrackPublished, onSubscribedTrackChanged)
-            // trigger a change by re-sorting participants
             .off(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged);
           newRoom.localParticipant.off(
             "localtrackchanged",
@@ -92,6 +91,7 @@ export function useRoom(options?: RoomOptions): RoomState {
           .on(RoomEvent.TrackSubscribed, onSubscribedTrackChanged)
           .on(RoomEvent.TrackUnsubscribed, onSubscribedTrackChanged)
           .on(RoomEvent.LocalTrackPublished, onSubscribedTrackChanged)
+          // trigger a state change by re-sorting participants
           .on(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged);
         newRoom.localParticipant.on(
           "localtrackchanged",
