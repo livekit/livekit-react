@@ -61,8 +61,8 @@ export function useRoom(options?: RoomOptions): RoomState {
           const tracks: AudioTrack[] = [];
           newRoom.participants.forEach((p) => {
             p.audioTracks.forEach((pub) => {
-              if (pub.track && pub.kind === Track.Kind.Audio) {
-                tracks.push(pub.track);
+              if (pub.audioTrack) {
+                tracks.push(pub.audioTrack);
               }
             });
           });
