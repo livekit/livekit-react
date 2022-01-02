@@ -10,6 +10,7 @@ export const PreJoinPage = () => {
   const [url, setUrl] = useState('ws://localhost:7880')
   const [token, setToken] = useState<string>('')
   const [simulcast, setSimulcast] = useState(true)
+  const [dynacast, setDynacast] = useState(true)
   const [videoEnabled, setVideoEnabled] = useState(false)
   const [audioEnabled, setAudioEnabled] = useState(true)
   // disable connect button unless validated
@@ -100,6 +101,7 @@ export const PreJoinPage = () => {
       videoEnabled: videoEnabled ? '1' : '0',
       audioEnabled: audioEnabled ? '1' : '0',
       simulcast: simulcast ? '1' : '0',
+      dynacast: dynacast ? '1' : '0',
     }
     if (audioDevice) {
       params.audioDeviceId = audioDevice.deviceId;
@@ -142,9 +144,15 @@ export const PreJoinPage = () => {
               <input type="text" name="token" value={token} onChange={e => setToken(e.target.value)} />
             </div>
           </div>
-          <div>
-            <input type="checkbox" name="simulcast" checked={simulcast} onChange={e => setSimulcast(e.target.checked)}/>
-            <label>Simulcast</label>
+          <div className="options">
+            <div>
+              <input id="simulcast-option" type="checkbox" name="simulcast" checked={simulcast} onChange={e => setSimulcast(e.target.checked)}/>
+              <label htmlFor="simulcast-option">Simulcast</label>
+            </div>
+            <div>
+              <input id="dynacast-option" type="checkbox" name="dynacast" checked={dynacast} onChange={e => setDynacast(e.target.checked)}/>
+              <label htmlFor="dynacast-option">Dynacast</label>
+            </div>
           </div>
         </div>
 

@@ -61,7 +61,7 @@ a:hover {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-top: 40px;
-  gap: 20px;
+  gap: 0.8rem;
 }
 
 @media only screen and (max-width: 800px) {
@@ -102,11 +102,6 @@ a:hover {
 
 .entrySection div {
   vertical-align: middle;
-}
-
-.entrySection label {
-  display: inline-block;
-  margin-left: 5px;
 }
 
 .videoSection {
@@ -158,6 +153,15 @@ a:hover {
   margin-left: 5px;
 }
 
-.roomContainer main {
-
+.options {
+  display: grid;
+  grid-template-columns: repeat(2, fit-content(120px)) auto;
+  gap: 2rem;
 }
+
+.options label {
+  text-align: center;
+  margin-left: 0.2rem;
+  font-size: 0.9rem;
+}
+
