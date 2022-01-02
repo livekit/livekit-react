@@ -1,6 +1,6 @@
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ConnectOptions, LogLevel, Room, RoomEvent } from 'livekit-client'
+import { ConnectOptions, Room, RoomEvent } from 'livekit-client'
 import { LiveKitRoom } from 'livekit-react'
 import React, { useState } from "react"
 import "react-aspect-ratio/aspect-ratio.css"
@@ -61,7 +61,7 @@ export const RoomPage = () => {
         }}
         connectOptions={{
           autoManageVideo: true,
-          logLevel: LogLevel.debug,
+          logLevel: 'debug',
         }}
         onLeave={onLeave}
       />
@@ -75,15 +75,21 @@ async function onConnected(room: Room, query: URLSearchParams) {
 
   const opts: ConnectOptions = {};
 
-  if (isSet(query, 'simulcast')) {
-    room.defaultPublishOptions.simulcast = true;
+  const useSimulcast = isSet(query, 'simulcast');
+  if (room.options.publishDefaults) {
+    room.options.publishDefaults.simulcast = useSimulcast;
+  }
+
+  const useDynacast = isSet(query, 'dynacast');
+  if (room.options.publishDefaults) {
+    room.options.dynacast = useDynacast;
   }
 
   if (isSet(query, 'audioEnabled')) {
     opts.audio = true
     const audioDeviceId = query.get('audioDeviceId');
-    if (audioDeviceId) {
-      room.defaultCaptureOptions.audioDeviceId = audioDeviceId;
+    if (audioDeviceId && room.options.audioCaptureDefaults) {
+      room.options.audioCaptureDefaults.deviceId = audioDeviceId;
     }
     await room.localParticipant.setMicrophoneEnabled(true);
   }
@@ -91,8 +97,8 @@ async function onConnected(room: Room, query: URLSearchParams) {
   if (isSet(query, 'videoEnabled')) {
     opts.video = true
     const videoDeviceId = query.get('videoDeviceId');
-    if (videoDeviceId) {
-      room.defaultCaptureOptions.videoDeviceId = videoDeviceId;
+    if (videoDeviceId && room.options.videoCaptureDefaults) {
+      room.options.videoCaptureDefaults.deviceId = videoDeviceId;
     }
     await room.localParticipant.setCameraEnabled(true);
   }
