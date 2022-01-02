@@ -1,4 +1,4 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ReactElement, useState } from "react";
@@ -9,7 +9,7 @@ interface ButtonProps {
   label: string;
   disabled?: boolean;
   onClick?: () => void;
-  icon?: IconProp;
+  icon?: IconDefinition;
   className?: string;
   popoverContainerClassName?: string;
   popoverTriggerBtnClassName?: string;
