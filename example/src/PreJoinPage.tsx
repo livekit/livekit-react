@@ -11,6 +11,7 @@ export const PreJoinPage = () => {
   const [token, setToken] = useState<string>('')
   const [simulcast, setSimulcast] = useState(true)
   const [dynacast, setDynacast] = useState(true)
+  const [adaptiveStream, setAdaptiveStream] = useState(true)
   const [videoEnabled, setVideoEnabled] = useState(false)
   const [audioEnabled, setAudioEnabled] = useState(true)
   // disable connect button unless validated
@@ -84,7 +85,7 @@ export const PreJoinPage = () => {
     }
   }
 
-  const connectToRoom = () => {
+  const connectToRoom = async () => {
     if (videoTrack) {
       videoTrack.stop()
     }
@@ -102,12 +103,19 @@ export const PreJoinPage = () => {
       audioEnabled: audioEnabled ? '1' : '0',
       simulcast: simulcast ? '1' : '0',
       dynacast: dynacast ? '1' : '0',
+      adaptiveStream: adaptiveStream ? '1' : '0',
     }
     if (audioDevice) {
       params.audioDeviceId = audioDevice.deviceId;
     }
     if (videoDevice) {
       params.videoDeviceId = videoDevice.deviceId;
+    } else if (videoTrack) {
+      // pass along current device id to ensure camera device match
+      const deviceId = await videoTrack.getDeviceId();
+      if (deviceId) {
+        params.videoDeviceId = deviceId;
+      }
     }
     history.push({
       pathname: '/room',
@@ -152,6 +160,10 @@ export const PreJoinPage = () => {
             <div>
               <input id="dynacast-option" type="checkbox" name="dynacast" checked={dynacast} onChange={e => setDynacast(e.target.checked)}/>
               <label htmlFor="dynacast-option">Dynacast</label>
+            </div>
+            <div>
+              <input id="adaptivestream-option" type="checkbox" name="adaptiveStream" checked={adaptiveStream} onChange={e => setAdaptiveStream(e.target.checked)}/>
+              <label htmlFor="adaptivestream-option">Adaptive Stream</label>
             </div>
           </div>
         </div>

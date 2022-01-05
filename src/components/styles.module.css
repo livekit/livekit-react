@@ -30,8 +30,23 @@ video.video {
   font-weight: 500;
   font-size: 12px;
   display: grid;
-  grid-template-columns: auto auto;
-  justify-content: space-between;
+  grid-template-columns: auto 1fr min-content;
+  justify-content: space-evenly;
+}
+
+.participantBar .name {
+  white-space: nowrap;
+  justify-self: start;
+}
+
+.participantBar .center {
+  justify-self: center;
+}
+
+.participantBar .stats {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 8px;
 }
 
 .screenShare {

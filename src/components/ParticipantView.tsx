@@ -4,10 +4,23 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Property } from "csstype";
-import { Participant } from "livekit-client";
-import React, { CSSProperties, ReactElement } from "react";
+import {
+  LocalTrack,
+  Participant,
+  RemoteAudioTrack,
+  RemoteVideoTrack,
+} from "livekit-client";
+import React, {
+  CSSProperties,
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { AspectRatio } from "react-aspect-ratio";
 import { useParticipant } from "../useParticipant";
+import { DisplayContext } from "./DisplayContext";
 import styles from "./styles.module.css";
 import { VideoRenderer } from "./VideoRenderer";
 
@@ -48,6 +61,32 @@ export const ParticipantView = ({
   onClick,
 }: ParticipantProps) => {
   const { cameraPublication, isLocal } = useParticipant(participant);
+  const [videoSize, setVideoSize] = useState<string>();
+  const [currentBitrate, setCurrentBitrate] = useState<number>();
+  const context = useContext(DisplayContext);
+
+  const handleResize = useCallback((width: number, height: number) => {
+    setVideoSize(`${width}x${height}`);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      let total = 0;
+      participant.tracks.forEach((pub) => {
+        if (
+          pub.track instanceof LocalTrack ||
+          pub.track instanceof RemoteVideoTrack ||
+          pub.track instanceof RemoteAudioTrack
+        ) {
+          total += pub.track.currentBitrate;
+        }
+      });
+      setCurrentBitrate(total);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   const containerStyles: CSSProperties = {
     width: width,
@@ -72,7 +111,7 @@ export const ParticipantView = ({
   }
 
   if (!displayName) {
-    displayName = participant.identity;
+    displayName = participant.name || participant.identity;
     if (isLocal) {
       displayName += " (You)";
     }
@@ -91,6 +130,7 @@ export const ParticipantView = ({
         objectFit={objectFit}
         width="100%"
         height="100%"
+        onSizeChanged={handleResize}
       />
     );
   } else {
@@ -102,6 +142,19 @@ export const ParticipantView = ({
     classes.push(className);
   }
   const isAudioMuted = !participant.isMicrophoneEnabled;
+
+  // gather stats
+  let statsContent: ReactElement | undefined;
+  if (context.showStats) {
+    statsContent = (
+      <div className={styles.stats}>
+        <div>{videoSize}</div>
+        {currentBitrate !== undefined && currentBitrate > 0 && (
+          <div>{Math.round(currentBitrate / 1024)} kbps</div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div
@@ -118,9 +171,10 @@ export const ParticipantView = ({
       )}
       {(!aspectWidth || !aspectHeight) && mainElement}
 
-      {showOverlay && (
+      {(showOverlay || context.showStats) && (
         <div className={styles.participantBar}>
-          <div>{displayName}</div>
+          <div className={styles.name}>{displayName}</div>
+          <div className={styles.center}>{statsContent}</div>
           <div>
             <FontAwesomeIcon
               icon={isAudioMuted ? faMicrophoneSlash : faMicrophone}

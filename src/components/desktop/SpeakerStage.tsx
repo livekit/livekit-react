@@ -6,7 +6,7 @@ import { ScreenShareView } from "../ScreenShareView";
 import { StageProps } from "../StageProps";
 import styles from "./styles.module.css";
 
-export const DesktopStage = ({
+export const SpeakerStage = ({
   roomState,
   participantRenderer,
   controlRenderer,
