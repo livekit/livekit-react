@@ -12,12 +12,6 @@ export interface RoomProps {
   connectOptions?: ConnectOptions;
   // override default participant sort
   sortParticipants?: (participants: Participant[]) => void;
-  /**
-   * when set to true, optimize bandwidth (and room capacity) by
-   * * disabling receiving video when participant is hidden
-   * * use lower quality video when participant is displayed as thumbnail
-   */
-  adaptiveVideo?: Boolean;
   // when first connected to room
   onConnected?: (room: Room) => void;
   // when user leaves the room
@@ -37,14 +31,10 @@ export const LiveKitRoom = ({
   controlRenderer,
   onConnected,
   onLeave,
-  adaptiveVideo,
 }: RoomProps) => {
   const roomState = useRoom({ sortParticipants });
   if (!connectOptions) {
     connectOptions = {};
-  }
-  if (adaptiveVideo) {
-    connectOptions.autoManageVideo = true;
   }
 
   useEffect(() => {

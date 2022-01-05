@@ -144,6 +144,21 @@ a:hover {
   align-items: center;
 }
 
+.topBar .right {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-items: center;
+  gap: 16px;
+}
+
+.iconButton {
+  cursor: pointer;
+}
+
+.iconButton:disabled {
+  cursor: auto;
+}
+
 .participantCount {
   font-size: 14px;
 }
@@ -156,7 +171,7 @@ a:hover {
 .options {
   display: grid;
   grid-template-columns: repeat(2, fit-content(120px)) auto;
-  gap: 2rem;
+  gap: 8px;
 }
 
 .options label {
@@ -164,4 +179,3 @@ a:hover {
   margin-left: 0.2rem;
   font-size: 0.9rem;
 }
-

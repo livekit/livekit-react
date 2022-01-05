@@ -32,3 +32,32 @@
   align-items: center;
   justify-items: center;
 }
+
+.gridStage {
+  display: grid;
+  gap: 8px;
+  overflow: hidden;
+  height: 100%;
+  align-items: center;
+  justify-items: center;
+}
+
+.grid1x1 {
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+}
+
+.grid2x1 {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+}
+
+.grid2x2 {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.grid3x3 {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}

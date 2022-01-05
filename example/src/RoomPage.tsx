@@ -1,13 +1,17 @@
-import { faUserFriends } from '@fortawesome/free-solid-svg-icons'
+import { faSquare, faThLarge, faUserFriends } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ConnectOptions, Room, RoomEvent } from 'livekit-client'
-import { LiveKitRoom } from 'livekit-react'
+import { Room, RoomEvent, VideoPresets } from 'livekit-client'
+import { DisplayContext, DisplayOptions, LiveKitRoom } from 'livekit-react'
 import React, { useState } from "react"
 import "react-aspect-ratio/aspect-ratio.css"
 import { useHistory, useLocation } from 'react-router-dom'
 
 export const RoomPage = () => {
   const [numParticipants, setNumParticipants] = useState(0)
+  const [displayOptions, setDisplayOptions] = useState<DisplayOptions>({
+    stageLayout: 'grid',
+    showStats: false,
+  })
   const history = useHistory()
   const query = new URLSearchParams(useLocation().search)
   const url = query.get('url')
@@ -41,31 +45,74 @@ export const RoomPage = () => {
     }
   }
 
+  const updateOptions = (options: DisplayOptions) => {
+    setDisplayOptions({
+      ...displayOptions,
+      ...options,
+    });
+  }
+
   return (
-    <div className="roomContainer">
-      <div className="topBar">
-        <h2>LiveKit Video</h2>
-        <div className="participantCount">
-          <FontAwesomeIcon icon={faUserFriends} />
-          <span>{numParticipants}</span>
+    <DisplayContext.Provider value={displayOptions}>
+      <div className="roomContainer">
+        <div className="topBar">
+          <h2>LiveKit Video</h2>
+          <div className="right">
+            <div>
+              <input id="showStats" type="checkbox" onChange={(e) => updateOptions({ showStats: e.target.checked })} />
+              <label htmlFor="showStats">Show Stats</label>
+            </div>
+            <div>
+              <button
+                className="iconButton"
+                disabled={displayOptions.stageLayout === 'grid'}
+                onClick={() => {
+                  updateOptions({ stageLayout: 'grid' })
+                }}
+              >
+                <FontAwesomeIcon height={32} icon={faThLarge} />
+              </button>
+              <button
+                className="iconButton"
+                disabled={displayOptions.stageLayout === 'speaker'}
+                onClick={() => {
+                  updateOptions({ stageLayout: 'speaker' })
+                }}
+              >
+                <FontAwesomeIcon height={32} icon={faSquare} />
+              </button>
+            </div>
+            <div className="participantCount">
+              <FontAwesomeIcon icon={faUserFriends} />
+              <span>{numParticipants}</span>
+            </div>
+          </div>
         </div>
+        <LiveKitRoom
+          url={url}
+          token={token}
+          onConnected={room => {
+            onConnected(room, query);
+            room.on(RoomEvent.ParticipantConnected, () => updateParticipantSize(room))
+            room.on(RoomEvent.ParticipantDisconnected, () => onParticipantDisconnected(room))
+            updateParticipantSize(room);
+          }}
+          connectOptions={{
+            adaptiveStream: isSet(query, 'adaptiveStream'),
+            dynacast: isSet(query, 'dynacast'),
+            videoCaptureDefaults: {
+              resolution: VideoPresets.hd.resolution,
+            },
+            publishDefaults: {
+              videoEncoding: VideoPresets.hd.encoding,
+              simulcast: isSet(query, 'simulcast'),
+            },
+            logLevel: 'debug',
+          }}
+          onLeave={onLeave}
+        />
       </div>
-      <LiveKitRoom
-        url={url}
-        token={token}
-        onConnected={room => {
-          onConnected(room, query);
-          room.on(RoomEvent.ParticipantConnected, () => updateParticipantSize(room))
-          room.on(RoomEvent.ParticipantDisconnected, () => onParticipantDisconnected(room))
-          updateParticipantSize(room);
-        }}
-        connectOptions={{
-          autoManageVideo: true,
-          logLevel: 'debug',
-        }}
-        onLeave={onLeave}
-      />
-    </div>
+    </DisplayContext.Provider>
   )
 }
 
@@ -73,20 +120,7 @@ async function onConnected(room: Room, query: URLSearchParams) {
   // make it easier to debug
   (window as any).currentRoom = room;
 
-  const opts: ConnectOptions = {};
-
-  const useSimulcast = isSet(query, 'simulcast');
-  if (room.options.publishDefaults) {
-    room.options.publishDefaults.simulcast = useSimulcast;
-  }
-
-  const useDynacast = isSet(query, 'dynacast');
-  if (room.options.publishDefaults) {
-    room.options.dynacast = useDynacast;
-  }
-
   if (isSet(query, 'audioEnabled')) {
-    opts.audio = true
     const audioDeviceId = query.get('audioDeviceId');
     if (audioDeviceId && room.options.audioCaptureDefaults) {
       room.options.audioCaptureDefaults.deviceId = audioDeviceId;
@@ -95,7 +129,6 @@ async function onConnected(room: Room, query: URLSearchParams) {
   }
 
   if (isSet(query, 'videoEnabled')) {
-    opts.video = true
     const videoDeviceId = query.get('videoDeviceId');
     if (videoDeviceId && room.options.videoCaptureDefaults) {
       room.options.videoCaptureDefaults.deviceId = videoDeviceId;

@@ -1,6 +1,6 @@
 import { Property } from "csstype";
 import { Track } from "livekit-client";
-import React, { CSSProperties, useEffect, useRef } from "react";
+import React, { CSSProperties, useCallback, useEffect, useRef } from "react";
 import styles from "./styles.module.css";
 
 export interface VideoRendererProps {
@@ -10,6 +10,7 @@ export interface VideoRendererProps {
   className?: string;
   width?: Property.Width;
   height?: Property.Height;
+  onSizeChanged?: (width: number, height: number) => void;
 }
 
 export const VideoRenderer = ({
@@ -17,6 +18,7 @@ export const VideoRenderer = ({
   isLocal,
   objectFit,
   className,
+  onSizeChanged,
   width,
   height,
 }: VideoRendererProps) => {
@@ -33,6 +35,24 @@ export const VideoRenderer = ({
       track.detach(el);
     };
   }, [track, ref]);
+
+  const handleResize = useCallback((ev: UIEvent) => {
+    if (ev.target instanceof HTMLVideoElement) {
+      if (onSizeChanged) {
+        onSizeChanged(ev.target.videoWidth, ev.target.videoHeight);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (el) {
+      el.addEventListener("resize", handleResize);
+    }
+    return () => {
+      el?.removeEventListener("resize", handleResize);
+    };
+  }, [ref]);
 
   const isFrontFacing =
     track.mediaStreamTrack?.getSettings().facingMode !== "environment";
