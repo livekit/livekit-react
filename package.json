@@ -1,6 +1,6 @@
 {
   "name": "livekit-react",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "description": "LiveKit SDK & Components",
   "author": "davidzhao",
   "license": "Apache-2.0",
