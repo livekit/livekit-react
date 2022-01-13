@@ -1,5 +1,5 @@
 import { faDesktop, faStop } from "@fortawesome/free-solid-svg-icons";
-import { Room, Track } from "livekit-client";
+import { Room } from "livekit-client";
 import React, { ReactElement } from "react";
 import { useParticipant } from "../useParticipant";
 import { AudioSelectButton } from "./AudioSelectButton";
@@ -22,7 +22,7 @@ export const ControlsView = ({
   enableVideo,
   onLeave,
 }: ControlsProps) => {
-  const { unpublishTrack } = useParticipant(room.localParticipant);
+  const { cameraPublication: camPub } = useParticipant(room.localParticipant);
 
   if (enableScreenShare === undefined) {
     enableScreenShare = true;
@@ -50,7 +50,7 @@ export const ControlsView = ({
 
   let videoButton: ReactElement | undefined;
   if (enableVideo) {
-    const enabled = room.localParticipant.isCameraEnabled;
+    const enabled = !(camPub?.isMuted ?? true);
     videoButton = (
       <VideoSelectButton
         isEnabled={enabled}
@@ -71,12 +71,7 @@ export const ControlsView = ({
         icon={enabled ? faStop : faDesktop}
         onClick={() => {
           if (enabled) {
-            const pub = room.localParticipant.getTrack(
-              Track.Source.ScreenShare
-            );
-            if (pub?.track) {
-              unpublishTrack(pub.track);
-            }
+            room.localParticipant.setScreenShareEnabled(false);
           } else {
             room.localParticipant.setScreenShareEnabled(true);
           }
