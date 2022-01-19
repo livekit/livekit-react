@@ -7476,15 +7476,16 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-"livekit-client@>=0.15.3, <1.0.0":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.15.3.tgz#244edb1683b045e22e020a8db8f522862691f975"
-  integrity sha512-CHI2Gs7q5PuRixnrYk9PQs2X+hthHdm1Ccqy/uSsux0cceFJWgrAbN3Cwz1HuRRiPIp+0LB5DxLwEUraDokw0g==
+"livekit-client@>=0.15.4, <1.0.0":
+  version "0.15.4"
+  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.15.4.tgz#161f8c7dd0e08d523e57106a72c6a59ba0ae8a0e"
+  integrity sha512-fmk+trFE2SCiCUQS1iScFn770y4XxbLESstJ4Z/NcJ5bRv39y/xgq0XtfiviL/99mtj0xm2BM6wg+0N2DsU33A==
   dependencies:
     events "^3.3.0"
     loglevel "^1.8.0"
     protobufjs "^6.11.2"
     ts-debounce "^3.0.0"
+    ua-parser-js "^1.0.2"
     webrtc-adapter "^8.1.0"
 
 load-json-file@^4.0.0:
@@ -11740,6 +11741,11 @@ typescript@^3.7.5, typescript@^3.8.3:
   version "3.9.10"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.10.tgz#70f3910ac7a51ed6bef79da7800690b19bf778b8"
   integrity sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==
+
+ua-parser-js@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-1.0.2.tgz#e2976c34dbfb30b15d2c300b2a53eac87c57a775"
+  integrity sha512-00y/AXhx0/SsnI51fTc0rLRmafiGOM4/O+ny10Ps7f+j/b8p/ZY11ytMgznXkOVo4GQ+KwQG5UQLkLGirsACRg==
 
 unbox-primitive@^1.0.1:
   version "1.0.1"
