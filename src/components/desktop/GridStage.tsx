@@ -22,26 +22,23 @@ export const GridStage = ({
   useEffect(() => {
     // determine grid size
     let numVisible = 1;
-    if (participants.length >= 9) {
-      setGridClass(styles.grid3x3);
-      numVisible = 9;
-    } else if (participants.length >= 6) {
-      setGridClass(styles.grid3x3);
-      numVisible = 6;
-      // one empty row
-    } else if (participants.length >= 4) {
-      setGridClass(styles.grid2x2);
-      participants.splice(4, participants.length - 4);
-      numVisible = 4;
-    } else if (participants.length === 3) {
-      setGridClass(styles.grid2x2);
-      numVisible = 3;
-      // one empty spot
+    if (participants.length === 1) {
+      setGridClass(styles.grid1x1);
     } else if (participants.length === 2) {
       setGridClass(styles.grid2x1);
       numVisible = 2;
-    } else if (participants.length === 1) {
-      setGridClass(styles.grid1x1);
+    } else if (participants.length <= 4) {
+      setGridClass(styles.grid2x2);
+      numVisible = Math.min(participants.length, 4);
+    } else if (participants.length <= 9) {
+      setGridClass(styles.grid3x3);
+      numVisible = Math.min(participants.length, 9);
+    } else if (participants.length <= 16) {
+      setGridClass(styles.grid4x4);
+      numVisible = Math.min(participants.length, 16);
+    } else {
+      setGridClass(styles.grid4x4);
+      numVisible = Math.min(participants.length, 25);
     }
 
     // remove any participants that are no longer connected
