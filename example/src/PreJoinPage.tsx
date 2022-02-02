@@ -1,7 +1,7 @@
 import { faBolt } from '@fortawesome/free-solid-svg-icons'
 import { createLocalVideoTrack, LocalVideoTrack } from 'livekit-client'
 import { AudioSelectButton, ControlButton, VideoRenderer, VideoSelectButton } from 'livekit-react'
-import React, { ReactElement, useEffect, useRef, useState } from "react"
+import React, { ReactElement, useEffect, useState } from "react"
 import { AspectRatio } from 'react-aspect-ratio'
 import { useHistory } from 'react-router-dom'
 
@@ -16,23 +16,10 @@ export const PreJoinPage = () => {
   const [audioEnabled, setAudioEnabled] = useState(true)
   // disable connect button unless validated
   const [connectDisabled, setConnectDisabled] = useState(true)
-  const videoRef = useRef<HTMLVideoElement>(null);
   const [videoTrack, setVideoTrack] = useState<LocalVideoTrack>();
   const [audioDevice, setAudioDevice] = useState<MediaDeviceInfo>();
   const [videoDevice, setVideoDevice] = useState<MediaDeviceInfo>();
   const history = useHistory()
-
-  useEffect(() => {
-    if (!videoRef.current || !videoTrack) {
-      return
-    }
-    const videoEl = videoRef.current;
-    videoTrack.attach(videoEl)
-    return () => {
-      videoTrack.detach(videoEl)
-      videoTrack.stop()
-    }
-  }, [videoTrack, videoRef])
 
   useEffect(() => {
     if (token && url) {
