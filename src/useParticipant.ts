@@ -1,4 +1,5 @@
 import {
+  ConnectionQuality,
   LocalParticipant,
   Participant,
   ParticipantEvent,
@@ -9,6 +10,7 @@ import { useEffect, useState } from "react";
 
 export interface ParticipantState {
   isSpeaking: boolean;
+  connectionQuality: ConnectionQuality;
   isLocal: boolean;
   metadata?: string;
   publications: TrackPublication[];
@@ -21,6 +23,9 @@ export interface ParticipantState {
 export function useParticipant(participant: Participant): ParticipantState {
   const [isAudioMuted, setAudioMuted] = useState(false);
   const [, setVideoMuted] = useState(false);
+  const [connectionQuality, setConnectionQuality] = useState<ConnectionQuality>(
+    participant.connectionQuality
+  );
   const [isSpeaking, setSpeaking] = useState(false);
   const [metadata, setMetadata] = useState<string>();
   const [publications, setPublications] = useState<TrackPublication[]>([]);
@@ -60,6 +65,9 @@ export function useParticipant(participant: Participant): ParticipantState {
     const onIsSpeakingChanged = () => {
       setSpeaking(participant.isSpeaking);
     };
+    const onConnectionQualityUpdate = () => {
+      setConnectionQuality(participant.connectionQuality);
+    };
 
     // register listeners
     participant
@@ -72,7 +80,8 @@ export function useParticipant(participant: Participant): ParticipantState {
       .on(ParticipantEvent.TrackSubscribed, onPublicationsChanged)
       .on(ParticipantEvent.TrackUnsubscribed, onPublicationsChanged)
       .on(ParticipantEvent.LocalTrackPublished, onPublicationsChanged)
-      .on(ParticipantEvent.LocalTrackUnpublished, onPublicationsChanged);
+      .on(ParticipantEvent.LocalTrackUnpublished, onPublicationsChanged)
+      .on(ParticipantEvent.ConnectionQualityChanged, onConnectionQualityUpdate);
 
     // set initial state
     onMetadataChanged();
@@ -91,7 +100,11 @@ export function useParticipant(participant: Participant): ParticipantState {
         .off(ParticipantEvent.TrackSubscribed, onPublicationsChanged)
         .off(ParticipantEvent.TrackUnsubscribed, onPublicationsChanged)
         .off(ParticipantEvent.LocalTrackPublished, onPublicationsChanged)
-        .off(ParticipantEvent.LocalTrackUnpublished, onPublicationsChanged);
+        .off(ParticipantEvent.LocalTrackUnpublished, onPublicationsChanged)
+        .off(
+          ParticipantEvent.ConnectionQualityChanged,
+          onConnectionQualityUpdate
+        );
     };
   }, [participant]);
 
@@ -109,6 +122,7 @@ export function useParticipant(participant: Participant): ParticipantState {
   return {
     isLocal: participant instanceof LocalParticipant,
     isSpeaking,
+    connectionQuality,
     publications,
     subscribedTracks,
     cameraPublication: participant.getTrack(Track.Source.Camera),

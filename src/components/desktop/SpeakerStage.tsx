@@ -60,6 +60,7 @@ export const SpeakerStage = ({
         height="100%"
         orientation="landscape"
         showOverlay={showOverlay}
+        showConnectionQuality
         onMouseEnter={() => setShowOverlay(true)}
         onMouseLeave={() => setShowOverlay(false)}
       />

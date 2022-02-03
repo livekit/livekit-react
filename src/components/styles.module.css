@@ -6,9 +6,15 @@ video.video {
 }
 
 .participant {
+  box-sizing: border-box;
   border-radius: 4px;
   overflow: hidden;
   position: relative;
+  border: 2px solid rgba(0, 0, 0, 0);
+}
+
+.speaker {
+  border: 2px solid #28994E;
 }
 
 .placeholder {
@@ -20,7 +26,6 @@ video.video {
 .participantBar {
   box-sizing: border-box;
   position: absolute;
-  z-index: 5;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -30,7 +35,8 @@ video.video {
   font-weight: 500;
   font-size: 12px;
   display: grid;
-  grid-template-columns: auto 1fr min-content;
+  gap: 8px;
+  grid-template-columns: auto 1fr min-content min-content;
   justify-content: space-evenly;
 }
 
