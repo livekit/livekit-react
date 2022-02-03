@@ -5,10 +5,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Property } from "csstype";
 import {
+  ConnectionQuality,
   LocalTrack,
   Participant,
-  RemoteAudioTrack,
-  RemoteVideoTrack,
+  RemoteTrack,
 } from "livekit-client";
 import React, {
   CSSProperties,
@@ -19,6 +19,9 @@ import React, {
   useState,
 } from "react";
 import { AspectRatio } from "react-aspect-ratio";
+import { ReactComponent as connectionQuality1 } from "../../static/connection-quality-1.svg";
+import { ReactComponent as connectionQuality2 } from "../../static/connection-quality-2.svg";
+import { ReactComponent as connectionQuality3 } from "../../static/connection-quality-3.svg";
 import { useParticipant } from "../useParticipant";
 import { DisplayContext } from "./DisplayContext";
 import styles from "./styles.module.css";
@@ -41,6 +44,10 @@ export interface ParticipantProps {
   orientation?: "landscape" | "portrait";
   // true if overlay with participant info should be shown
   showOverlay?: boolean;
+  // true if connection quality should be shown
+  showConnectionQuality?: boolean;
+  // additional classname when participant is currently speaking
+  speakerClassName?: string;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
   onClick?: () => void;
@@ -51,16 +58,19 @@ export const ParticipantView = ({
   width,
   height,
   className,
+  speakerClassName,
   aspectWidth,
   aspectHeight,
   orientation,
   displayName,
   showOverlay,
+  showConnectionQuality,
   onMouseEnter,
   onMouseLeave,
   onClick,
 }: ParticipantProps) => {
-  const { cameraPublication, isLocal } = useParticipant(participant);
+  const { cameraPublication, isLocal, connectionQuality, isSpeaking } =
+    useParticipant(participant);
   const [videoSize, setVideoSize] = useState<string>();
   const [currentBitrate, setCurrentBitrate] = useState<number>();
   const context = useContext(DisplayContext);
@@ -75,8 +85,7 @@ export const ParticipantView = ({
       participant.tracks.forEach((pub) => {
         if (
           pub.track instanceof LocalTrack ||
-          pub.track instanceof RemoteVideoTrack ||
-          pub.track instanceof RemoteAudioTrack
+          pub.track instanceof RemoteTrack
         ) {
           total += pub.track.currentBitrate;
         }
@@ -141,6 +150,9 @@ export const ParticipantView = ({
   if (className) {
     classes.push(className);
   }
+  if (isSpeaking) {
+    classes.push(speakerClassName ?? styles.speaker);
+  }
   const isAudioMuted = !participant.isMicrophoneEnabled;
 
   // gather stats
@@ -154,6 +166,21 @@ export const ParticipantView = ({
         )}
       </div>
     );
+  }
+
+  let ConnectionQualityIndicator: typeof connectionQuality1 | undefined;
+  if (showConnectionQuality) {
+    switch (connectionQuality) {
+      case ConnectionQuality.Excellent:
+        ConnectionQualityIndicator = connectionQuality3;
+        break;
+      case ConnectionQuality.Good:
+        ConnectionQualityIndicator = connectionQuality2;
+        break;
+      case ConnectionQuality.Poor:
+        ConnectionQualityIndicator = connectionQuality1;
+        break;
+    }
   }
 
   return (
@@ -175,6 +202,9 @@ export const ParticipantView = ({
         <div className={styles.participantBar}>
           <div className={styles.name}>{displayName}</div>
           <div className={styles.center}>{statsContent}</div>
+          <div>
+            {ConnectionQualityIndicator && <ConnectionQualityIndicator />}
+          </div>
           <div>
             <FontAwesomeIcon
               icon={isAudioMuted ? faMicrophoneSlash : faMicrophone}
