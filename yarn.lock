@@ -7476,10 +7476,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-"livekit-client@>=0.16.2, <1.0.0":
-  version "0.16.2"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.16.2.tgz#b71ca7f0a11ef1106bc455c62cb13a1668710c83"
-  integrity sha512-COBXLyHHTug7/mLCxyf/NDG9b/WQit0Oag3VvmkLCg9kgpMGfMsmI8UR1QT3cInLC0FzwyjjQmta2nB9GX57Ng==
+"livekit-client@>=0.16.3, <1.0.0":
+  version "0.16.3"
+  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.16.3.tgz#62e4a254ee3f0dcd626402318a7b37e66b8fbb7e"
+  integrity sha512-s2gsKO+IrXjuAHAh5eUTzIEe6Ko+LbhW8zJnHfhk7f7UI4Gut0FO3fmfsWZm0LWHKTGiBqoAFkPm7o3U4gyT7A==
   dependencies:
     events "^3.3.0"
     loglevel "^1.8.0"
@@ -11736,10 +11736,15 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^3.7.5, typescript@^3.8.3:
+typescript@^3.8.3:
   version "3.9.10"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.10.tgz#70f3910ac7a51ed6bef79da7800690b19bf778b8"
   integrity sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==
+
+typescript@~4.2.3:
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.4.tgz#8610b59747de028fda898a8aef0e103f156d0961"
+  integrity sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==
 
 unbox-primitive@^1.0.1:
   version "1.0.1"

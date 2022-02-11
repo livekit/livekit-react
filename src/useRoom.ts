@@ -68,6 +68,7 @@ export function useRoom(options?: RoomOptions): RoomState {
           });
           setAudioTracks(tracks);
         };
+
         newRoom.once(RoomEvent.Disconnected, () => {
           setTimeout(() => setRoom(undefined));
 
@@ -77,8 +78,8 @@ export function useRoom(options?: RoomOptions): RoomState {
             .off(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged)
             .off(RoomEvent.TrackSubscribed, onSubscribedTrackChanged)
             .off(RoomEvent.TrackUnsubscribed, onSubscribedTrackChanged)
-            .off(RoomEvent.LocalTrackPublished, onSubscribedTrackChanged)
-            .off(RoomEvent.LocalTrackUnpublished, onSubscribedTrackChanged)
+            .off(RoomEvent.LocalTrackPublished, onParticipantsChanged)
+            .off(RoomEvent.LocalTrackUnpublished, onParticipantsChanged)
             .off(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged);
         });
         newRoom
@@ -87,8 +88,8 @@ export function useRoom(options?: RoomOptions): RoomState {
           .on(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged)
           .on(RoomEvent.TrackSubscribed, onSubscribedTrackChanged)
           .on(RoomEvent.TrackUnsubscribed, onSubscribedTrackChanged)
-          .on(RoomEvent.LocalTrackPublished, onSubscribedTrackChanged)
-          .on(RoomEvent.LocalTrackUnpublished, onSubscribedTrackChanged)
+          .on(RoomEvent.LocalTrackPublished, onParticipantsChanged)
+          .on(RoomEvent.LocalTrackUnpublished, onParticipantsChanged)
           // trigger a state change by re-sorting participants
           .on(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged);
 

@@ -7432,16 +7432,16 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-livekit-client@^0.15.1:
-  version "0.15.1"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.15.1.tgz#1a4e878d2cde47e3a14ae31c7e5a2bc016574765"
-  integrity sha512-HjiiFLJcpSUalWdSRJEhCjkK68X2yMDkfI2MiTE1/whNuRo37gsDo3bvg+k6SJcOp+KCuhaXhXCfGN9IimiDgA==
+"livekit-client@>=0.16.3, <1.0.0":
+  version "0.16.3"
+  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.16.3.tgz#62e4a254ee3f0dcd626402318a7b37e66b8fbb7e"
+  integrity sha512-s2gsKO+IrXjuAHAh5eUTzIEe6Ko+LbhW8zJnHfhk7f7UI4Gut0FO3fmfsWZm0LWHKTGiBqoAFkPm7o3U4gyT7A==
   dependencies:
     events "^3.3.0"
     loglevel "^1.8.0"
     protobufjs "^6.11.2"
     ts-debounce "^3.0.0"
-    webrtc-adapter "^8.1.0"
+    webrtc-adapter "^8.1.1"
 
 "livekit-client@link:../node_modules/livekit-client":
   version "0.0.0"
@@ -11802,10 +11802,10 @@ webpack@4.44.2:
     watchpack "^1.7.4"
     webpack-sources "^1.4.1"
 
-webrtc-adapter@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-8.1.0.tgz#89429d837eb43c7a2885a0eb66390af6c552bba6"
-  integrity sha512-I+y/LWBiGYPVhIb8Ww7nyoNWhrCYENeGoRvZuyytLn/h+ahDBgItvuIfMdzT+xhOnjLIMVkOykttGJPv1dr6kA==
+webrtc-adapter@^8.1.1:
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-8.1.1.tgz#e4a4dfd1b5085d119da40c4efc0147f7d0961cba"
+  integrity sha512-1yXevP7TeZGmklEXkvQVrZp3fOSJlLeXNGCA7NovQokxgP3/e2T3EVGL0eKU87S9vKppWjvRWqnJeSANEspOBg==
   dependencies:
     sdp "^3.0.2"
 

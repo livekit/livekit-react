@@ -1,6 +1,6 @@
 {
   "name": "livekit-react",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "LiveKit SDK & Components",
   "author": "davidzhao",
   "license": "Apache-2.0",
@@ -56,7 +56,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^4.0.3",
-    "typescript": "^3.7.5"
+    "typescript": "~4.2.3"
   },
   "files": [
     "dist",
@@ -67,7 +67,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
     "@types/react-responsive": "^8.0.2",
-    "livekit-client": ">=0.16.2, <1.0.0",
+    "livekit-client": ">=0.16.3, <1.0.0",
     "react-aspect-ratio": "^1.0.50",
     "react-responsive": "^8.2.0",
     "react-tiny-popover": "^6.0.5"
