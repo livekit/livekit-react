@@ -1,7 +1,7 @@
 import { faBolt } from '@fortawesome/free-solid-svg-icons'
 import { createLocalVideoTrack, LocalVideoTrack } from 'livekit-client'
 import { AudioSelectButton, ControlButton, VideoRenderer, VideoSelectButton } from 'livekit-react'
-import React, { ReactElement, useEffect, useState } from "react"
+import { ReactElement, useEffect, useState } from "react"
 import { AspectRatio } from 'react-aspect-ratio'
 import { useHistory } from 'react-router-dom'
 
