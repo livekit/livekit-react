@@ -37,7 +37,7 @@ export const GridStage = ({
       setGridClass(styles.grid4x4);
       numVisible = Math.min(participants.length, 16);
     } else {
-      setGridClass(styles.grid4x4);
+      setGridClass(styles.grid5x5);
       numVisible = Math.min(participants.length, 25);
     }
 
