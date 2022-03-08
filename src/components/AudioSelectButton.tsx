@@ -10,6 +10,7 @@ export interface AudioSelectButtonProps {
   isMuted: boolean;
   onClick?: () => void;
   onSourceSelected?: (device: MediaDeviceInfo) => void;
+  isButtonDisabled?: boolean;
   muteText?: string;
   unmuteText?: string;
   className?: string;
@@ -22,6 +23,7 @@ export const AudioSelectButton = ({
   isMuted,
   onClick,
   onSourceSelected,
+  isButtonDisabled,
   muteText = "Mute",
   unmuteText = "Unmute",
   className,
@@ -65,6 +67,7 @@ export const AudioSelectButton = ({
     <ControlButton
       label={isMuted ? unmuteText : muteText}
       icon={isMuted ? faMicrophoneSlash : faMicrophone}
+      disabled={isButtonDisabled}
       onClick={onClick}
       menuItems={menuItems}
       onMenuItemClick={handleMenuItem}
