@@ -34,19 +34,29 @@ export const ControlsView = ({
     enableAudio = true;
   }
 
+  const [audioButtonDisabled, setAudioButtonDisabled] = React.useState(false);
   let muteButton: ReactElement | undefined;
   if (enableAudio) {
     const enabled = room.localParticipant.isMicrophoneEnabled;
     muteButton = (
       <AudioSelectButton
         isMuted={!enabled}
-        onClick={() => room.localParticipant.setMicrophoneEnabled(!enabled)}
-        onSourceSelected={(device) =>
-          room.switchActiveDevice("audioinput", device.deviceId)
-        }
+        isButtonDisabled={audioButtonDisabled}
+        onClick={async () => {
+          setAudioButtonDisabled(true);
+          room.localParticipant.setMicrophoneEnabled(!enabled);
+          setAudioButtonDisabled(false);
+        }}
+        onSourceSelected={async (device) => {
+          setAudioButtonDisabled(true);
+          await room.switchActiveDevice("audioinput", device.deviceId);
+          setAudioButtonDisabled(false);
+        }}
       />
     );
   }
+
+  const [videoButtonDisabled, setVideoButtonDisabled] = React.useState(false);
 
   let videoButton: ReactElement | undefined;
   if (enableVideo) {
@@ -54,14 +64,22 @@ export const ControlsView = ({
     videoButton = (
       <VideoSelectButton
         isEnabled={enabled}
-        onClick={() => room.localParticipant.setCameraEnabled(!enabled)}
-        onSourceSelected={(device) => {
-          room.switchActiveDevice("videoinput", device.deviceId);
+        isButtonDisabled={videoButtonDisabled}
+        onClick={async () => {
+          setVideoButtonDisabled(true);
+          await room.localParticipant.setCameraEnabled(!enabled);
+          setVideoButtonDisabled(false);
+        }}
+        onSourceSelected={async (device) => {
+          setVideoButtonDisabled(true);
+          await room.switchActiveDevice("videoinput", device.deviceId);
+          setVideoButtonDisabled(false);
         }}
       />
     );
   }
 
+  const [screenButtonDisabled, setScreenButtonDisabled] = React.useState(false);
   let screenButton: ReactElement | undefined;
   if (enableScreenShare) {
     const enabled = room.localParticipant.isScreenShareEnabled;
@@ -69,12 +87,11 @@ export const ControlsView = ({
       <ControlButton
         label={enabled ? "Stop sharing" : "Share screen"}
         icon={enabled ? faStop : faDesktop}
-        onClick={() => {
-          if (enabled) {
-            room.localParticipant.setScreenShareEnabled(false);
-          } else {
-            room.localParticipant.setScreenShareEnabled(true);
-          }
+        disabled={screenButtonDisabled}
+        onClick={async () => {
+          setScreenButtonDisabled(true);
+          await room.localParticipant.setScreenShareEnabled(!enabled);
+          setScreenButtonDisabled(false);
         }}
       />
     );

@@ -10,6 +10,7 @@ export interface VideoSelectButtonProps {
   disableText?: string;
   enableText?: string;
   className?: string;
+  isButtonDisabled?: boolean;
   popoverContainerClassName?: string;
   popoverTriggerBtnClassName?: string;
   popoverTriggerBtnSeparatorClassName?: string;
@@ -22,6 +23,7 @@ export const VideoSelectButton = ({
   disableText = "Disable Video",
   enableText = "Enable Video",
   className,
+  isButtonDisabled,
   popoverContainerClassName,
   popoverTriggerBtnClassName,
   popoverTriggerBtnSeparatorClassName,
@@ -61,6 +63,7 @@ export const VideoSelectButton = ({
     <ControlButton
       label={isEnabled ? disableText : enableText}
       icon={isEnabled ? faVideo : faVideoSlash}
+      disabled={isButtonDisabled}
       onClick={onClick}
       menuItems={menuItems}
       onMenuItemClick={handleMenuItem}
