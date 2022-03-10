@@ -38,6 +38,7 @@ video.video {
   gap: 8px;
   grid-template-columns: auto 1fr min-content min-content;
   justify-content: space-evenly;
+  align-items: center;
 }
 
 .participantBar .name {
@@ -50,9 +51,9 @@ video.video {
 }
 
 .participantBar .stats {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  gap: 8px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .screenShare {

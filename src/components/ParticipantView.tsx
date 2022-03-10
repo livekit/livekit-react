@@ -160,9 +160,9 @@ export const ParticipantView = ({
   if (context.showStats) {
     statsContent = (
       <div className={styles.stats}>
-        <div>{videoSize}</div>
+        <span>{videoSize}</span>
         {currentBitrate !== undefined && currentBitrate > 0 && (
-          <div>{Math.round(currentBitrate / 1024)} kbps</div>
+          <span>&nbsp;{Math.round(currentBitrate / 1024)} kbps</span>
         )}
       </div>
     );

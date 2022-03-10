@@ -2173,15 +2173,6 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@^16":
-  version "16.14.8"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.14.8.tgz#4aee3ab004cb98451917c9b7ada3c7d7e52db3fe"
-  integrity sha512-QN0/Qhmx+l4moe7WJuTxNiTsjBwlBGHqKGvInSQCBdo7Qio0VtOqwsC0Wq7q3PbJlB0cR4Y4CVo1OOe6BOsOmA==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
 "@types/resolve@0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-0.0.8.tgz#f26074d238e02659e323ce1a13d041eee280e194"
@@ -7431,18 +7422,6 @@ lines-and-columns@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
-
-"livekit-client@>=0.16.6, <1.0.0":
-  version "0.16.6"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.16.6.tgz#2208d84fa6e62fe3a0ad6fe82dc5cd7dfdb193f4"
-  integrity sha512-3X995R9AbOJQCeuHrNRwXjYlp7zdcgsg6uc64HYHOEnn8lwiSUXNlMyJ7Ui83rko7lAZsFoJ1C1k2e+uJpTIVA==
-  dependencies:
-    events "^3.3.0"
-    loglevel "^1.8.0"
-    protobufjs "^6.11.2"
-    ts-debounce "^3.0.0"
-    typed-emitter "^2.1.0"
-    webrtc-adapter "^8.1.1"
 
 "livekit-client@link:../node_modules/livekit-client":
   version "0.0.0"

@@ -80,22 +80,30 @@ export const ControlButton = ({
     );
   }
 
+  const mainContent = (
+    <button
+      disabled={disabled}
+      className={classes}
+      onClick={() => {
+        setMenuVisible(false);
+        if (onClick) onClick();
+      }}
+    >
+      {icon && (
+        <FontAwesomeIcon className={styles.icon} height={32} icon={icon} />
+      )}
+      {label}
+    </button>
+  );
+
+  if (!menuTrigger) {
+    return mainContent;
+  }
+
   return (
     <Popover isOpen={menuVisible} positions={["top"]} content={menu}>
       <div className={styles.buttonWrapper}>
-        <button
-          disabled={disabled}
-          className={classes}
-          onClick={() => {
-            setMenuVisible(false);
-            if (onClick) onClick();
-          }}
-        >
-          {icon && (
-            <FontAwesomeIcon className={styles.icon} height={32} icon={icon} />
-          )}
-          {label}
-        </button>
+        {mainContent}
         {menuTrigger}
       </div>
     </Popover>
