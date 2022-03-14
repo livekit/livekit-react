@@ -101,11 +101,7 @@ export const RoomPage = () => {
             adaptiveStream: isSet(query, 'adaptiveStream'),
             dynacast: isSet(query, 'dynacast'),
             videoCaptureDefaults: {
-              resolution: VideoPresets.hd.resolution,
-            },
-            publishDefaults: {
-              videoEncoding: VideoPresets.hd.encoding,
-              simulcast: isSet(query, 'simulcast'),
+              resolution: VideoPresets.h720.resolution,
             },
             logLevel: 'debug',
           }}
