@@ -44,13 +44,15 @@ export const ControlsView = ({
         isButtonDisabled={audioButtonDisabled}
         onClick={async () => {
           setAudioButtonDisabled(true);
-          room.localParticipant.setMicrophoneEnabled(!enabled);
-          setAudioButtonDisabled(false);
+          room.localParticipant
+            .setMicrophoneEnabled(!enabled)
+            .finally(() => setAudioButtonDisabled(false));
         }}
-        onSourceSelected={async (device) => {
+        onSourceSelected={(device) => {
           setAudioButtonDisabled(true);
-          await room.switchActiveDevice("audioinput", device.deviceId);
-          setAudioButtonDisabled(false);
+          room
+            .switchActiveDevice("audioinput", device.deviceId)
+            .finally(() => setAudioButtonDisabled(false));
         }}
       />
     );
@@ -65,15 +67,17 @@ export const ControlsView = ({
       <VideoSelectButton
         isEnabled={enabled}
         isButtonDisabled={videoButtonDisabled}
-        onClick={async () => {
+        onClick={() => {
           setVideoButtonDisabled(true);
-          await room.localParticipant.setCameraEnabled(!enabled);
-          setVideoButtonDisabled(false);
+          room.localParticipant
+            .setCameraEnabled(!enabled)
+            .finally(() => setVideoButtonDisabled(false));
         }}
-        onSourceSelected={async (device) => {
+        onSourceSelected={(device) => {
           setVideoButtonDisabled(true);
-          await room.switchActiveDevice("videoinput", device.deviceId);
-          setVideoButtonDisabled(false);
+          room
+            .switchActiveDevice("videoinput", device.deviceId)
+            .finally(() => setVideoButtonDisabled(false));
         }}
       />
     );
@@ -88,10 +92,11 @@ export const ControlsView = ({
         label={enabled ? "Stop sharing" : "Share screen"}
         icon={enabled ? faStop : faDesktop}
         disabled={screenButtonDisabled}
-        onClick={async () => {
+        onClick={() => {
           setScreenButtonDisabled(true);
-          await room.localParticipant.setScreenShareEnabled(!enabled);
-          setScreenButtonDisabled(false);
+          room.localParticipant
+            .setScreenShareEnabled(!enabled)
+            .finally(() => setScreenButtonDisabled(false));
         }}
       />
     );
