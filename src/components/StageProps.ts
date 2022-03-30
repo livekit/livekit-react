@@ -8,5 +8,5 @@ export interface StageProps {
   participantRenderer?: (props: ParticipantProps) => React.ReactElement | null;
   controlRenderer?: (props: ControlsProps) => React.ReactElement | null;
   onLeave?: (room: Room) => void;
-  sortParticipants?: (participants: Participant[]) => void;
+  sortParticipants?: (participants: Participant[]) => Participant[];
 }

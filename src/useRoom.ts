@@ -25,18 +25,12 @@ export interface RoomState {
   error?: Error;
 }
 
-// export interface RoomOptions extends RoomOpts {
-//   sortParticipants?: (participants: Participant[]) => void;
-// }
-
 export function useRoom(roomOptions?: RoomOptions): RoomState {
   const [currentRoom, setCurrentRoom] = useState<Room>();
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<Error>();
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [audioTracks, setAudioTracks] = useState<AudioTrack[]>([]);
-
-  // const sortFunc = roomOptions?.sortParticipants ?? sortParticipants;
 
   const connectFn = useCallback(
     async (url: string, token: string, options?: ConnectOptions) => {
@@ -49,7 +43,6 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
           const remotes = Array.from(room.participants.values());
           const participants: Participant[] = [room.localParticipant];
           participants.push(...remotes);
-          // sortFunc(participants, newRoom.localParticipant);
           setParticipants(participants);
         };
         const onSubscribedTrackChanged = (track?: RemoteTrack) => {

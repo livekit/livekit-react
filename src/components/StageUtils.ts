@@ -1,4 +1,4 @@
-import { LocalParticipant, Participant } from "livekit-client";
+import { Participant } from "livekit-client";
 
 /**
  * Default sort for participants, it'll order participants by:
@@ -8,8 +8,11 @@ import { LocalParticipant, Participant } from "livekit-client";
  * 4. participants with video on
  * 5. by joinedAt
  */
-export function defaultSortParticipants(participants: Participant[]) {
-  participants.sort((a, b) => {
+export function defaultSortParticipants(
+  participants: Participant[]
+): Participant[] {
+  const sortedParticipants = [...participants];
+  sortedParticipants.sort((a, b) => {
     // loudest speaker first
     if (a.isSpeaking && b.isSpeaking) {
       return b.audioLevel - a.audioLevel;
@@ -45,18 +48,19 @@ export function defaultSortParticipants(participants: Participant[]) {
     // joinedAt
     return (a.joinedAt?.getTime() ?? 0) - (b.joinedAt?.getTime() ?? 0);
   });
-  const localParticipant = participants.find(
-    (p) => p instanceof LocalParticipant
+  const localParticipant = sortedParticipants.find(
+    (p) => p == null // instanceof LocalParticipant
   );
   if (localParticipant) {
-    const localIdx = participants.indexOf(localParticipant);
+    const localIdx = sortedParticipants.indexOf(localParticipant);
     if (localIdx >= 0) {
-      participants.splice(localIdx, 1);
-      if (participants.length > 0) {
-        participants.splice(1, 0, localParticipant);
+      sortedParticipants.splice(localIdx, 1);
+      if (sortedParticipants.length > 0) {
+        sortedParticipants.splice(1, 0, localParticipant);
       } else {
-        participants.push(localParticipant);
+        sortedParticipants.push(localParticipant);
       }
     }
   }
+  return sortedParticipants;
 }
