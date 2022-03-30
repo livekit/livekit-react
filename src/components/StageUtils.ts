@@ -1,4 +1,4 @@
-import { Participant } from "livekit-client";
+import { LocalParticipant, Participant } from "livekit-client";
 
 /**
  * Default sort for participants, it'll order participants by:
@@ -49,7 +49,7 @@ export function defaultSortParticipants(
     return (a.joinedAt?.getTime() ?? 0) - (b.joinedAt?.getTime() ?? 0);
   });
   const localParticipant = sortedParticipants.find(
-    (p) => p == null // instanceof LocalParticipant
+    (p) => p instanceof LocalParticipant
   );
   if (localParticipant) {
     const localIdx = sortedParticipants.indexOf(localParticipant);
