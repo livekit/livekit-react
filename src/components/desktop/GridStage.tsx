@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { ControlsView } from "../ControlsView";
 import { ParticipantView } from "../ParticipantView";
 import { StageProps } from "../StageProps";
+import { defaultSortParticipants } from "../StageUtils";
 import styles from "./styles.module.css";
 
 export const GridStage = ({
@@ -10,6 +11,7 @@ export const GridStage = ({
   participantRenderer,
   controlRenderer,
   onLeave,
+  sortParticipants,
 }: StageProps) => {
   const { isConnecting, error, participants, room } = roomState;
   const [visibleParticipants, setVisibleParticipants] = useState<Participant[]>(
@@ -18,6 +20,8 @@ export const GridStage = ({
   const [showOverlay, setShowOverlay] = useState(false);
   const [gridClass, setGridClass] = React.useState(styles.grid1x1);
 
+  const sortFn = sortParticipants ?? defaultSortParticipants;
+  sortFn(participants);
   // compute visible participants and sort.
   useEffect(() => {
     // determine grid size

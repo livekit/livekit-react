@@ -25,14 +25,13 @@ export const LiveKitRoom = ({
   url,
   token,
   connectOptions,
-  sortParticipants,
   stageRenderer,
   participantRenderer,
   controlRenderer,
   onConnected,
   onLeave,
 }: RoomProps) => {
-  const roomState = useRoom({ sortParticipants });
+  const roomState = useRoom();
   if (!connectOptions) {
     connectOptions = {};
   }

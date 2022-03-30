@@ -4,6 +4,7 @@ import { ControlsView } from "../ControlsView";
 import { ParticipantView } from "../ParticipantView";
 import { ScreenShareView } from "../ScreenShareView";
 import { StageProps } from "../StageProps";
+import { defaultSortParticipants } from "../StageUtils";
 import styles from "./styles.module.css";
 
 export const SpeakerStage = ({
@@ -11,6 +12,7 @@ export const SpeakerStage = ({
   participantRenderer,
   controlRenderer,
   onLeave,
+  sortParticipants,
 }: StageProps) => {
   const { isConnecting, error, participants, room } = roomState;
   const [showOverlay, setShowOverlay] = useState(false);
@@ -32,6 +34,9 @@ export const SpeakerStage = ({
 
   const ParticipantRenderer = participantRenderer ?? ParticipantView;
   const ControlRenderer = controlRenderer ?? ControlsView;
+
+  const sortFn = sortParticipants ?? defaultSortParticipants;
+  sortFn(participants);
 
   // find first participant with screen shared
   let screenTrack: VideoTrack | undefined;
