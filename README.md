@@ -76,7 +76,15 @@ Using the `connect` function returned by useRoom will ensure that callbacks are 
 import { useRoom, useParticipant } from 'livekit-react'
 
 export const MyComponent = () => {
-  const { connect, isConnecting, room, error, participants, audioTracks } = useRoom();
+  const roomOptions: RoomOptions = {
+    adaptiveStream: true,
+    dynacast: true,
+  }
+  const { connect, isConnecting, room, error, participants, audioTracks } = useRoom(roomOptions);
+  // initiate connection to the livekit room
+  await connect(livekitUrl, livekitToken);
+  // request camera and microphone permissions and publish tracks
+  room.localParticipant.enableCameraAndMicrophone();
   ...
 }
 

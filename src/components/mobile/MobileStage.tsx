@@ -1,9 +1,10 @@
 import { Track, VideoTrack } from "livekit-client";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { ControlsView } from "../ControlsView";
 import { ParticipantView } from "../ParticipantView";
 import { ScreenShareView } from "../ScreenShareView";
 import { StageProps } from "../StageProps";
+import { defaultSortParticipants } from "../StageUtils";
 import styles from "./styles.module.css";
 
 export const MobileStage = ({
@@ -11,9 +12,18 @@ export const MobileStage = ({
   participantRenderer,
   controlRenderer,
   onLeave,
+  sortParticipants,
 }: StageProps) => {
   const { isConnecting, error, participants, room } = roomState;
   const [showOverlay, setShowOverlay] = useState(false);
+  const sortFn = sortParticipants ?? defaultSortParticipants;
+  const [sortedParticipants, setSortedParticipants] = useState(
+    sortFn(participants)
+  );
+
+  useEffect(() => {
+    setSortedParticipants(sortFn(participants));
+  }, [participants, sortFn]);
 
   if (error) {
     return <div>error {error.message}</div>;
@@ -26,7 +36,7 @@ export const MobileStage = ({
     return <div>room closed</div>;
   }
 
-  if (participants.length === 0) {
+  if (sortedParticipants.length === 0) {
     return <div>no one is in the room</div>;
   }
 
@@ -35,7 +45,7 @@ export const MobileStage = ({
 
   // find first participant with screen shared
   let screenTrack: VideoTrack | undefined;
-  participants.forEach((p) => {
+  sortedParticipants.forEach((p) => {
     if (screenTrack) {
       return;
     }
@@ -45,7 +55,7 @@ export const MobileStage = ({
     }
   });
 
-  const otherParticipants = participants;
+  const otherParticipants = sortedParticipants;
   let mainView: ReactElement;
   if (screenTrack) {
     mainView = (
@@ -54,8 +64,8 @@ export const MobileStage = ({
   } else {
     mainView = (
       <ParticipantRenderer
-        key={participants[0].identity}
-        participant={participants[0]}
+        key={sortedParticipants[0].identity}
+        participant={sortedParticipants[0]}
         showOverlay={showOverlay}
         width="100%"
         height="100%"

@@ -1,13 +1,12 @@
 import {
   AudioTrack,
-  connect,
-  ConnectOptions,
-  LocalParticipant,
   Participant,
   RemoteTrack,
   Room,
   RoomEvent,
   Track,
+  RoomOptions,
+  RoomConnectOptions,
 } from "livekit-client";
 import { useCallback, useState } from "react";
 
@@ -15,7 +14,7 @@ export interface RoomState {
   connect: (
     url: string,
     token: string,
-    options?: ConnectOptions
+    options?: RoomConnectOptions
   ) => Promise<Room | undefined>;
   isConnecting: boolean;
   room?: Room;
@@ -26,30 +25,24 @@ export interface RoomState {
   error?: Error;
 }
 
-export interface RoomOptions {
-  sortParticipants?: (participants: Participant[]) => void;
-}
-
-export function useRoom(options?: RoomOptions): RoomState {
-  const [room, setRoom] = useState<Room>();
+export function useRoom(roomOptions?: RoomOptions): RoomState {
+  const [currentRoom, setCurrentRoom] = useState<Room>();
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<Error>();
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [audioTracks, setAudioTracks] = useState<AudioTrack[]>([]);
 
-  const sortFunc = options?.sortParticipants ?? sortParticipants;
-
   const connectFn = useCallback(
-    async (url: string, token: string, options?: ConnectOptions) => {
+    async (url: string, token: string, options?: RoomConnectOptions) => {
       setIsConnecting(true);
       try {
-        const newRoom = await connect(url, token, options);
-        setRoom(newRoom);
+        const room = new Room(roomOptions);
+        await room.connect(url, token, options);
+        setCurrentRoom(room);
         const onParticipantsChanged = () => {
-          const remotes = Array.from(newRoom.participants.values());
-          const participants: Participant[] = [newRoom.localParticipant];
+          const remotes = Array.from(room.participants.values());
+          const participants: Participant[] = [room.localParticipant];
           participants.push(...remotes);
-          sortFunc(participants, newRoom.localParticipant);
           setParticipants(participants);
         };
         const onSubscribedTrackChanged = (track?: RemoteTrack) => {
@@ -59,7 +52,7 @@ export function useRoom(options?: RoomOptions): RoomState {
             return;
           }
           const tracks: AudioTrack[] = [];
-          newRoom.participants.forEach((p) => {
+          room.participants.forEach((p) => {
             p.audioTracks.forEach((pub) => {
               if (pub.audioTrack) {
                 tracks.push(pub.audioTrack);
@@ -69,10 +62,10 @@ export function useRoom(options?: RoomOptions): RoomState {
           setAudioTracks(tracks);
         };
 
-        newRoom.once(RoomEvent.Disconnected, () => {
-          setTimeout(() => setRoom(undefined));
+        room.once(RoomEvent.Disconnected, () => {
+          setTimeout(() => setCurrentRoom(undefined));
 
-          newRoom
+          room
             .off(RoomEvent.ParticipantConnected, onParticipantsChanged)
             .off(RoomEvent.ParticipantDisconnected, onParticipantsChanged)
             .off(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged)
@@ -82,7 +75,7 @@ export function useRoom(options?: RoomOptions): RoomState {
             .off(RoomEvent.LocalTrackUnpublished, onParticipantsChanged)
             .off(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged);
         });
-        newRoom
+        room
           .on(RoomEvent.ParticipantConnected, onParticipantsChanged)
           .on(RoomEvent.ParticipantDisconnected, onParticipantsChanged)
           .on(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged)
@@ -96,7 +89,7 @@ export function useRoom(options?: RoomOptions): RoomState {
         setIsConnecting(false);
         onSubscribedTrackChanged();
 
-        return newRoom;
+        return room;
       } catch (error) {
         setIsConnecting(false);
         if (error instanceof Error) {
@@ -114,71 +107,9 @@ export function useRoom(options?: RoomOptions): RoomState {
   return {
     connect: connectFn,
     isConnecting,
-    room,
+    room: currentRoom,
     error,
     participants,
     audioTracks,
   };
-}
-
-/**
- * Default sort for participants, it'll order participants by:
- * 1. dominant speaker (speaker with the loudest audio level)
- * 2. local participant
- * 3. other speakers that are recently active
- * 4. participants with video on
- * 5. by joinedAt
- */
-export function sortParticipants(
-  participants: Participant[],
-  localParticipant?: LocalParticipant
-) {
-  participants.sort((a, b) => {
-    // loudest speaker first
-    if (a.isSpeaking && b.isSpeaking) {
-      return b.audioLevel - a.audioLevel;
-    }
-
-    // speaker goes first
-    if (a.isSpeaking !== b.isSpeaking) {
-      if (a.isSpeaking) {
-        return -1;
-      } else {
-        return 1;
-      }
-    }
-
-    // last active speaker first
-    if (a.lastSpokeAt !== b.lastSpokeAt) {
-      const aLast = a.lastSpokeAt?.getTime() ?? 0;
-      const bLast = b.lastSpokeAt?.getTime() ?? 0;
-      return bLast - aLast;
-    }
-
-    // video on
-    const aVideo = a.videoTracks.size > 0;
-    const bVideo = b.videoTracks.size > 0;
-    if (aVideo !== bVideo) {
-      if (aVideo) {
-        return -1;
-      } else {
-        return 1;
-      }
-    }
-
-    // joinedAt
-    return (a.joinedAt?.getTime() ?? 0) - (b.joinedAt?.getTime() ?? 0);
-  });
-
-  if (localParticipant) {
-    const localIdx = participants.indexOf(localParticipant);
-    if (localIdx >= 0) {
-      participants.splice(localIdx, 1);
-      if (participants.length > 0) {
-        participants.splice(1, 0, localParticipant);
-      } else {
-        participants.push(localParticipant);
-      }
-    }
-  }
 }
