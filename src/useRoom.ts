@@ -1,12 +1,12 @@
 import {
   AudioTrack,
-  ConnectOptions,
   Participant,
   RemoteTrack,
   Room,
   RoomEvent,
   Track,
   RoomOptions,
+  RoomConnectOptions,
 } from "livekit-client";
 import { useCallback, useState } from "react";
 
@@ -14,7 +14,7 @@ export interface RoomState {
   connect: (
     url: string,
     token: string,
-    options?: ConnectOptions
+    options?: RoomConnectOptions
   ) => Promise<Room | undefined>;
   isConnecting: boolean;
   room?: Room;
@@ -33,7 +33,7 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
   const [audioTracks, setAudioTracks] = useState<AudioTrack[]>([]);
 
   const connectFn = useCallback(
-    async (url: string, token: string, options?: ConnectOptions) => {
+    async (url: string, token: string, options?: RoomConnectOptions) => {
       setIsConnecting(true);
       try {
         const room = new Room(roomOptions);

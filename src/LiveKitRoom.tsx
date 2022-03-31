@@ -1,4 +1,4 @@
-import { ConnectOptions, Participant, Room } from "livekit-client";
+import { ConnectOptions, Room } from "livekit-client";
 import React, { useEffect } from "react";
 import { ControlsProps } from "./components/ControlsView";
 import { ParticipantProps } from "./components/ParticipantView";
@@ -10,8 +10,6 @@ export interface RoomProps {
   url: string;
   token: string;
   connectOptions?: ConnectOptions;
-  // override default participant sort
-  sortParticipants?: (participants: Participant[]) => void;
   // when first connected to room
   onConnected?: (room: Room) => void;
   // when user leaves the room
