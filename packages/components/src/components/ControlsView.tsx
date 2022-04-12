@@ -1,7 +1,7 @@
 import { faDesktop, faStop } from "@fortawesome/free-solid-svg-icons";
 import { Room } from "livekit-client";
 import React, { ReactElement } from "react";
-import { useParticipant } from "../useParticipant";
+import { useParticipant } from "@livekit-react/core";
 import { AudioSelectButton } from "./AudioSelectButton";
 import { ControlButton } from "./ControlButton";
 import styles from "./styles.module.css";
