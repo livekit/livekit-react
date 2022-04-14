@@ -1,7 +1,7 @@
 import { faSquare, faThLarge, faUserFriends } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Room, RoomEvent, VideoPresets } from 'livekit-client'
-import { DisplayContext, DisplayOptions, LiveKitRoom } from '@livekit-react/core'
+import { DisplayContext, DisplayOptions, LiveKitRoom } from '@livekit/react-core'
 import { useState } from "react"
 import "react-aspect-ratio/aspect-ratio.css"
 import { useHistory, useLocation } from 'react-router-dom'

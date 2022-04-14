@@ -1,5 +1,5 @@
 {
-  "name": "@livekit-react/core",
+  "name": "@livekit/react-core",
   "version": "0.7.1",
   "description": "LiveKit Core React SDK",
   "author": "davidzhao",

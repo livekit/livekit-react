@@ -1,7 +1,6 @@
 import { Property } from "csstype";
 import { Track } from "livekit-client";
 import React, { CSSProperties, useCallback, useEffect, useRef } from "react";
-import styles from "./styles.module.css";
 
 export interface VideoRendererProps {
   track: Track;
@@ -65,7 +64,5 @@ export const VideoRenderer = ({
     style.objectFit = objectFit;
   }
 
-  return (
-    <video ref={ref} className={className ?? styles.video} style={style} />
-  );
+  return <video ref={ref} className={className} style={style} />;
 };
