@@ -7,14 +7,10 @@
     "turbo": "^1.2.3"
   },
   "scripts": {
-    "example": "lerna-watch example",
-    "start:components": "lerna-watch components"
-  },
-  "watch": {
-    "commands": {
-      "target": "start",
-      "watch": "start"
-    }
+    "bootstrap": "lerna bootstrap",
+    "prepare": "lerna run prepare",
+    "build": "yarn turbo run build",
+    "start": "yarn turbo run start"
   },
   "workspaces": [
     "packages/*"
