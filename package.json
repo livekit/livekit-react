@@ -10,7 +10,14 @@
     "bootstrap": "lerna bootstrap",
     "prepare": "lerna run prepare",
     "build": "yarn turbo run build",
-    "start": "yarn turbo run start"
+    "start": "yarn turbo run start",
+    "test": "yarn turbo run test",
+    "test:build": "yarn turbo run build",
+    "test:lint": "yarn turbo run test:lint",
+    "test:unit": "yarn turbo run test:unit",
+    "test:watch": "yarn turbo run test:watch",
+    "predeploy": "yarn turbo run build",
+    "deploy": "yarn turbo run deploy"
   },
   "workspaces": [
     "packages/*"

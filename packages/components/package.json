@@ -20,9 +20,17 @@
     "test:build": "run-s build",
     "test:lint": "eslint 'src/**/*.{ts,tsx}'",
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
-    "test:watch": "react-scripts test --env=jsdom",
-    "predeploy": "yarn build && cd example && yarn install && yarn run build",
-    "deploy": "gh-pages -d example/build"
+    "test:watch": "react-scripts test --env=jsdom"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/react-fontawesome": "^0.1.18",
+    "@livekit/react-core": "^0.7.1",
+    "@types/react-responsive": "^8.0.2",
+    "react-aspect-ratio": "^1.0.50",
+    "react-responsive": "^8.2.0",
+    "react-tiny-popover": "^6.0.5"
   },
   "peerDependencies": {
     "livekit-client": "^0.17.5",
@@ -30,7 +38,7 @@
     "react-dom": "^15.0.0 || ^16.0.0 || ^17.0.0"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-common-types": "latest",
+    "@fortawesome/fontawesome-common-types": "^6.1.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -51,8 +59,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "gh-pages": "^2.2.0",
-    "livekit-client": "latest",
+    "livekit-client": "^0.17.5",
     "microbundle-crl": "^0.13.10",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.3.1",
@@ -64,15 +71,5 @@
   "files": [
     "dist",
     "src"
-  ],
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "latest",
-    "@fortawesome/free-solid-svg-icons": "latest",
-    "@fortawesome/react-fontawesome": "latest",
-    "@livekit/react-core": "^0.7.1",
-    "@types/react-responsive": "^8.0.2",
-    "react-aspect-ratio": "^1.0.50",
-    "react-responsive": "^8.2.0",
-    "react-tiny-popover": "^6.0.5"
-  }
+  ]
 }
