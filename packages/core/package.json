@@ -1,7 +1,7 @@
 {
   "name": "@livekit-react/core",
   "version": "0.7.1",
-  "description": "LiveKit SDK & Components",
+  "description": "LiveKit Core React SDK",
   "author": "davidzhao",
   "license": "Apache-2.0",
   "repository": "livekit/livekit-react",
@@ -39,7 +39,6 @@
     "@types/react-dom": "^17.0.13",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
-    "@fortawesome/fontawesome-common-types": "latest",
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",
     "eslint": "^7.11.0",
@@ -64,14 +63,5 @@
   "files": [
     "dist",
     "src"
-  ],
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "latest",
-    "@fortawesome/free-solid-svg-icons": "latest",
-    "@fortawesome/react-fontawesome": "latest",
-    "@types/react-responsive": "^8.0.2",
-    "react-aspect-ratio": "^1.0.50",
-    "react-responsive": "^8.2.0",
-    "react-tiny-popover": "^6.0.5"
-  }
+  ]
 }
