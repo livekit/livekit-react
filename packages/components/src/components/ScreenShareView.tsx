@@ -1,8 +1,9 @@
 import { Property } from "csstype";
 import { Track } from "livekit-client";
+import { VideoRenderer } from "@livekit/react-core";
+
 import React from "react";
 import styles from "./styles.module.css";
-import { VideoRenderer } from "./VideoRenderer";
 
 interface ScreenShareProps {
   track: Track;
@@ -18,6 +19,7 @@ export const ScreenShareView = ({ track, width, height }: ScreenShareProps) => {
         isLocal={false}
         width={width}
         height={height}
+        className={styles.video}
       />
     </div>
   );

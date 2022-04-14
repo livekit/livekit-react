@@ -18,15 +18,14 @@ import {
   Participant,
   RemoteTrack,
 } from "livekit-client";
+import { useParticipant, VideoRenderer } from "@livekit/react-core";
 
 import { AspectRatio } from "react-aspect-ratio";
 import { ReactComponent as connectionQuality1 } from "../../static/connection-quality-1.svg";
 import { ReactComponent as connectionQuality2 } from "../../static/connection-quality-2.svg";
 import { ReactComponent as connectionQuality3 } from "../../static/connection-quality-3.svg";
-import { useParticipant } from "@livekit-react/core";
 import { DisplayContext } from "./DisplayContext";
 import styles from "./styles.module.css";
-import { VideoRenderer } from "./VideoRenderer";
 
 export interface ParticipantProps {
   participant: Participant;
@@ -140,6 +139,7 @@ export const ParticipantView = ({
         objectFit={objectFit}
         width="100%"
         height="100%"
+        className={styles.video}
         onSizeChanged={handleResize}
       />
     );

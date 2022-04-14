@@ -4,7 +4,7 @@ import { ControlsProps } from "./components/ControlsView";
 import { ParticipantProps } from "./components/ParticipantView";
 import { StageProps } from "./components/StageProps";
 import { StageView } from "./components/StageView";
-import { useRoom } from "@livekit-react/core";
+import { useRoom } from "@livekit/react-core";
 
 export interface RoomProps {
   url: string;

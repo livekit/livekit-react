@@ -1,6 +1,6 @@
 {
-  "name": "@livekit-react/components",
-  "version": "0.0.1",
+  "name": "@livekit/react-components",
+  "version": "0.7.1",
   "description": "LiveKit SDK & Components",
   "author": "davidzhao",
   "license": "Apache-2.0",
@@ -69,7 +69,7 @@
     "@fortawesome/fontawesome-svg-core": "latest",
     "@fortawesome/free-solid-svg-icons": "latest",
     "@fortawesome/react-fontawesome": "latest",
-    "@livekit-react/core": "^0.7.1",
+    "@livekit/react-core": "^0.7.1",
     "@types/react-responsive": "^8.0.2",
     "react-aspect-ratio": "^1.0.50",
     "react-responsive": "^8.2.0",

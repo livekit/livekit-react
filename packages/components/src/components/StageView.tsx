@@ -1,9 +1,9 @@
 import { faVolumeMute } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Track, VideoTrack } from "livekit-client";
+import { AudioRenderer } from "@livekit/react-core";
 import React, { ReactElement, useContext } from "react";
 import { useMediaQuery } from "react-responsive";
-import { AudioRenderer } from "./AudioRenderer";
 import { GridStage } from "./desktop/GridStage";
 import { SpeakerStage } from "./desktop/SpeakerStage";
 import { DisplayContext } from "./DisplayContext";

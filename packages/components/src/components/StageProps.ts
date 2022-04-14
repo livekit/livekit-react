@@ -1,5 +1,5 @@
 import { Participant, Room } from "livekit-client";
-import { RoomState } from "@livekit-react/core";
+import { RoomState } from "@livekit/react-core";
 import { ControlsProps } from "./ControlsView";
 import { ParticipantProps } from "./ParticipantView";
 
