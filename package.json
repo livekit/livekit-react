@@ -3,7 +3,18 @@
   "private": true,
   "devDependencies": {
     "lerna": "^4.0.0",
-    "lerna-update-wizard": "^1.1.2"
+    "lerna-update-wizard": "^1.1.2",
+    "turbo": "^1.2.3"
+  },
+  "scripts": {
+    "example": "lerna-watch example",
+    "start:components": "lerna-watch components"
+  },
+  "watch": {
+    "commands": {
+      "target": "start",
+      "watch": "start"
+    }
   },
   "workspaces": [
     "packages/*"
