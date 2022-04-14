@@ -1,4 +1,4 @@
-import '@livekit/react-core/dist/index.css'
+import '@livekit/react-components/dist/index.css'
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import { PreJoinPage } from './PreJoinPage'
 import { RoomPage } from './RoomPage'
@@ -6,6 +6,7 @@ import { RoomPage } from './RoomPage'
 const App = () => {
   return (
     <div className="container">
+      
       <Router>
         <Switch>
           <Route path="/room">
