@@ -8,3 +8,4 @@ export * from "./components/StageProps";
 export * from "./components/StageView";
 export * from "./components/VideoSelectButton";
 export * from "./LiveKitRoom";
+export * from "@livekit/react-core";
