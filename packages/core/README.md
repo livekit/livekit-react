@@ -1,6 +1,6 @@
+# Livekit React Core
 
-# Livekit React Core 
-### Using custom hooks
+## Using hooks
 
 The provided components make use of two hooks: `useRoom` and `useParticipant`, they will help you manage internal LiveKit callbacks and map them into state variables that are ready-to-use from React components.
 
