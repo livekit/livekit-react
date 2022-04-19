@@ -1,7 +1,7 @@
 {
   "name": "livekit-react-example",
   "homepage": ".",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@livekit/react-components": "^0.8.1",
+    "@livekit/react-components": "^0.8.3",
     "livekit-client": "^0.18.1",
     "react": "^15.0.0 || ^16.0.0 || ^17.0.0",
     "react-aspect-ratio": "^1.0.50",
