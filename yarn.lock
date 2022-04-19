@@ -9369,10 +9369,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.npmjs.org/lines-and-columns/-/lines-and-columns-1.2.4.tgz"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-livekit-client@^0.17.5, livekit-client@latest:
-  version "0.17.5"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.17.5.tgz#58857eaa3e2088988aa431ffb6f4b5acd654d3e0"
-  integrity sha512-2JncDgTDtDs9LVRVDow3dvlokSt/8KfvfYRPw0hximy0tblf6ToDAOmulqrJP9F+fUsg2Ud8SD/jW9Ua+Osvsg==
+livekit-client@^0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-0.18.1.tgz#edb3012c42330929b29f5d13396d55d6d5b80ab2"
+  integrity sha512-y9ZRaGHTnj2xDByER45p3EyE6j5GQoGHDZHencBDgkPhaWR1t5ATYAxAA8m6ItS7ZXb/THI0gbv/oKtrGA1XFg==
   dependencies:
     events "^3.3.0"
     loglevel "^1.8.0"
