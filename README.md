@@ -5,27 +5,22 @@
 - [@livekit/react-core](./packages/core/)
 - [@livekit/react-components](./packages/components/)
 
-
 ## Example apps
-- [livekit-react-example](./packages/example/)
 
+- [livekit-react-example](./packages/example/)
 
 ## Development Setup
 
 This repo uses lerna for managing and publishing packages and turborepo as a taskrunner.
 To get startet run
 
-```
+```sh
+yarn install
 yarn bootstrap
 ```
 
-or 
+To start a dev server that watches all packages and opens the example app run
 
-```
-yarn install
-```
-
-To start a dev server that watches all packages and opens the example app run 
-```
+```sh
 yarn start
 ```
