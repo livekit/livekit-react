@@ -1,6 +1,6 @@
 import { faSquare, faThLarge, faUserFriends } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Room, RoomEvent, VideoPresets } from 'livekit-client'
+import { LogLevel, Room, RoomEvent, VideoPresets } from 'livekit-client'
 import { DisplayContext, DisplayOptions, LiveKitRoom } from '@livekit/react-components'
 import { useState } from "react"
 import "react-aspect-ratio/aspect-ratio.css"
@@ -103,7 +103,7 @@ export const RoomPage = () => {
             videoCaptureDefaults: {
               resolution: VideoPresets.h720.resolution,
             },
-            logLevel: 'debug',
+            logLevel: LogLevel.debug,
           }}
           onLeave={onLeave}
         />
