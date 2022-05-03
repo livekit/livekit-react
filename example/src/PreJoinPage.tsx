@@ -3,7 +3,7 @@ import { createLocalVideoTrack, LocalVideoTrack } from 'livekit-client'
 import { AudioSelectButton, ControlButton, VideoRenderer, VideoSelectButton } from 'livekit-react'
 import { ReactElement, useEffect, useState } from "react"
 import { AspectRatio } from 'react-aspect-ratio'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export const PreJoinPage = () => {
   // state to pass onto room
@@ -19,7 +19,7 @@ export const PreJoinPage = () => {
   const [videoTrack, setVideoTrack] = useState<LocalVideoTrack>();
   const [audioDevice, setAudioDevice] = useState<MediaDeviceInfo>();
   const [videoDevice, setVideoDevice] = useState<MediaDeviceInfo>();
-  const history = useHistory()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (token && url) {
@@ -104,7 +104,7 @@ export const PreJoinPage = () => {
         params.videoDeviceId = deviceId;
       }
     }
-    history.push({
+    navigate({
       pathname: '/room',
       search: "?" + new URLSearchParams(params).toString()
     })

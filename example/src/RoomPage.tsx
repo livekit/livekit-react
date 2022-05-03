@@ -1,10 +1,10 @@
 import { faSquare, faThLarge, faUserFriends } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Room, RoomEvent, VideoPresets } from 'livekit-client'
+import { LogLevel, Room, RoomEvent, VideoPresets } from 'livekit-client'
 import { DisplayContext, DisplayOptions, LiveKitRoom } from 'livekit-react'
 import { useState } from "react"
 import "react-aspect-ratio/aspect-ratio.css"
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export const RoomPage = () => {
   const [numParticipants, setNumParticipants] = useState(0)
@@ -12,7 +12,7 @@ export const RoomPage = () => {
     stageLayout: 'grid',
     showStats: false,
   })
-  const history = useHistory()
+  const navigate = useNavigate()
   const query = new URLSearchParams(useLocation().search)
   const url = query.get('url')
   const token = query.get('token')
@@ -27,9 +27,7 @@ export const RoomPage = () => {
   }
 
   const onLeave = () => {
-    history.push({
-      pathname: '/',
-    })
+    navigate('/')
   }
 
   const updateParticipantSize = (room: Room) => {
@@ -103,7 +101,7 @@ export const RoomPage = () => {
             videoCaptureDefaults: {
               resolution: VideoPresets.h720.resolution,
             },
-            logLevel: 'debug',
+            logLevel: LogLevel.debug,
           }}
           onLeave={onLeave}
         />
