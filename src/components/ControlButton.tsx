@@ -1,8 +1,11 @@
-import { faChevronDown, IconDefinition } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React, { ReactElement, useState } from "react"
-import { Popover } from "react-tiny-popover"
-import styles from "./styles.module.css"
+import {
+  faChevronDown,
+  IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { ReactElement, useState } from "react";
+import { Popover } from "react-tiny-popover";
+import styles from "./styles.module.css";
 
 interface ButtonProps {
   label: string;
