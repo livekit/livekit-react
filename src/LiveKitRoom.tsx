@@ -42,9 +42,6 @@ export const LiveKitRoom = ({
       if (onConnected) {
         onConnected(room);
       }
-      return () => {
-        room.disconnect();
-      };
     });
   }, []);
 
