@@ -20,7 +20,6 @@
     "test:build": "run-s build",
     "test:lint": "eslint 'src/**/*.{ts,tsx}'",
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
-    "test:watch": "react-scripts test --env=jsdom",
     "predeploy": "yarn build && cd example && yarn install && yarn run build",
     "deploy": "gh-pages -d example/build"
   },
@@ -40,7 +39,6 @@
     "@types/react-dom": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
-    "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.7.0",
@@ -58,7 +56,7 @@
     "prettier": "^2.3.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^5.0.1",
     "typescript": "^4.2.3"
   },
   "files": [
@@ -70,9 +68,9 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.18",
     "@types/react-responsive": "^8.0.2",
-    "react-aspect-ratio": "^1.0.50",
+    "react-aspect-ratio": "^1.1.2",
     "react-responsive": "^8.2.0",
-    "react-tiny-popover": "^6.0.5"
+    "react-tiny-popover": "^7.0.1"
   },
   "resolutions": {
     "@fortawesome/fontawesome-common-types": "0.2.36"
