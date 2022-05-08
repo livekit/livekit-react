@@ -1,6 +1,6 @@
 import { faSquare, faThLarge, faUserFriends } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { LogLevel, Room, RoomEvent, VideoPresets } from 'livekit-client'
+import { Room, RoomEvent, setLogLevel, VideoPresets } from 'livekit-client'
 import { DisplayContext, DisplayOptions, LiveKitRoom } from 'livekit-react'
 import { useState } from "react"
 import "react-aspect-ratio/aspect-ratio.css"
@@ -90,18 +90,18 @@ export const RoomPage = () => {
           url={url}
           token={token}
           onConnected={room => {
+            setLogLevel('debug');
             onConnected(room, query);
             room.on(RoomEvent.ParticipantConnected, () => updateParticipantSize(room))
             room.on(RoomEvent.ParticipantDisconnected, () => onParticipantDisconnected(room))
             updateParticipantSize(room);
           }}
-          connectOptions={{
+          roomOptions={{
             adaptiveStream: isSet(query, 'adaptiveStream'),
             dynacast: isSet(query, 'dynacast'),
             videoCaptureDefaults: {
               resolution: VideoPresets.h720.resolution,
             },
-            logLevel: LogLevel.debug,
           }}
           onLeave={onLeave}
         />
