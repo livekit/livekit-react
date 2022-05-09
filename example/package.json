@@ -10,16 +10,14 @@
     "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
   },
   "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "link:../node_modules/@fortawesome/free-solid-svg-icons",
     "@fortawesome/fontawesome-svg-core": "link:../node_modules/@fortawesome/fontawesome-svg-core",
-    "livekit-react": "link:..",
+    "@fortawesome/free-solid-svg-icons": "link:../node_modules/@fortawesome/free-solid-svg-icons",
     "livekit-client": "link:../node_modules/livekit-client",
+    "livekit-react": "link:..",
     "react": "link:../node_modules/react",
-    "react-aspect-ratio": "^1.0.50",
+    "react-aspect-ratio": "link:../node_modules/react-aspect-ratio",
     "react-dom": "link:../node_modules/react-dom",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "link:../node_modules/react-scripts",
-    "typescript": "link:../node_modules/typescript"
+    "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
@@ -29,7 +27,10 @@
     "@types/jest": "link:../node_modules/@types/jest",
     "@types/node": "link:../node_modules/@types/node",
     "@types/react-dom": "link:../node_modules/@types/react-dom",
-    "@types/react-router-dom": "^5.3.2"
+    "@types/react-router-dom": "^5.3.2",
+    "eslint-config-react-app": "link:../node_modules/eslint-config-react-app",
+    "typescript": "link:../node_modules/typescript",
+    "react-scripts": "link:../node_modules/react-scripts"
   },
   "eslintConfig": {
     "extends": "react-app"
