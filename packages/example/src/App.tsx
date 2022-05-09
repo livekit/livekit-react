@@ -1,5 +1,5 @@
 import '@livekit/react-components/dist/index.css'
-import { HashRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Route, Routes } from 'react-router-dom'
 import { PreJoinPage } from './PreJoinPage'
 import { RoomPage } from './RoomPage'
 
@@ -8,14 +8,10 @@ const App = () => {
     <div className="container">
       
       <Router>
-        <Switch>
-          <Route path="/room">
-            <RoomPage/>
-          </Route>
-          <Route path="/">
-            <PreJoinPage/>
-          </Route>
-        </Switch>
+      <Routes>
+          <Route path="/room" element={<RoomPage />} />
+          <Route path="/" element={<PreJoinPage/>} />
+        </Routes>
       </Router>
     </div>
   )

@@ -4,7 +4,7 @@ import { LogLevel, Room, RoomEvent, VideoPresets } from 'livekit-client'
 import { DisplayContext, DisplayOptions, LiveKitRoom } from '@livekit/react-components'
 import { useState } from "react"
 import "react-aspect-ratio/aspect-ratio.css"
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 export const RoomPage = () => {
   const [numParticipants, setNumParticipants] = useState(0)
@@ -12,7 +12,7 @@ export const RoomPage = () => {
     stageLayout: 'grid',
     showStats: false,
   })
-  const history = useHistory()
+  const navigate = useNavigate()
   const query = new URLSearchParams(useLocation().search)
   const url = query.get('url')
   const token = query.get('token')
@@ -27,9 +27,7 @@ export const RoomPage = () => {
   }
 
   const onLeave = () => {
-    history.push({
-      pathname: '/',
-    })
+    navigate('/')
   }
 
   const updateParticipantSize = (room: Room) => {
