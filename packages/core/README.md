@@ -1,5 +1,6 @@
 # Livekit React Core
 
+Note: Currently this library isn't compatible with `React.StrictMode`. We are working on improvements in this area.
 ## Using hooks
 
 The provided components make use of two hooks: `useRoom` and `useParticipant`, they will help you manage internal LiveKit callbacks and map them into state variables that are ready-to-use from React components.

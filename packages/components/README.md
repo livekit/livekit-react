@@ -15,7 +15,7 @@ https://example.livekit.io.
 Source available in [example](example/)
 
 ## Usage
-
+Note: Currently this library isn't compatible with `React.StrictMode`. We are working on improvements in this area.
 ### Video room with built-in UI
 
 Without customization, the component would use a default skin as seen in the demo above.
