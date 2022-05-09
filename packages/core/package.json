@@ -1,6 +1,6 @@
 {
   "name": "@livekit/react-core",
-  "version": "0.8.4-alpha.3",
+  "version": "0.8.4-alpha.4",
   "description": "LiveKit Core React SDK",
   "author": "davidzhao",
   "license": "Apache-2.0",
