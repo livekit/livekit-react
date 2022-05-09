@@ -11,6 +11,8 @@
     "prepare": "lerna run prepare",
     "build": "yarn turbo run build",
     "start": "yarn turbo run start",
+    "format": "prettier --write packages",
+    "format:check": "prettier --check packages",
     "test": "yarn turbo run test",
     "test:build": "yarn turbo run build",
     "test:lint": "yarn turbo run test:lint",
