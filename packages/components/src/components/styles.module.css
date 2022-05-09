@@ -14,11 +14,11 @@ video.video {
 }
 
 .speaker {
-  border: 2px solid #28994E;
+  border: 2px solid #28994e;
 }
 
 .placeholder {
-  background: #C4C4C4;
+  background: #c4c4c4;
   width: 100%;
   height: 100%;
 }
@@ -69,7 +69,6 @@ video.video {
 }
 
 .controlsWrapper {
-
 }
 
 .buttonWrapper {
@@ -82,7 +81,7 @@ video.video {
   display: inline-block;
   border-radius: 44px;
   border: none;
-  background: #2F2F2F;
+  background: #2f2f2f;
   padding: 12px 20px 12px 20px;
   cursor: pointer;
   color: white;
@@ -144,7 +143,7 @@ button.hasDropdown {
 }
 
 .popoverMenu {
-  background: #2F2F2F;
+  background: #2f2f2f;
   border-radius: 4px;
   margin-bottom: 5px;
 }
@@ -188,7 +187,7 @@ ul.list li:first-child {
 
 .unmuteButton {
   display: block;
-  background-color: #5A8BFF;
+  background-color: #5a8bff;
   cursor: pointer;
   padding: 12px 20px;
   border: none;
