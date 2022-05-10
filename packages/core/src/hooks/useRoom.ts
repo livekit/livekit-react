@@ -8,7 +8,7 @@ import {
   RoomOptions,
   RoomConnectOptions,
 } from "livekit-client";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export interface RoomState {
   connect: (
@@ -26,33 +26,45 @@ export interface RoomState {
 }
 
 export function useRoom(roomOptions?: RoomOptions): RoomState {
-  const [currentRoom, setCurrentRoom] = useState<Room>();
+  const room = useRef<Room>();
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<Error>();
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [audioTracks, setAudioTracks] = useState<AudioTrack[]>([]);
 
+  useEffect(() => {
+    const newRoom = new Room(roomOptions);
+    room.current = newRoom;
+    return () => {
+      room.current?.disconnect();
+      room.current = undefined;
+    };
+  }, []);
+
   const connectFn = useCallback(
     async (url: string, token: string, options?: RoomConnectOptions) => {
       setIsConnecting(true);
+      if (!room.current) {
+        console.warn("component not mounted, return");
+        return;
+      }
       try {
-        const room = new Room(roomOptions);
-        await room.connect(url, token, options);
-        setCurrentRoom(room);
+        await room.current?.connect(url, token, options);
         const onParticipantsChanged = () => {
-          const remotes = Array.from(room.participants.values());
-          const participants: Participant[] = [room.localParticipant];
+          if (!room.current) return;
+          const remotes = Array.from(room.current.participants.values());
+          const participants: Participant[] = [room.current.localParticipant];
           participants.push(...remotes);
           setParticipants(participants);
         };
         const onSubscribedTrackChanged = (track?: RemoteTrack) => {
           // ordering may have changed, re-sort
           onParticipantsChanged();
-          if (track && track.kind !== Track.Kind.Audio) {
+          if ((track && track.kind !== Track.Kind.Audio) || !room.current) {
             return;
           }
           const tracks: AudioTrack[] = [];
-          room.participants.forEach((p) => {
+          room.current.participants.forEach((p) => {
             p.audioTracks.forEach((pub) => {
               if (pub.audioTrack) {
                 tracks.push(pub.audioTrack);
@@ -62,10 +74,10 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
           setAudioTracks(tracks);
         };
 
-        room.once(RoomEvent.Disconnected, () => {
-          setTimeout(() => setCurrentRoom(undefined));
-
-          room
+        room.current.once(RoomEvent.Disconnected, () => {
+          setTimeout(() => (room.current = undefined));
+          if (!room.current) return;
+          room.current
             .off(RoomEvent.ParticipantConnected, onParticipantsChanged)
             .off(RoomEvent.ParticipantDisconnected, onParticipantsChanged)
             .off(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged)
@@ -75,7 +87,7 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
             .off(RoomEvent.LocalTrackUnpublished, onParticipantsChanged)
             .off(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged);
         });
-        room
+        room.current
           .on(RoomEvent.ParticipantConnected, onParticipantsChanged)
           .on(RoomEvent.ParticipantDisconnected, onParticipantsChanged)
           .on(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged)
@@ -88,8 +100,8 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
 
         setIsConnecting(false);
         onSubscribedTrackChanged();
-
-        return room;
+        setError(undefined);
+        return room.current;
       } catch (error) {
         setIsConnecting(false);
         if (error instanceof Error) {
@@ -107,7 +119,7 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
   return {
     connect: connectFn,
     isConnecting,
-    room: currentRoom,
+    room: room.current,
     error,
     participants,
     audioTracks,
