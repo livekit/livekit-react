@@ -55,6 +55,7 @@ export const VideoRenderer = ({
   }, [ref]);
 
   const isFrontFacing =
+    isLocal &&
     track.mediaStreamTrack?.getSettings().facingMode !== "environment";
   const style: CSSProperties = {
     transform: isLocal && isFrontFacing ? "rotateY(180deg)" : "",
