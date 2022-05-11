@@ -1,4 +1,4 @@
-import { Room, RoomOptions } from "livekit-client";
+import { Room, RoomConnectOptions, RoomOptions } from "livekit-client";
 import React, { useEffect } from "react";
 import { ControlsProps } from "./components/ControlsView";
 import { ParticipantProps } from "./components/ParticipantView";
@@ -10,6 +10,7 @@ export interface RoomProps {
   url: string;
   token: string;
   roomOptions?: RoomOptions;
+  connectOptions?: RoomConnectOptions;
   // when first connected to room
   onConnected?: (room: Room) => void;
   // when user leaves the room
@@ -23,6 +24,7 @@ export const LiveKitRoom = ({
   url,
   token,
   roomOptions,
+  connectOptions,
   stageRenderer,
   participantRenderer,
   controlRenderer,
@@ -32,7 +34,7 @@ export const LiveKitRoom = ({
   const roomState = useRoom(roomOptions);
 
   useEffect(() => {
-    roomState.connect(url, token).then((room) => {
+    roomState.connect(url, token, connectOptions).then((room) => {
       if (!room) {
         return;
       }
