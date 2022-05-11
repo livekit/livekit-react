@@ -108,7 +108,7 @@ export const PreJoinPage = () => {
         params.videoDeviceId = deviceId;
       }
     }
-    navigate(`'/room?${new URLSearchParams(params).toString()}`);
+    navigate(`/room?${new URLSearchParams(params).toString()}`);
   };
 
   let videoElement: ReactElement;

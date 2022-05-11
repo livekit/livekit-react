@@ -1,4 +1,4 @@
-import { Room, RoomOptions } from "livekit-client";
+import { Room, RoomOptions, RoomState } from "livekit-client";
 import React, { useEffect } from "react";
 import { ControlsProps } from "./components/ControlsView";
 import { ParticipantProps } from "./components/ParticipantView";
@@ -36,7 +36,7 @@ export const LiveKitRoom = ({
       if (!room) {
         return;
       }
-      if (onConnected) {
+      if (onConnected && room.state === RoomState.Connected) {
         onConnected(room);
       }
     });

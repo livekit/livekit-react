@@ -22,7 +22,8 @@ export const ControlsView = ({
   enableVideo,
   onLeave,
 }: ControlsProps) => {
-  const { cameraPublication: camPub } = useParticipant(room.localParticipant);
+  const { cameraPublication: camPub, microphonePublication: micPub } =
+    useParticipant(room.localParticipant);
 
   if (enableScreenShare === undefined) {
     enableScreenShare = true;
@@ -37,7 +38,7 @@ export const ControlsView = ({
   const [audioButtonDisabled, setAudioButtonDisabled] = React.useState(false);
   let muteButton: ReactElement | undefined;
   if (enableAudio) {
-    const enabled = room.localParticipant.isMicrophoneEnabled;
+    const enabled = !(micPub?.isMuted ?? true);
     muteButton = (
       <AudioSelectButton
         isMuted={!enabled}
