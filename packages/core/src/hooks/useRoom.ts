@@ -8,7 +8,7 @@ import {
   RoomOptions,
   RoomConnectOptions,
 } from "livekit-client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 
 export interface RoomState {
   connect: (
@@ -26,45 +26,32 @@ export interface RoomState {
 }
 
 export function useRoom(roomOptions?: RoomOptions): RoomState {
-  const room = useRef<Room>();
+  const [room] = useState<Room>(new Room(roomOptions));
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<Error>();
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [audioTracks, setAudioTracks] = useState<AudioTrack[]>([]);
 
-  useEffect(() => {
-    const newRoom = new Room(roomOptions);
-    room.current = newRoom;
-    return () => {
-      room.current?.disconnect();
-      room.current = undefined;
-    };
-  }, []);
-
   const connectFn = useCallback(
     async (url: string, token: string, options?: RoomConnectOptions) => {
       setIsConnecting(true);
-      if (!room.current) {
-        console.warn("component not mounted, return");
-        return;
-      }
       try {
-        await room.current?.connect(url, token, options);
+        await room?.connect(url, token, options);
         const onParticipantsChanged = () => {
-          if (!room.current) return;
-          const remotes = Array.from(room.current.participants.values());
-          const participants: Participant[] = [room.current.localParticipant];
+          if (!room) return;
+          const remotes = Array.from(room.participants.values());
+          const participants: Participant[] = [room.localParticipant];
           participants.push(...remotes);
           setParticipants(participants);
         };
         const onSubscribedTrackChanged = (track?: RemoteTrack) => {
           // ordering may have changed, re-sort
           onParticipantsChanged();
-          if ((track && track.kind !== Track.Kind.Audio) || !room.current) {
+          if ((track && track.kind !== Track.Kind.Audio) || !room) {
             return;
           }
           const tracks: AudioTrack[] = [];
-          room.current.participants.forEach((p) => {
+          room.participants.forEach((p) => {
             p.audioTracks.forEach((pub) => {
               if (pub.audioTrack) {
                 tracks.push(pub.audioTrack);
@@ -74,10 +61,8 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
           setAudioTracks(tracks);
         };
 
-        room.current.once(RoomEvent.Disconnected, () => {
-          setTimeout(() => (room.current = undefined));
-          if (!room.current) return;
-          room.current
+        room.once(RoomEvent.Disconnected, () => {
+          room
             .off(RoomEvent.ParticipantConnected, onParticipantsChanged)
             .off(RoomEvent.ParticipantDisconnected, onParticipantsChanged)
             .off(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged)
@@ -87,7 +72,7 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
             .off(RoomEvent.LocalTrackUnpublished, onParticipantsChanged)
             .off(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged);
         });
-        room.current
+        room
           .on(RoomEvent.ParticipantConnected, onParticipantsChanged)
           .on(RoomEvent.ParticipantDisconnected, onParticipantsChanged)
           .on(RoomEvent.ActiveSpeakersChanged, onParticipantsChanged)
@@ -101,7 +86,7 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
         setIsConnecting(false);
         onSubscribedTrackChanged();
         setError(undefined);
-        return room.current;
+        return room;
       } catch (error) {
         setIsConnecting(false);
         if (error instanceof Error) {
@@ -119,7 +104,7 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
   return {
     connect: connectFn,
     isConnecting,
-    room: room.current,
+    room: room,
     error,
     participants,
     audioTracks,
