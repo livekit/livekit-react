@@ -23,6 +23,7 @@
     "update": "lernaupdate"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "example"
   ]
 }

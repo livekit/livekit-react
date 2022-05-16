@@ -1,50 +1,49 @@
 {
   "name": "livekit-react-example",
   "homepage": ".",
-  "version": "0.0.0",
+  "version": "0.8.4-alpha.4",
   "private": true,
   "scripts": {
-    "start": "node ../node_modules/react-scripts/bin/react-scripts.js start",
-    "build": "node ../node_modules/react-scripts/bin/react-scripts.js build",
-    "test": "node ../node_modules/react-scripts/bin/react-scripts.js test",
-    "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --passWithNoTests",
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "link:../node_modules/@fortawesome/fontawesome-svg-core",
-    "@fortawesome/free-solid-svg-icons": "link:../node_modules/@fortawesome/free-solid-svg-icons",
-    "livekit-client": "link:../node_modules/livekit-client",
-    "livekit-react": "link:..",
-    "react": "link:../node_modules/react",
-    "react-aspect-ratio": "link:../node_modules/react-aspect-ratio",
-    "react-dom": "link:../node_modules/react-dom",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@livekit/react-components": "^0.8.4-alpha.4",
+    "livekit-client": "^0.18.1",
+    "react": "^18.1.0",
+    "react-aspect-ratio": "^1.0.50",
+    "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
-    "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
-    "@testing-library/jest-dom": "link:../node_modules/@testing-library/jest-dom",
-    "@testing-library/react": "link:../node_modules/@testing-library/react",
-    "@testing-library/user-event": "link:../node_modules/@testing-library/user-event",
-    "@types/jest": "link:../node_modules/@types/jest",
-    "@types/node": "link:../node_modules/@types/node",
-    "@types/react-dom": "link:../node_modules/@types/react-dom",
-    "@types/react-router-dom": "^5.3.2",
-    "eslint-config-react-app": "link:../node_modules/eslint-config-react-app",
-    "typescript": "link:../node_modules/typescript",
-    "react-scripts": "link:../node_modules/react-scripts"
+    "@fortawesome/fontawesome-common-types": "^0.2.36",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^25.1.4",
+    "@types/node": "^12.12.38",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "cross-env": "^7.0.2",
+    "gh-pages": "^2.2.0",
+    "microbundle-crl": "^0.13.10",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.3.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-scripts": "^5.0.1",
+    "typescript": "^4.2.3"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
 }

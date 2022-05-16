@@ -1,5 +1,5 @@
 import { Property } from "csstype";
-import { LocalVideoTrack, Track } from "livekit-client";
+import { Track } from "livekit-client";
 import React, { CSSProperties, useCallback, useEffect, useRef } from "react";
 
 export interface VideoRendererProps {
