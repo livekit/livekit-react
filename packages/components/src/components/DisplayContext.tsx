@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export interface DisplayOptions {
   stageLayout?: string;
@@ -7,6 +7,6 @@ export interface DisplayOptions {
 }
 
 export const DisplayContext = React.createContext<DisplayOptions>({
-  stageLayout: "grid",
+  stageLayout: 'grid',
   showStats: false,
 });

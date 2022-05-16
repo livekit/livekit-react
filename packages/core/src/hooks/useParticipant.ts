@@ -5,8 +5,8 @@ import {
   ParticipantEvent,
   Track,
   TrackPublication,
-} from "livekit-client";
-import { useEffect, useState } from "react";
+} from 'livekit-client';
+import { useEffect, useState } from 'react';
 
 export interface ParticipantState {
   isSpeaking: boolean;
@@ -24,21 +24,19 @@ export function useParticipant(participant: Participant): ParticipantState {
   const [isAudioMuted, setAudioMuted] = useState(false);
   const [, setVideoMuted] = useState(false);
   const [connectionQuality, setConnectionQuality] = useState<ConnectionQuality>(
-    participant.connectionQuality
+    participant.connectionQuality,
   );
   const [isSpeaking, setSpeaking] = useState(false);
   const [metadata, setMetadata] = useState<string>();
   const [publications, setPublications] = useState<TrackPublication[]>([]);
-  const [subscribedTracks, setSubscribedTracks] = useState<TrackPublication[]>(
-    []
-  );
+  const [subscribedTracks, setSubscribedTracks] = useState<TrackPublication[]>([]);
 
   const onPublicationsChanged = () => {
     setPublications(Array.from(participant.tracks.values()));
     setSubscribedTracks(
       Array.from(participant.tracks.values()).filter((pub) => {
         return pub.isSubscribed && pub.track !== undefined;
-      })
+      }),
     );
   };
 
@@ -101,10 +99,7 @@ export function useParticipant(participant: Participant): ParticipantState {
         .off(ParticipantEvent.TrackUnsubscribed, onPublicationsChanged)
         .off(ParticipantEvent.LocalTrackPublished, onPublicationsChanged)
         .off(ParticipantEvent.LocalTrackUnpublished, onPublicationsChanged)
-        .off(
-          ParticipantEvent.ConnectionQualityChanged,
-          onConnectionQualityUpdate
-        );
+        .off(ParticipantEvent.ConnectionQualityChanged, onConnectionQualityUpdate);
     };
   }, [participant]);
 

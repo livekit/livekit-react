@@ -1,4 +1,4 @@
-import { LocalParticipant, Participant } from "livekit-client";
+import { LocalParticipant, Participant } from 'livekit-client';
 
 /**
  * Default sort for participants, it'll order participants by:
@@ -8,9 +8,7 @@ import { LocalParticipant, Participant } from "livekit-client";
  * 4. participants with video on
  * 5. by joinedAt
  */
-export function defaultSortParticipants(
-  participants: Participant[]
-): Participant[] {
+export function defaultSortParticipants(participants: Participant[]): Participant[] {
   const sortedParticipants = [...participants];
   sortedParticipants.sort((a, b) => {
     // loudest speaker first
@@ -48,9 +46,7 @@ export function defaultSortParticipants(
     // joinedAt
     return (a.joinedAt?.getTime() ?? 0) - (b.joinedAt?.getTime() ?? 0);
   });
-  const localParticipant = sortedParticipants.find(
-    (p) => p instanceof LocalParticipant
-  );
+  const localParticipant = sortedParticipants.find((p) => p instanceof LocalParticipant);
   if (localParticipant) {
     const localIdx = sortedParticipants.indexOf(localParticipant);
     if (localIdx >= 0) {

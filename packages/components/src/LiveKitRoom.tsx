@@ -1,15 +1,10 @@
-import {
-  Room,
-  RoomOptions,
-  RoomConnectOptions,
-  RoomState,
-} from "livekit-client";
-import React, { useEffect } from "react";
-import { ControlsProps } from "./components/ControlsView";
-import { ParticipantProps } from "./components/ParticipantView";
-import { StageProps } from "./components/StageProps";
-import { StageView } from "./components/StageView";
-import { useRoom } from "@livekit/react-core";
+import { Room, RoomOptions, RoomConnectOptions, RoomState } from 'livekit-client';
+import React, { useEffect } from 'react';
+import { ControlsProps } from './components/ControlsView';
+import { ParticipantProps } from './components/ParticipantView';
+import { StageProps } from './components/StageProps';
+import { StageView } from './components/StageView';
+import { useRoom } from '@livekit/react-core';
 
 export interface RoomProps {
   url: string;

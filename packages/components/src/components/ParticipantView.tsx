@@ -5,27 +5,19 @@ import React, {
   useContext,
   useEffect,
   useState,
-} from "react";
-import {
-  faMicrophone,
-  faMicrophoneSlash,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Property } from "csstype";
-import {
-  ConnectionQuality,
-  LocalTrack,
-  Participant,
-  RemoteTrack,
-} from "livekit-client";
-import { useParticipant, VideoRenderer } from "@livekit/react-core";
+} from 'react';
+import { faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Property } from 'csstype';
+import { ConnectionQuality, LocalTrack, Participant, RemoteTrack } from 'livekit-client';
+import { useParticipant, VideoRenderer } from '@livekit/react-core';
 
-import { AspectRatio } from "react-aspect-ratio";
-import { ReactComponent as connectionQuality1 } from "../../static/connection-quality-1.svg";
-import { ReactComponent as connectionQuality2 } from "../../static/connection-quality-2.svg";
-import { ReactComponent as connectionQuality3 } from "../../static/connection-quality-3.svg";
-import { DisplayContext } from "./DisplayContext";
-import styles from "./styles.module.css";
+import { AspectRatio } from 'react-aspect-ratio';
+import { ReactComponent as connectionQuality1 } from '../../static/connection-quality-1.svg';
+import { ReactComponent as connectionQuality2 } from '../../static/connection-quality-2.svg';
+import { ReactComponent as connectionQuality3 } from '../../static/connection-quality-3.svg';
+import { DisplayContext } from './DisplayContext';
+import styles from './styles.module.css';
 
 export interface ParticipantProps {
   participant: Participant;
@@ -41,7 +33,7 @@ export interface ParticipantProps {
   aspectHeight?: number;
   // determine whether to contain or cover video.
   // cover mode is used when layout orientation matches video orientation
-  orientation?: "landscape" | "portrait";
+  orientation?: 'landscape' | 'portrait';
   // true if overlay with participant info should be shown
   showOverlay?: boolean;
   // true if connection quality should be shown
@@ -69,8 +61,7 @@ export const ParticipantView = ({
   onMouseLeave,
   onClick,
 }: ParticipantProps) => {
-  const { cameraPublication, isLocal, connectionQuality, isSpeaking } =
-    useParticipant(participant);
+  const { cameraPublication, isLocal, connectionQuality, isSpeaking } = useParticipant(participant);
   const [videoSize, setVideoSize] = useState<string>();
   const [currentBitrate, setCurrentBitrate] = useState<number>();
   const context = useContext(DisplayContext);
@@ -83,10 +74,7 @@ export const ParticipantView = ({
     const interval = setInterval(() => {
       let total = 0;
       participant.tracks.forEach((pub) => {
-        if (
-          pub.track instanceof LocalTrack ||
-          pub.track instanceof RemoteTrack
-        ) {
+        if (pub.track instanceof LocalTrack || pub.track instanceof RemoteTrack) {
           total += pub.track.currentBitrate;
         }
       });
@@ -103,35 +91,31 @@ export const ParticipantView = ({
   };
 
   // when aspect matches, cover instead
-  let objectFit: Property.ObjectFit = "contain";
-  let videoOrientation: "landscape" | "portrait" | undefined;
+  let objectFit: Property.ObjectFit = 'contain';
+  let videoOrientation: 'landscape' | 'portrait' | undefined;
   if (!orientation && aspectWidth && aspectHeight) {
-    orientation = aspectWidth > aspectHeight ? "landscape" : "portrait";
+    orientation = aspectWidth > aspectHeight ? 'landscape' : 'portrait';
   }
   if (cameraPublication?.dimensions) {
     videoOrientation =
       cameraPublication.dimensions.width > cameraPublication.dimensions.height
-        ? "landscape"
-        : "portrait";
+        ? 'landscape'
+        : 'portrait';
   }
 
   if (videoOrientation === orientation) {
-    objectFit = "cover";
+    objectFit = 'cover';
   }
 
   if (!displayName) {
     displayName = participant.name || participant.identity;
     if (isLocal) {
-      displayName += " (You)";
+      displayName += ' (You)';
     }
   }
 
   let mainElement: ReactElement;
-  if (
-    cameraPublication?.isSubscribed &&
-    cameraPublication?.track &&
-    !cameraPublication?.isMuted
-  ) {
+  if (cameraPublication?.isSubscribed && cameraPublication?.track && !cameraPublication?.isMuted) {
     mainElement = (
       <VideoRenderer
         track={cameraPublication.track}
@@ -186,16 +170,14 @@ export const ParticipantView = ({
 
   return (
     <div
-      className={classes.join(" ")}
+      className={classes.join(' ')}
       style={containerStyles}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={onClick}
     >
       {aspectWidth && aspectHeight && (
-        <AspectRatio ratio={aspectWidth / aspectHeight}>
-          {mainElement}
-        </AspectRatio>
+        <AspectRatio ratio={aspectWidth / aspectHeight}>{mainElement}</AspectRatio>
       )}
       {(!aspectWidth || !aspectHeight) && mainElement}
 
@@ -203,9 +185,7 @@ export const ParticipantView = ({
         <div className={styles.participantBar}>
           <div className={styles.name}>{displayName}</div>
           <div className={styles.center}>{statsContent}</div>
-          <div>
-            {ConnectionQualityIndicator && <ConnectionQualityIndicator />}
-          </div>
+          <div>{ConnectionQualityIndicator && <ConnectionQualityIndicator />}</div>
           <div>
             <FontAwesomeIcon
               icon={isAudioMuted ? faMicrophoneSlash : faMicrophone}

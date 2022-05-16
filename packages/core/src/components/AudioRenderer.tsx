@@ -1,5 +1,5 @@
-import { Track } from "livekit-client";
-import { useEffect, useRef } from "react";
+import { Track } from 'livekit-client';
+import { useEffect, useRef } from 'react';
 
 export interface AudioTrackProps {
   track: Track;
@@ -16,7 +16,7 @@ export const AudioRenderer = ({ track, isLocal }: AudioTrackProps) => {
     }
     audioEl.current = track.attach();
     if (track.sid) {
-      audioEl.current.setAttribute("data-audio-track-id", track.sid);
+      audioEl.current.setAttribute('data-audio-track-id', track.sid);
     }
     return () => track.detach().forEach((el) => el.remove());
   }, [track, isLocal]);

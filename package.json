@@ -13,6 +13,7 @@
     "start": "yarn turbo run start",
     "format": "prettier --write packages example",
     "format:check": "prettier --check packages example",
+    "lint": "yarn turbo run lint",
     "test": "yarn turbo run test",
     "test:build": "yarn turbo run build",
     "test:lint": "yarn turbo run test:lint",

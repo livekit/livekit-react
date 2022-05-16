@@ -1,6 +1,6 @@
-import { Property } from "csstype";
-import { Track } from "livekit-client";
-import React, { CSSProperties, useCallback, useEffect, useRef } from "react";
+import { Property } from 'csstype';
+import { Track } from 'livekit-client';
+import React, { CSSProperties, useCallback, useEffect, useRef } from 'react';
 
 export interface VideoRendererProps {
   track: Track;
@@ -46,18 +46,17 @@ export const VideoRenderer = ({
   useEffect(() => {
     const el = ref.current;
     if (el) {
-      el.addEventListener("resize", handleResize);
+      el.addEventListener('resize', handleResize);
     }
     return () => {
-      el?.removeEventListener("resize", handleResize);
+      el?.removeEventListener('resize', handleResize);
     };
   }, [ref]);
 
   const isFrontFacing =
-    isLocal &&
-    track.mediaStreamTrack?.getSettings().facingMode !== "environment";
+    isLocal && track.mediaStreamTrack?.getSettings().facingMode !== 'environment';
   const style: CSSProperties = {
-    transform: isLocal && isFrontFacing ? "rotateY(180deg)" : "",
+    transform: isLocal && isFrontFacing ? 'rotateY(180deg)' : '',
     width: width,
     height: height,
   };

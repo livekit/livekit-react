@@ -1,10 +1,7 @@
-import {
-  faMicrophone,
-  faMicrophoneSlash,
-} from "@fortawesome/free-solid-svg-icons";
-import { Room } from "livekit-client";
-import React, { useCallback, useEffect, useState } from "react";
-import { ControlButton, MenuItem } from "./ControlButton";
+import { faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons';
+import { Room } from 'livekit-client';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ControlButton, MenuItem } from './ControlButton';
 
 export interface AudioSelectButtonProps {
   isMuted: boolean;
@@ -24,8 +21,8 @@ export const AudioSelectButton = ({
   onClick,
   onSourceSelected,
   isButtonDisabled,
-  muteText = "Mute",
-  unmuteText = "Unmute",
+  muteText = 'Mute',
+  unmuteText = 'Unmute',
   className,
   popoverContainerClassName,
   popoverTriggerBtnClassName,
@@ -35,24 +32,21 @@ export const AudioSelectButton = ({
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
   const listAudioDevices = useCallback(async () => {
-    const devices = await Room.getLocalDevices("audioinput");
+    const devices = await Room.getLocalDevices('audioinput');
     setSources(devices);
     setMenuItems(
       devices.map((item) => {
         return { label: item.label };
-      })
+      }),
     );
   }, []);
 
   useEffect(() => {
     listAudioDevices();
-    navigator.mediaDevices.addEventListener("devicechange", listAudioDevices);
+    navigator.mediaDevices.addEventListener('devicechange', listAudioDevices);
 
     return () => {
-      navigator.mediaDevices.removeEventListener(
-        "devicechange",
-        listAudioDevices
-      );
+      navigator.mediaDevices.removeEventListener('devicechange', listAudioDevices);
     };
   }, []);
 

@@ -1,9 +1,9 @@
-import { Participant } from "livekit-client";
-import React, { useEffect, useState } from "react";
-import { ControlsView } from "../ControlsView";
-import { ParticipantView } from "../ParticipantView";
-import { StageProps } from "../StageProps";
-import styles from "./styles.module.css";
+import { Participant } from 'livekit-client';
+import React, { useEffect, useState } from 'react';
+import { ControlsView } from '../ControlsView';
+import { ParticipantView } from '../ParticipantView';
+import { StageProps } from '../StageProps';
+import styles from './styles.module.css';
 
 export const GridStage = ({
   roomState,
@@ -12,9 +12,7 @@ export const GridStage = ({
   onLeave,
 }: StageProps) => {
   const { isConnecting, error, participants, room } = roomState;
-  const [visibleParticipants, setVisibleParticipants] = useState<Participant[]>(
-    []
-  );
+  const [visibleParticipants, setVisibleParticipants] = useState<Participant[]>([]);
   const [showOverlay, setShowOverlay] = useState(false);
   const [gridClass, setGridClass] = React.useState(styles.grid1x1);
 
@@ -44,10 +42,7 @@ export const GridStage = ({
     // remove any participants that are no longer connected
     const newParticipants: Participant[] = [];
     visibleParticipants.forEach((p) => {
-      if (
-        room?.participants.has(p.sid) ||
-        room?.localParticipant.sid === p.sid
-      ) {
+      if (room?.participants.has(p.sid) || room?.localParticipant.sid === p.sid) {
         newParticipants.push(p);
       }
     });
@@ -56,8 +51,7 @@ export const GridStage = ({
     room?.activeSpeakers?.forEach((speaker) => {
       if (
         newParticipants.includes(speaker) ||
-        (speaker !== room?.localParticipant &&
-          !room?.participants.has(speaker.sid))
+        (speaker !== room?.localParticipant && !room?.participants.has(speaker.sid))
       ) {
         return;
       }

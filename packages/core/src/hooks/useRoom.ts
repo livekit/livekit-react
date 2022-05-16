@@ -7,15 +7,11 @@ import {
   Track,
   RoomOptions,
   RoomConnectOptions,
-} from "livekit-client";
-import { useCallback, useState } from "react";
+} from 'livekit-client';
+import { useCallback, useState } from 'react';
 
 export interface RoomState {
-  connect: (
-    url: string,
-    token: string,
-    options?: RoomConnectOptions
-  ) => Promise<Room | undefined>;
+  connect: (url: string, token: string, options?: RoomConnectOptions) => Promise<Room | undefined>;
   isConnecting: boolean;
   room?: Room;
   /* all participants in the room, including the local participant. */
@@ -92,13 +88,13 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
         if (error instanceof Error) {
           setError(error);
         } else {
-          setError(new Error("an error has occured"));
+          setError(new Error('an error has occured'));
         }
 
         return undefined;
       }
     },
-    []
+    [],
   );
 
   return {

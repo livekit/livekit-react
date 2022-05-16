@@ -1,11 +1,11 @@
-import { Track, VideoTrack } from "livekit-client";
-import React, { ReactElement, useEffect, useState } from "react";
-import { ControlsView } from "../ControlsView";
-import { ParticipantView } from "../ParticipantView";
-import { ScreenShareView } from "../ScreenShareView";
-import { StageProps } from "../StageProps";
-import { defaultSortParticipants } from "../StageUtils";
-import styles from "./styles.module.css";
+import { Track, VideoTrack } from 'livekit-client';
+import React, { ReactElement, useEffect, useState } from 'react';
+import { ControlsView } from '../ControlsView';
+import { ParticipantView } from '../ParticipantView';
+import { ScreenShareView } from '../ScreenShareView';
+import { StageProps } from '../StageProps';
+import { defaultSortParticipants } from '../StageUtils';
+import styles from './styles.module.css';
 
 export const SpeakerStage = ({
   roomState,
@@ -17,9 +17,7 @@ export const SpeakerStage = ({
   const { isConnecting, error, participants, room } = roomState;
   const [showOverlay, setShowOverlay] = useState(false);
   const sortFn = sortParticipants ?? defaultSortParticipants;
-  const [sortedParticipants, setSortedParticipants] = useState(
-    sortFn(participants)
-  );
+  const [sortedParticipants, setSortedParticipants] = useState(sortFn(participants));
 
   useEffect(() => {
     setSortedParticipants(sortFn(participants));
@@ -58,9 +56,7 @@ export const SpeakerStage = ({
   const otherParticipants = sortedParticipants;
   let mainView: ReactElement;
   if (screenTrack) {
-    mainView = (
-      <ScreenShareView track={screenTrack} height="100%" width="100%" />
-    );
+    mainView = <ScreenShareView track={screenTrack} height="100%" width="100%" />;
   } else {
     mainView = (
       <ParticipantRenderer

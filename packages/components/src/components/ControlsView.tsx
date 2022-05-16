@@ -1,11 +1,11 @@
-import { faDesktop, faStop } from "@fortawesome/free-solid-svg-icons";
-import { Room } from "livekit-client";
-import React, { ReactElement } from "react";
-import { useParticipant } from "@livekit/react-core";
-import { AudioSelectButton } from "./AudioSelectButton";
-import { ControlButton } from "./ControlButton";
-import styles from "./styles.module.css";
-import { VideoSelectButton } from "./VideoSelectButton";
+import { faDesktop, faStop } from '@fortawesome/free-solid-svg-icons';
+import { Room } from 'livekit-client';
+import React, { ReactElement } from 'react';
+import { useParticipant } from '@livekit/react-core';
+import { AudioSelectButton } from './AudioSelectButton';
+import { ControlButton } from './ControlButton';
+import styles from './styles.module.css';
+import { VideoSelectButton } from './VideoSelectButton';
 
 export interface ControlsProps {
   room: Room;
@@ -22,8 +22,9 @@ export const ControlsView = ({
   enableVideo,
   onLeave,
 }: ControlsProps) => {
-  const { cameraPublication: camPub, microphonePublication: micPub } =
-    useParticipant(room.localParticipant);
+  const { cameraPublication: camPub, microphonePublication: micPub } = useParticipant(
+    room.localParticipant,
+  );
 
   if (enableScreenShare === undefined) {
     enableScreenShare = true;
@@ -52,7 +53,7 @@ export const ControlsView = ({
         onSourceSelected={(device) => {
           setAudioButtonDisabled(true);
           room
-            .switchActiveDevice("audioinput", device.deviceId)
+            .switchActiveDevice('audioinput', device.deviceId)
             .finally(() => setAudioButtonDisabled(false));
         }}
       />
@@ -77,7 +78,7 @@ export const ControlsView = ({
         onSourceSelected={(device) => {
           setVideoButtonDisabled(true);
           room
-            .switchActiveDevice("videoinput", device.deviceId)
+            .switchActiveDevice('videoinput', device.deviceId)
             .finally(() => setVideoButtonDisabled(false));
         }}
       />
@@ -90,7 +91,7 @@ export const ControlsView = ({
     const enabled = room.localParticipant.isScreenShareEnabled;
     screenButton = (
       <ControlButton
-        label={enabled ? "Stop sharing" : "Share screen"}
+        label={enabled ? 'Stop sharing' : 'Share screen'}
         icon={enabled ? faStop : faDesktop}
         disabled={screenButtonDisabled}
         onClick={() => {

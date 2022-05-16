@@ -23,24 +23,20 @@ Note: Currently this library isn't compatible with `React.StrictMode`. We are wo
 Without customization, the component would use a default skin as seen in the demo above.
 
 ```tsx
-import { LiveKitRoom } from "livekit-react";
+import { LiveKitRoom } from 'livekit-react';
 // CSS should be explicitly imported if using the default UI
-import "livekit-react/dist/index.css";
+import 'livekit-react/dist/index.css';
 // used by the default ParticipantView to maintain video aspect ratio.
 // this CSS must be imported globally
 // if you are using a custom Participant renderer, this import isn't necessary.
-import "react-aspect-ratio/aspect-ratio.css";
+import 'react-aspect-ratio/aspect-ratio.css';
 
 export const RoomPage = () => {
-  const url = "wss://your_host";
-  const token = "your_token";
+  const url = 'wss://your_host';
+  const token = 'your_token';
   return (
     <div className="roomContainer">
-      <LiveKitRoom
-        url={url}
-        token={token}
-        onConnected={(room) => onConnected(room)}
-      />
+      <LiveKitRoom url={url} token={token} onConnected={(room) => onConnected(room)} />
     </div>
   );
 };
@@ -57,8 +53,8 @@ To provide your own rendering, override one or more of `stageRenderer`, `partici
 
 ```tsx
 export const RoomPage = () => {
-  const url = "wss://your_host";
-  const token = "your_token";
+  const url = 'wss://your_host';
+  const token = 'your_token';
   return (
     <LiveKitRoom
       url={url}

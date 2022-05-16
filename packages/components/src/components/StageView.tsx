@@ -1,18 +1,18 @@
-import { faVolumeMute } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Track, VideoTrack } from "livekit-client";
-import { AudioRenderer } from "@livekit/react-core";
-import React, { ReactElement, useContext } from "react";
-import { useMediaQuery } from "react-responsive";
-import { GridStage } from "./desktop/GridStage";
-import { SpeakerStage } from "./desktop/SpeakerStage";
-import { DisplayContext } from "./DisplayContext";
-import { MobileStage } from "./mobile/MobileStage";
-import { StageProps } from "./StageProps";
-import styles from "./styles.module.css";
+import { faVolumeMute } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Track, VideoTrack } from 'livekit-client';
+import { AudioRenderer } from '@livekit/react-core';
+import React, { ReactElement, useContext } from 'react';
+import { useMediaQuery } from 'react-responsive';
+import { GridStage } from './desktop/GridStage';
+import { SpeakerStage } from './desktop/SpeakerStage';
+import { DisplayContext } from './DisplayContext';
+import { MobileStage } from './mobile/MobileStage';
+import { StageProps } from './StageProps';
+import styles from './styles.module.css';
 
 export const StageView = (stageProps: StageProps) => {
-  const isMobile = useMediaQuery({ query: "(max-width: 800px)" });
+  const isMobile = useMediaQuery({ query: '(max-width: 800px)' });
   const { room, participants } = stageProps.roomState;
   const context = useContext(DisplayContext);
 
@@ -32,7 +32,7 @@ export const StageView = (stageProps: StageProps) => {
       }
     });
 
-    if (context.stageLayout === "grid" && screenTrack === undefined) {
+    if (context.stageLayout === 'grid' && screenTrack === undefined) {
       mainElement = <GridStage {...stageProps} />;
     } else {
       mainElement = <SpeakerStage {...stageProps} />;
@@ -54,11 +54,7 @@ export const StageView = (stageProps: StageProps) => {
               room.startAudio();
             }}
           >
-            <FontAwesomeIcon
-              className={styles.icon}
-              size="1x"
-              icon={faVolumeMute}
-            />
+            <FontAwesomeIcon className={styles.icon} size="1x" icon={faVolumeMute} />
             Click to Unmute
           </button>
         </div>

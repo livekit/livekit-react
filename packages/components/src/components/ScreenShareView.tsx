@@ -1,9 +1,9 @@
-import { Property } from "csstype";
-import { Track } from "livekit-client";
-import { VideoRenderer } from "@livekit/react-core";
+import { Property } from 'csstype';
+import { Track } from 'livekit-client';
+import { VideoRenderer } from '@livekit/react-core';
 
-import React from "react";
-import styles from "./styles.module.css";
+import React from 'react';
+import styles from './styles.module.css';
 
 interface ScreenShareProps {
   track: Track;

@@ -1,7 +1,7 @@
-import { faVideo, faVideoSlash } from "@fortawesome/free-solid-svg-icons";
-import { Room } from "livekit-client";
-import React, { useCallback, useEffect, useState } from "react";
-import { ControlButton, MenuItem } from "./ControlButton";
+import { faVideo, faVideoSlash } from '@fortawesome/free-solid-svg-icons';
+import { Room } from 'livekit-client';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ControlButton, MenuItem } from './ControlButton';
 
 export interface VideoSelectButtonProps {
   isEnabled: boolean;
@@ -20,8 +20,8 @@ export const VideoSelectButton = ({
   isEnabled,
   onClick,
   onSourceSelected,
-  disableText = "Disable Video",
-  enableText = "Enable Video",
+  disableText = 'Disable Video',
+  enableText = 'Enable Video',
   className,
   isButtonDisabled,
   popoverContainerClassName,
@@ -32,23 +32,20 @@ export const VideoSelectButton = ({
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
   const listVideoDevices = useCallback(async () => {
-    const devices = await Room.getLocalDevices("videoinput");
+    const devices = await Room.getLocalDevices('videoinput');
     setSources(devices);
     setMenuItems(
       devices.map((item) => {
         return { label: item.label };
-      })
+      }),
     );
   }, []);
 
   useEffect(() => {
     listVideoDevices();
-    navigator.mediaDevices.addEventListener("devicechange", listVideoDevices);
+    navigator.mediaDevices.addEventListener('devicechange', listVideoDevices);
     return () => {
-      navigator.mediaDevices.removeEventListener(
-        "devicechange",
-        listVideoDevices
-      );
+      navigator.mediaDevices.removeEventListener('devicechange', listVideoDevices);
     };
   }, []);
 

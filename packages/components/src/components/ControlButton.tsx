@@ -1,12 +1,12 @@
-import {
-  faChevronDown,
-  IconDefinition,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { ReactElement, useState } from "react";
-import { Popover } from "react-tiny-popover";
-import styles from "./styles.module.css";
+import { faChevronDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { ReactElement, useState } from 'react';
+import { Popover } from 'react-tiny-popover';
+import styles from './styles.module.css';
 
+export interface MenuItem {
+  label: string;
+}
 interface ButtonProps {
   label: string;
   disabled?: boolean;
@@ -18,10 +18,6 @@ interface ButtonProps {
   popoverTriggerBtnSeparatorClassName?: string;
   menuItems?: MenuItem[];
   onMenuItemClick?: (item: MenuItem) => void;
-}
-
-export interface MenuItem {
-  label: string;
 }
 
 export const ControlButton = ({
@@ -60,9 +56,7 @@ export const ControlButton = ({
         className={`${styles.button} ${popoverTriggerBtnClassName}  ${styles.dropdown}`}
         onClick={() => setMenuVisible(!menuVisible)}
       >
-        <div
-          className={`${styles.separator} ${popoverTriggerBtnSeparatorClassName}`}
-        />
+        <div className={`${styles.separator} ${popoverTriggerBtnSeparatorClassName}`} />
         <FontAwesomeIcon height={32} icon={faChevronDown} />
       </button>
     );
@@ -91,9 +85,7 @@ export const ControlButton = ({
         if (onClick) onClick();
       }}
     >
-      {icon && (
-        <FontAwesomeIcon className={styles.icon} height={32} icon={icon} />
-      )}
+      {icon && <FontAwesomeIcon className={styles.icon} height={32} icon={icon} />}
       {label}
     </button>
   );
@@ -103,7 +95,7 @@ export const ControlButton = ({
   }
 
   return (
-    <Popover isOpen={menuVisible} positions={["top"]} content={menu}>
+    <Popover isOpen={menuVisible} positions={['top']} content={menu}>
       <div className={styles.buttonWrapper}>
         {mainContent}
         {menuTrigger}

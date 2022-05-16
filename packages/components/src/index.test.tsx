@@ -1,7 +1,7 @@
-import { LiveKitRoom } from ".";
+import { LiveKitRoom } from '.';
 
-describe("LiveKitRoom", () => {
-  it("is truthy", () => {
+describe('LiveKitRoom', () => {
+  it('is truthy', () => {
     expect(LiveKitRoom).toBeTruthy();
   });
 });
