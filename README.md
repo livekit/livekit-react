@@ -5,7 +5,7 @@ This package provides React components that makes it easier to use LiveKit in a 
 ## Install
 
 ```bash
-npm install --save livekit-react
+npm install --save livekit-react livekit-client
 ```
 
 ## Demo
@@ -83,11 +83,20 @@ export const MyComponent = () => {
     dynacast: true,
   }
   const { connect, isConnecting, room, error, participants, audioTracks } = useRoom(roomOptions);
-  // initiate connection to the livekit room
-  await connect(livekitUrl, livekitToken);
-  // request camera and microphone permissions and publish tracks
-  room.localParticipant.enableCameraAndMicrophone();
-  ...
+  
+  async function init() {
+    // initiate connection to the livekit room
+    await connect(livekitUrl, livekitToken);
+    // request camera and microphone permissions and publish tracks
+    await room.localParticipant.enableCameraAndMicrophone();
+    ...
+  }
+  
+  useEffect(() => {
+    init().catch(console.error)
+  }, [])
+  
+  return (...)
 }
 
 export const ParticipantRenderer = ({ participant }) => {
