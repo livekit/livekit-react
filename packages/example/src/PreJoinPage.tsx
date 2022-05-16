@@ -108,8 +108,16 @@ export const PreJoinPage = () => {
         params.videoDeviceId = deviceId;
       }
     }
+<<<<<<< HEAD:packages/example/src/PreJoinPage.tsx
     navigate(`/room?${new URLSearchParams(params).toString()}`);
   };
+=======
+    navigate({
+      pathname: '/room',
+      search: "?" + new URLSearchParams(params).toString()
+    })
+  }
+>>>>>>> master:example/src/PreJoinPage.tsx
 
   let videoElement: ReactElement;
   if (videoTrack) {

@@ -89,7 +89,11 @@ export const RoomPage = () => {
         <LiveKitRoom
           url={url}
           token={token}
+<<<<<<< HEAD:packages/example/src/RoomPage.tsx
           onConnected={(room) => {
+=======
+          onConnected={room => {
+>>>>>>> master:example/src/RoomPage.tsx
             setLogLevel('debug');
             onConnected(room, query);
             room.on(RoomEvent.ParticipantConnected, () => updateParticipantSize(room));

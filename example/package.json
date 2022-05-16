@@ -1,0 +1,50 @@
+{
+  "name": "livekit-react-example",
+  "homepage": ".",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ../node_modules/react-scripts/bin/react-scripts.js start",
+    "build": "node ../node_modules/react-scripts/bin/react-scripts.js build",
+    "test": "node ../node_modules/react-scripts/bin/react-scripts.js test",
+    "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "link:../node_modules/@fortawesome/fontawesome-svg-core",
+    "@fortawesome/free-solid-svg-icons": "link:../node_modules/@fortawesome/free-solid-svg-icons",
+    "livekit-client": "link:../node_modules/livekit-client",
+    "livekit-react": "link:..",
+    "react": "link:../node_modules/react",
+    "react-aspect-ratio": "link:../node_modules/react-aspect-ratio",
+    "react-dom": "link:../node_modules/react-dom",
+    "react-router-dom": "^6.3.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
+    "@testing-library/jest-dom": "link:../node_modules/@testing-library/jest-dom",
+    "@testing-library/react": "link:../node_modules/@testing-library/react",
+    "@testing-library/user-event": "link:../node_modules/@testing-library/user-event",
+    "@types/jest": "link:../node_modules/@types/jest",
+    "@types/node": "link:../node_modules/@types/node",
+    "@types/react-dom": "link:../node_modules/@types/react-dom",
+    "@types/react-router-dom": "^5.3.2",
+    "eslint-config-react-app": "link:../node_modules/eslint-config-react-app",
+    "typescript": "link:../node_modules/typescript",
+    "react-scripts": "link:../node_modules/react-scripts"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
