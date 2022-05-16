@@ -1,5 +1,5 @@
 import { Property } from "csstype";
-import { Track } from "livekit-client";
+import { LocalVideoTrack, Track } from "livekit-client";
 import React, { CSSProperties, useCallback, useEffect, useRef } from "react";
 
 export interface VideoRendererProps {
@@ -54,6 +54,7 @@ export const VideoRenderer = ({
   }, [ref]);
 
   const isFrontFacing =
+    track instanceof LocalVideoTrack &&
     track.mediaStreamTrack?.getSettings().facingMode !== "environment";
   const style: CSSProperties = {
     transform: isLocal && isFrontFacing ? "rotateY(180deg)" : "",
