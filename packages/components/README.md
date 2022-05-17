@@ -5,7 +5,7 @@ This package provides pre styled React components that makes it easier to use Li
 ## Install
 
 ```bash
-npm install --save livekit-react
+npm install --save @livekit/react-components livekit-client
 ```
 
 ## Demo

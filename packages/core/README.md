@@ -2,6 +2,12 @@
 
 Note: Currently this library isn't compatible with `React.StrictMode`. We are working on improvements in this area.
 
+## Install
+
+```bash
+npm install --save @livekit/react-core livekit-client
+```
+
 ## Using hooks
 
 The provided components make use of two hooks: `useRoom` and `useParticipant`, they will help you manage internal LiveKit callbacks and map them into state variables that are ready-to-use from React components.
@@ -17,11 +23,20 @@ export const MyComponent = () => {
     dynacast: true,
   }
   const { connect, isConnecting, room, error, participants, audioTracks } = useRoom(roomOptions);
-  // initiate connection to the livekit room
-  await connect(livekitUrl, livekitToken);
-  // request camera and microphone permissions and publish tracks
-  room.localParticipant.enableCameraAndMicrophone();
-  ...
+
+  async function init() {
+    // initiate connection to the livekit room
+    await connect(livekitUrl, livekitToken);
+    // request camera and microphone permissions and publish tracks
+    await room.localParticipant.enableCameraAndMicrophone();
+    ...
+  }
+
+  useEffect(() => {
+    init().catch(console.error)
+  }, [])
+
+  return (...)
 }
 
 export const ParticipantRenderer = ({ participant }) => {
