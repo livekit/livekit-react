@@ -1,7 +1,7 @@
-import 'livekit-react/dist/index.css'
-import { HashRouter as Router, Route, Routes } from 'react-router-dom'
-import { PreJoinPage } from './PreJoinPage'
-import { RoomPage } from './RoomPage'
+import '@livekit/react-components/dist/index.css';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import { PreJoinPage } from './PreJoinPage';
+import { RoomPage } from './RoomPage';
 
 const App = () => {
   return (
@@ -9,11 +9,11 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/room" element={<RoomPage />} />
-          <Route path="/" element={<PreJoinPage/>} />
+          <Route path="/" element={<PreJoinPage />} />
         </Routes>
       </Router>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

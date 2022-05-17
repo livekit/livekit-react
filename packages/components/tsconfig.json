@@ -4,7 +4,7 @@
     "module": "esnext",
     "lib": ["dom", "esnext"],
     "moduleResolution": "node",
-    "jsx": "react-jsx",
+    "jsx": "react",
     "sourceMap": true,
     "declaration": true,
     "esModuleInterop": true,
@@ -27,5 +27,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "build"]
+  "exclude": ["node_modules", "dist", "example"]
 }

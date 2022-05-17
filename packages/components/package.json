@@ -1,0 +1,76 @@
+{
+  "name": "@livekit/react-components",
+  "version": "1.0.0-alpha.0",
+  "description": "LiveKit SDK & Components",
+  "author": "davidzhao",
+  "license": "Apache-2.0",
+  "repository": "livekit/livekit-react",
+  "main": "dist/index.js",
+  "module": "dist/index.modern.js",
+  "source": "src/index.tsx",
+  "homepage": "example.livekit.io",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "build": "microbundle-crl --no-compress --format modern,cjs",
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "start": "microbundle-crl watch --no-compress --format modern,cjs",
+    "prepare": "run-s build",
+    "prepublishOnly": "yarn test",
+    "test": "run-s test:unit test:build",
+    "test:build": "run-s build",
+    "test:unit": "cross-env CI=1 react-scripts test --env=jsdom --passWithNoTests",
+    "test:watch": "react-scripts test --env=jsdom"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/react-fontawesome": "^0.1.18",
+    "@livekit/react-core": "^1.0.0-alpha.0",
+    "@types/react-responsive": "^8.0.2",
+    "react-aspect-ratio": "^1.0.50",
+    "react-responsive": "^8.2.0",
+    "react-tiny-popover": "^6.0.5"
+  },
+  "peerDependencies": {
+    "livekit-client": "^1.0.0",
+    "react": ">=15",
+    "react-dom": ">=15"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-common-types": "^6.1.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^25.1.4",
+    "@types/node": "^12.12.38",
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.22.0",
+    "@typescript-eslint/parser": "^5.22.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^8.15.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-config-standard-react": "^9.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "livekit-client": "^1.0.0",
+    "microbundle-crl": "^0.13.10",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.3.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-scripts": "^5.0.1",
+    "typescript": "^4.2.3"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "gitHead": "a823a9a17693b3eba5a4099d3c7930bd5a931da4"
+}

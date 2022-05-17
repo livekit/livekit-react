@@ -1,54 +1,50 @@
-import { faSquare, faThLarge, faUserFriends } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Room, RoomEvent, setLogLevel, VideoPresets } from 'livekit-client'
-import { DisplayContext, DisplayOptions, LiveKitRoom } from 'livekit-react'
-import { useState } from "react"
-import "react-aspect-ratio/aspect-ratio.css"
-import { useLocation, useNavigate } from 'react-router-dom'
+import { faSquare, faThLarge, faUserFriends } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Room, RoomEvent, setLogLevel, VideoPresets } from 'livekit-client';
+import { DisplayContext, DisplayOptions, LiveKitRoom } from '@livekit/react-components';
+import { useState } from 'react';
+import 'react-aspect-ratio/aspect-ratio.css';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export const RoomPage = () => {
-  const [numParticipants, setNumParticipants] = useState(0)
+  const [numParticipants, setNumParticipants] = useState(0);
   const [displayOptions, setDisplayOptions] = useState<DisplayOptions>({
     stageLayout: 'grid',
     showStats: false,
-  })
-  const navigate = useNavigate()
-  const query = new URLSearchParams(useLocation().search)
-  const url = query.get('url')
-  const token = query.get('token')
-  const recorder = query.get('recorder')
+  });
+  const navigate = useNavigate();
+  const query = new URLSearchParams(useLocation().search);
+  const url = query.get('url');
+  const token = query.get('token');
+  const recorder = query.get('recorder');
 
   if (!url || !token) {
-    return (
-      <div>
-        url and token are required
-      </div>
-    )
+    return <div>url and token are required</div>;
   }
 
   const onLeave = () => {
-    navigate('/')
-  }
+    navigate('/');
+  };
 
   const updateParticipantSize = (room: Room) => {
     setNumParticipants(room.participants.size + 1);
-  }
+  };
 
   const onParticipantDisconnected = (room: Room) => {
-    updateParticipantSize(room)
+    updateParticipantSize(room);
 
     /* Special rule for recorder */
     if (recorder && parseInt(recorder, 10) === 1 && room.participants.size === 0) {
-      console.log("END_RECORDING")
+      console.log('END_RECORDING');
     }
-  }
+  };
 
   const updateOptions = (options: DisplayOptions) => {
     setDisplayOptions({
       ...displayOptions,
       ...options,
     });
-  }
+  };
 
   return (
     <DisplayContext.Provider value={displayOptions}>
@@ -57,7 +53,11 @@ export const RoomPage = () => {
           <h2>LiveKit Video</h2>
           <div className="right">
             <div>
-              <input id="showStats" type="checkbox" onChange={(e) => updateOptions({ showStats: e.target.checked })} />
+              <input
+                id="showStats"
+                type="checkbox"
+                onChange={(e) => updateOptions({ showStats: e.target.checked })}
+              />
               <label htmlFor="showStats">Show Stats</label>
             </div>
             <div>
@@ -65,7 +65,7 @@ export const RoomPage = () => {
                 className="iconButton"
                 disabled={displayOptions.stageLayout === 'grid'}
                 onClick={() => {
-                  updateOptions({ stageLayout: 'grid' })
+                  updateOptions({ stageLayout: 'grid' });
                 }}
               >
                 <FontAwesomeIcon height={32} icon={faThLarge} />
@@ -74,7 +74,7 @@ export const RoomPage = () => {
                 className="iconButton"
                 disabled={displayOptions.stageLayout === 'speaker'}
                 onClick={() => {
-                  updateOptions({ stageLayout: 'speaker' })
+                  updateOptions({ stageLayout: 'speaker' });
                 }}
               >
                 <FontAwesomeIcon height={32} icon={faSquare} />
@@ -89,11 +89,11 @@ export const RoomPage = () => {
         <LiveKitRoom
           url={url}
           token={token}
-          onConnected={room => {
+          onConnected={(room) => {
             setLogLevel('debug');
             onConnected(room, query);
-            room.on(RoomEvent.ParticipantConnected, () => updateParticipantSize(room))
-            room.on(RoomEvent.ParticipantDisconnected, () => onParticipantDisconnected(room))
+            room.on(RoomEvent.ParticipantConnected, () => updateParticipantSize(room));
+            room.on(RoomEvent.ParticipantDisconnected, () => onParticipantDisconnected(room));
             updateParticipantSize(room);
           }}
           roomOptions={{
@@ -107,8 +107,8 @@ export const RoomPage = () => {
         />
       </div>
     </DisplayContext.Provider>
-  )
-}
+  );
+};
 
 async function onConnected(room: Room, query: URLSearchParams) {
   // make it easier to debug

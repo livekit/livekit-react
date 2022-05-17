@@ -1,38 +1,38 @@
 name: Deploy Example
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '16.x'
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
 
-    - uses: actions/cache@v2
-      with:
-        path: |
-          ~/.npm
-          ~/.config/yarn/global
-        key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            ~/.config/yarn/global
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-    - name: Install Yarn
-      run: |
-        npm install -g yarn
-        yarn install
+      - name: Install Yarn
+        run: |
+          npm install -g yarn
+          yarn install
 
-    - name: Predeploy
-      run: yarn predeploy
+      - name: Predeploy
+        run: yarn predeploy
 
-    - name: GH Pages
-      run: |
-        echo 'example.livekit.io' > ./example/build/CNAME
-        git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-        yarn exec gh-pages -- -d ./example/build -u "github-actions-bot <support+actions@github.com>" --no-history
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: GH Pages
+        run: |
+          echo 'example.livekit.io' > ./example/build/CNAME
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          yarn exec gh-pages -- -d ./example/build -u "github-actions-bot <support+actions@github.com>" --no-history
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
