@@ -7,6 +7,7 @@ import {
   Track,
   RoomOptions,
   RoomConnectOptions,
+  ConnectionState,
 } from 'livekit-client';
 import { useCallback, useState } from 'react';
 
@@ -19,6 +20,7 @@ export interface RoomState {
   /* all subscribed audio tracks in the room, not including local participant. */
   audioTracks: AudioTrack[];
   error?: Error;
+  connectionState: ConnectionState;
 }
 
 export function useRoom(roomOptions?: RoomOptions): RoomState {
@@ -27,12 +29,14 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
   const [error, setError] = useState<Error>();
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [audioTracks, setAudioTracks] = useState<AudioTrack[]>([]);
+  const [connectionState, setConnectionState] = useState<ConnectionState>(
+    ConnectionState.Disconnected,
+  );
 
   const connectFn = useCallback(
     async (url: string, token: string, options?: RoomConnectOptions) => {
       setIsConnecting(true);
       try {
-        await room?.connect(url, token, options);
         const onParticipantsChanged = () => {
           if (!room) return;
           const remotes = Array.from(room.participants.values());
@@ -57,6 +61,10 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
           setAudioTracks(tracks);
         };
 
+        const onConnectionStateChanged = (state: ConnectionState) => {
+          setConnectionState(state);
+        };
+
         room.once(RoomEvent.Disconnected, () => {
           room
             .off(RoomEvent.ParticipantConnected, onParticipantsChanged)
@@ -66,7 +74,8 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
             .off(RoomEvent.TrackUnsubscribed, onSubscribedTrackChanged)
             .off(RoomEvent.LocalTrackPublished, onParticipantsChanged)
             .off(RoomEvent.LocalTrackUnpublished, onParticipantsChanged)
-            .off(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged);
+            .off(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged)
+            .off(RoomEvent.StateChanged, onConnectionStateChanged);
         });
         room
           .on(RoomEvent.ParticipantConnected, onParticipantsChanged)
@@ -77,8 +86,10 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
           .on(RoomEvent.LocalTrackPublished, onParticipantsChanged)
           .on(RoomEvent.LocalTrackUnpublished, onParticipantsChanged)
           // trigger a state change by re-sorting participants
-          .on(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged);
+          .on(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged)
+          .on(RoomEvent.StateChanged, onConnectionStateChanged);
 
+        await room?.connect(url, token, options);
         setIsConnecting(false);
         onSubscribedTrackChanged();
         setError(undefined);
@@ -104,5 +115,6 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
     error,
     participants,
     audioTracks,
+    connectionState,
   };
 }

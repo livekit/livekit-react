@@ -1,6 +1,6 @@
 # LiveKit React Component Library
 
-This package provides React components that makes it easier to use LiveKit in a React app.
+This package provides pre styled React components that makes it easier to use LiveKit in a React app.
 
 ## Install
 
