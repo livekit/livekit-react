@@ -23,9 +23,9 @@ Note: Currently this library isn't compatible with `React.StrictMode`. We are wo
 Without customization, the component would use a default skin as seen in the demo above.
 
 ```tsx
-import { LiveKitRoom } from 'livekit-react';
+import { LiveKitRoom } from '@livekit/react-components';
 // CSS should be explicitly imported if using the default UI
-import 'livekit-react/dist/index.css';
+import '@livekit/react-components/dist/index.css';
 // used by the default ParticipantView to maintain video aspect ratio.
 // this CSS must be imported globally
 // if you are using a custom Participant renderer, this import isn't necessary.
