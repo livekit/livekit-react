@@ -1,7 +1,5 @@
 # Livekit React Core
 
-Note: Currently this library isn't compatible with `React.StrictMode`. We are working on improvements in this area.
-
 ## Install
 
 ```bash
