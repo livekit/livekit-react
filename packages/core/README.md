@@ -15,7 +15,7 @@ The provided components make use of two hooks: `useRoom` and `useParticipant`, t
 Using the `connect` function returned by useRoom will ensure that callbacks are registered automatically and the other state variables are updated when changes take place in the room.
 
 ```tsx
-import { useRoom, useParticipant } from 'livekit-react'
+import { useRoom, useParticipant } from '@livekit/react-core'
 
 export const MyComponent = () => {
   const roomOptions: RoomOptions = {
