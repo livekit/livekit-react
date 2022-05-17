@@ -1,9 +1,11 @@
 # livekit-react packages
 
+Checkout the docs under https://docs.livekit.io and the READMEs inside the [packages](#packages).
+
 ## Packages
 
-- [@livekit/react-core](./packages/core/)
-- [@livekit/react-components](./packages/components/)
+- [@livekit/react-core](./packages/core/) provides a minimal set of helpers sans any additional dependencies
+- [@livekit/react-components](./packages/components/) includes everything from react-core plus pre-built and styled components.
 
 ## Example apps
 
@@ -15,7 +17,6 @@ This repo uses lerna for managing and publishing packages and turborepo as a tas
 To get startet run
 
 ```sh
-yarn install
 yarn bootstrap
 ```
 

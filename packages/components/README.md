@@ -1,6 +1,6 @@
 # LiveKit React Component Library
 
-This package provides pre styled React components that makes it easier to use LiveKit in a React app.
+This package provides pre styled React components that makes it easy to use LiveKit in a React app.
 
 ## Install
 
@@ -12,11 +12,9 @@ npm install --save @livekit/react-components livekit-client
 
 https://example.livekit.io.
 
-Source available in [example](example/)
+Source available in [example](../../example/)
 
 ## Usage
-
-Note: Currently this library isn't compatible with `React.StrictMode`. We are working on improvements in this area.
 
 ### Video room with built-in UI
 

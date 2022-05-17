@@ -21,7 +21,8 @@
     "test:watch": "yarn turbo run test:watch",
     "predeploy": "yarn turbo run build",
     "deploy": "yarn turbo run deploy",
-    "update": "lernaupdate"
+    "update": "lernaupdate",
+    "publish": "lerna publish"
   },
   "workspaces": [
     "packages/*",
