@@ -7,7 +7,7 @@
 
 ## Example apps
 
-- [livekit-react-example](./packages/example/)
+- [livekit-react-example](./example/)
 
 ## Development Setup
 
