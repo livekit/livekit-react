@@ -17,7 +17,6 @@ This repo uses lerna for managing and publishing packages and turborepo as a tas
 To get startet run
 
 ```sh
-yarn install
 yarn bootstrap
 ```
 
