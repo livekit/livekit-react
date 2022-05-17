@@ -75,7 +75,7 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
             .off(RoomEvent.LocalTrackPublished, onParticipantsChanged)
             .off(RoomEvent.LocalTrackUnpublished, onParticipantsChanged)
             .off(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged)
-            .off(RoomEvent.StateChanged, onConnectionStateChanged);
+            .off(RoomEvent.ConnectionStateChanged, onConnectionStateChanged);
         });
         room
           .on(RoomEvent.ParticipantConnected, onParticipantsChanged)
@@ -87,7 +87,7 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
           .on(RoomEvent.LocalTrackUnpublished, onParticipantsChanged)
           // trigger a state change by re-sorting participants
           .on(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged)
-          .on(RoomEvent.StateChanged, onConnectionStateChanged);
+          .on(RoomEvent.ConnectionStateChanged, onConnectionStateChanged);
 
         await room?.connect(url, token, options);
         setIsConnecting(false);
