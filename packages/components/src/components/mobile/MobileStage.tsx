@@ -1,4 +1,4 @@
-import { Track, VideoTrack } from 'livekit-client';
+import { Participant, Track, VideoTrack } from 'livekit-client';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { ControlsView } from '../ControlsView';
 import { ParticipantView } from '../ParticipantView';
@@ -53,15 +53,19 @@ export const MobileStage = ({
     }
   });
 
-  const otherParticipants = sortedParticipants;
+  let otherParticipants = sortedParticipants;
+  let participantInFocus: Participant;
   let mainView: ReactElement;
   if (screenTrack) {
     mainView = <ScreenShareView track={screenTrack} height="100%" width="100%" />;
+  } else if (otherParticipants.length === 0) {
+    mainView = <div>no one is in the room</div>;
   } else {
+    [participantInFocus, ...otherParticipants] = otherParticipants;
     mainView = (
       <ParticipantRenderer
-        key={sortedParticipants[0].identity}
-        participant={sortedParticipants[0]}
+        key={participantInFocus.identity}
+        participant={participantInFocus}
         showOverlay={showOverlay}
         width="100%"
         height="100%"

@@ -1,4 +1,4 @@
-import { Track, VideoTrack } from 'livekit-client';
+import { Participant, Track, VideoTrack } from 'livekit-client';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { ControlsView } from '../ControlsView';
 import { ParticipantView } from '../ParticipantView';
@@ -53,15 +53,17 @@ export const SpeakerStage = ({
     }
   });
 
-  const otherParticipants = sortedParticipants;
+  let otherParticipants = sortedParticipants;
+  let participantInFocus: Participant;
   let mainView: ReactElement;
   if (screenTrack) {
     mainView = <ScreenShareView track={screenTrack} height="100%" width="100%" />;
   } else {
+    [participantInFocus, ...otherParticipants] = sortedParticipants;
     mainView = (
       <ParticipantRenderer
-        key={sortedParticipants[0].identity}
-        participant={sortedParticipants[0]}
+        key={participantInFocus.identity}
+        participant={participantInFocus}
         width="100%"
         height="100%"
         orientation="landscape"
