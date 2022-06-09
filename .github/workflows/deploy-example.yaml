@@ -26,8 +26,8 @@ jobs:
           npm install -g yarn
           yarn install
 
-      - name: Predeploy
-        run: yarn predeploy
+      - name: Build
+        run: yarn build
 
       - name: GH Pages
         run: |
