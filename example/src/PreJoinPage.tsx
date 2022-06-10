@@ -15,6 +15,7 @@ export const PreJoinPage = () => {
   const [adaptiveStream, setAdaptiveStream] = useState(true);
   const [videoEnabled, setVideoEnabled] = useState(false);
   const [audioEnabled, setAudioEnabled] = useState(true);
+  const [acquiredVideo, setAcquiredVideo] = useState(false);
   // disable connect button unless validated
   const [connectDisabled, setConnectDisabled] = useState(true);
   const [videoTrack, setVideoTrack] = useState<LocalVideoTrack>();
@@ -51,6 +52,7 @@ export const PreJoinPage = () => {
     }).then((track) => {
       setVideoEnabled(true);
       setVideoTrack(track);
+      setAcquiredVideo(true);
     });
   }, [videoDevice]);
 
@@ -189,11 +191,14 @@ export const PreJoinPage = () => {
               onClick={toggleAudio}
               onSourceSelected={setAudioDevice}
             />
-            <VideoSelectButton
-              isEnabled={videoTrack !== undefined}
-              onClick={toggleVideo}
-              onSourceSelected={selectVideoDevice}
-            />
+            {/** check for acquired video first, as iOS Safari seems to drop the previously acquired video track after trying to acquire again here */}
+            {acquiredVideo && (
+              <VideoSelectButton
+                isEnabled={videoTrack !== undefined}
+                onClick={toggleVideo}
+                onSourceSelected={selectVideoDevice}
+              />
+            )}
           </div>
           <div className="right">
             <ControlButton
