@@ -23,7 +23,8 @@
       "outputs": []
     },
     "start": {
-      "cache": false
+      "cache": false,
+      "dependsOn": ["^build"]
     },
     "deploy": {
       "dependsOn": ["^build"]
