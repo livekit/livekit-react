@@ -163,6 +163,10 @@ ul.list li {
   cursor: pointer;
 }
 
+ul.list li:hover {
+  background: #434343;
+}
+
 ul.list li:first-child {
   border: 0;
 }
