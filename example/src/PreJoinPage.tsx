@@ -191,7 +191,7 @@ export const PreJoinPage = () => {
               onClick={toggleAudio}
               onSourceSelected={setAudioDevice}
             />
-            {/** check for acquired video first, as iOS Safari seems to drop the previously acquired video track after trying to acquire again here */}
+            {/** wait for acquired video in preview first before showing the select button, to work around https://bugs.webkit.org/show_bug.cgi?id=179363 */}
             {acquiredVideo && (
               <VideoSelectButton
                 isEnabled={videoTrack !== undefined}
