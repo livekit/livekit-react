@@ -9,3 +9,6 @@ export * from './components/StageView';
 export * from './components/VideoSelectButton';
 export * from './LiveKitRoom';
 export * from '@livekit/react-core';
+export * from './components/Live/LiveRoom';
+export * from './components/Live/LiveVideo';
+export * from './components/Live/store';
