@@ -2341,16 +2341,11 @@
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
 
 "@types/node@*", "@types/node@>=13.7.0":
-  version "17.0.33"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.33.tgz#3c1879b276dc63e73030bb91165e62a4509cd506"
-  integrity sha512-miWq2m2FiQZmaHfdZNcbpp9PuXg34W5JZ5CrJ/BaS70VuhoJENBEQybeiYSaPBRNq6KQGnjfEnc/F3PN++D+XQ==
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.0.0.tgz#67c7b724e1bcdd7a8821ce0d5ee184d3b4dd525a"
+  integrity sha512-cHlGmko4gWLVI27cGJntjs/Sj8th9aYwplmZFwmmgYQQvL5NUsgVJG7OddLvNfLqYS31KFN0s3qlaD9qCaxACA==
 
-"@types/node@^12.12.38":
-  version "12.20.52"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.52.tgz#2fd2dc6bfa185601b15457398d4ba1ef27f81251"
-  integrity sha512-cfkwWw72849SNYp3Zx0IcIs25vABmFh73xicxhCkTcvtZQeIez15PpwQN8fY3RD7gv1Wrxlc9MEtfMORZDEsGw==
-
-"@types/node@^12.7.1":
+"@types/node@^12.12.38", "@types/node@^12.7.1":
   version "12.20.54"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.54.tgz#38a3dff8c2a939553f2cdb85dcddc68be46c3c68"
   integrity sha512-CFMnEPkSXWALI73t1oIWyb8QOmVrp6RruAqIx349sd+1ImaFwzlKcz55mwrx/yLyOyz1gkq/UKuNOigt27PXqg==
@@ -7137,22 +7132,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-livekit-client@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-1.0.1.tgz#f7b604e38526650df8c4549a29dccbf92313bce4"
-  integrity sha512-Dtj9Xg4ZNeXF71Fo9SxntipFlRv4Fgyy01zSuT38H7OnHivftiljaCZ4OI6rGo73KBWXh7s4NrIyAN6U1Nv4cw==
-  dependencies:
-    events "^3.3.0"
-    loglevel "^1.8.0"
-    protobufjs "^6.11.2"
-    ts-debounce "^3.0.0"
-    typed-emitter "^2.1.0"
-    webrtc-adapter "^8.1.1"
-
-livekit-client@1.2.6:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-1.2.6.tgz#76d80c1dcc53f4fb183e639945a1a467ec5c6ac9"
-  integrity sha512-9mS2mQjTUmM0y2LLRzDROolDK9sn9qzuTf51rO+5IVLRqLGKtAZJtxHTstMLrrzyQLi3LurCbBA1mJhYybRjug==
+livekit-client@1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-1.2.7.tgz#cb59c4b37ccefc16d297b38b3125b71cf9023052"
+  integrity sha512-SbdOQ5U/g2xz8AcSWMSYPUxcTYe5cxyM+GmYOikXG131mYoCqRJnOlb6YfxnPh5ZajE7rV5V7pqxd0IVY3QOHg==
   dependencies:
     async-await-queue "^1.2.1"
     events "^3.3.0"
@@ -7285,11 +7268,6 @@ loglevel@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.8.0.tgz#e7ec73a57e1e7b419cb6c6ac06bf050b67356114"
   integrity sha512-G6A/nJLRgWOuuwdNuA6koovfEV1YpqqAG4pRUlFaz3jj2QNZ8M4vBqnVA+HBTmU/AMNUtlOsMmSpF6NyOjztbA==
-
-long@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/long/-/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
-  integrity sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
 
 long@^5.0.0:
   version "5.2.0"
@@ -9197,25 +9175,6 @@ prop-types@^15.6.1, prop-types@^15.8.1:
     object-assign "^4.1.1"
     react-is "^16.13.1"
 
-protobufjs@^6.11.2:
-  version "6.11.2"
-  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-6.11.2.tgz#de39fabd4ed32beaa08e9bb1e30d08544c1edf8b"
-  integrity sha512-4BQJoPooKJl2G9j3XftkIXjoC9C0Av2NOrWmbLWT1vH32GcSUHjM0Arra6UfTsVyfMAuFzaLucXn1sadxJydAw==
-  dependencies:
-    "@protobufjs/aspromise" "^1.1.2"
-    "@protobufjs/base64" "^1.1.2"
-    "@protobufjs/codegen" "^2.0.4"
-    "@protobufjs/eventemitter" "^1.1.0"
-    "@protobufjs/fetch" "^1.1.0"
-    "@protobufjs/float" "^1.0.2"
-    "@protobufjs/inquire" "^1.1.0"
-    "@protobufjs/path" "^1.1.2"
-    "@protobufjs/pool" "^1.1.0"
-    "@protobufjs/utf8" "^1.1.0"
-    "@types/long" "^4.0.1"
-    "@types/node" ">=13.7.0"
-    long "^4.0.0"
-
 protobufjs@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-7.0.0.tgz#8c678e1351fd926178fce5a4213913e8d990974f"
@@ -10873,11 +10832,6 @@ tryer@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/tryer/-/tryer-1.0.1.tgz#f2c85406800b9b0f74c9f7465b81eaad241252f8"
   integrity sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==
-
-ts-debounce@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/ts-debounce/-/ts-debounce-3.0.0.tgz#9beedf59c04de3b5bef8ff28bd6885624df357be"
-  integrity sha512-7jiRWgN4/8IdvCxbIwnwg2W0bbYFBH6BxFqBjMKk442t7+liF2Z1H6AUCcl8e/pD93GjPru+axeiJwFmRww1WQ==
 
 ts-debounce@^4.0.0:
   version "4.0.0"

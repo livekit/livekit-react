@@ -14,7 +14,7 @@ Checkout the docs under https://docs.livekit.io and the READMEs inside the [pack
 ## Development Setup
 
 This repo uses changesets for managing and publishing packages and turborepo as a taskrunner.
-To get startet run
+To get started run
 
 ```sh
 yarn install
