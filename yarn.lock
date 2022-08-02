@@ -3041,6 +3041,11 @@ ast-types-flow@^0.0.7:
   resolved "https://registry.yarnpkg.com/ast-types-flow/-/ast-types-flow-0.0.7.tgz#f70b735c6bca1a5c9c22d982c3e39e7feba3bdad"
   integrity sha512-eBvWn1lvIApYMhzQMsu9ciLfkBY499mFZlNqG+/9WR7PVlroQw0vG30cOQQbaKz3sCEc44TAOu2ykzqXSNnwag==
 
+async-await-queue@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/async-await-queue/-/async-await-queue-1.2.1.tgz#baf459f5fbac902b060a88fee4da853fd86f2128"
+  integrity sha512-v2j+/EMzAnuJZ8I4570KJMFhi6G9g3WZyFh6cPnmQSJh3nLao77XpRt01kyFegQazPSKvue1yaIYDp/NfV/b0g==
+
 async@^2.6.1:
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.4.tgz#706b7ff6084664cd7eae713f6f965433b5504221"
@@ -7127,15 +7132,17 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-livekit-client@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-1.0.1.tgz#f7b604e38526650df8c4549a29dccbf92313bce4"
-  integrity sha512-Dtj9Xg4ZNeXF71Fo9SxntipFlRv4Fgyy01zSuT38H7OnHivftiljaCZ4OI6rGo73KBWXh7s4NrIyAN6U1Nv4cw==
+livekit-client@1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-1.2.7.tgz#cb59c4b37ccefc16d297b38b3125b71cf9023052"
+  integrity sha512-SbdOQ5U/g2xz8AcSWMSYPUxcTYe5cxyM+GmYOikXG131mYoCqRJnOlb6YfxnPh5ZajE7rV5V7pqxd0IVY3QOHg==
   dependencies:
+    async-await-queue "^1.2.1"
     events "^3.3.0"
     loglevel "^1.8.0"
-    protobufjs "^6.11.2"
-    ts-debounce "^3.0.0"
+    protobufjs "^7.0.0"
+    sdp-transform "^2.14.1"
+    ts-debounce "^4.0.0"
     typed-emitter "^2.1.0"
     webrtc-adapter "^8.1.1"
 
@@ -7262,10 +7269,10 @@ loglevel@^1.8.0:
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.8.0.tgz#e7ec73a57e1e7b419cb6c6ac06bf050b67356114"
   integrity sha512-G6A/nJLRgWOuuwdNuA6koovfEV1YpqqAG4pRUlFaz3jj2QNZ8M4vBqnVA+HBTmU/AMNUtlOsMmSpF6NyOjztbA==
 
-long@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/long/-/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
-  integrity sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
+long@^5.0.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/long/-/long-5.2.0.tgz#2696dadf4b4da2ce3f6f6b89186085d94d52fd61"
+  integrity sha512-9RTUNjK60eJbx3uz+TEGF7fUr29ZDxR5QzXcyDpeSfeH28S9ycINflOgOlppit5U+4kNTe83KQnMEerw7GmE8w==
 
 loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
@@ -9168,10 +9175,10 @@ prop-types@^15.6.1, prop-types@^15.8.1:
     object-assign "^4.1.1"
     react-is "^16.13.1"
 
-protobufjs@^6.11.2:
-  version "6.11.3"
-  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-6.11.3.tgz#637a527205a35caa4f3e2a9a4a13ddffe0e7af74"
-  integrity sha512-xL96WDdCZYdU7Slin569tFX712BxsxslWwAfAhCYjQKGTq7dAU91Lomy6nLLhh/dyGhk/YH4TwTSRxTzhuHyZg==
+protobufjs@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-7.0.0.tgz#8c678e1351fd926178fce5a4213913e8d990974f"
+  integrity sha512-ffNIEm+quOcYtQvHdW406v1NQmZSuqVklxsXk076BtuFnlYZfigLU+JOMrTD8TUOyqHYbRI/fSVNvgd25YeN3w==
   dependencies:
     "@protobufjs/aspromise" "^1.1.2"
     "@protobufjs/base64" "^1.1.2"
@@ -9185,7 +9192,7 @@ protobufjs@^6.11.2:
     "@protobufjs/utf8" "^1.1.0"
     "@types/long" "^4.0.1"
     "@types/node" ">=13.7.0"
-    long "^4.0.0"
+    long "^5.0.0"
 
 proxy-addr@~2.0.7:
   version "2.0.7"
@@ -9950,6 +9957,11 @@ schema-utils@^4.0.0:
     ajv "^8.8.0"
     ajv-formats "^2.1.1"
     ajv-keywords "^5.0.0"
+
+sdp-transform@^2.14.1:
+  version "2.14.1"
+  resolved "https://registry.yarnpkg.com/sdp-transform/-/sdp-transform-2.14.1.tgz#2bb443583d478dee217df4caa284c46b870d5827"
+  integrity sha512-RjZyX3nVwJyCuTo5tGPx+PZWkDMCg7oOLpSlhjDdZfwUoNqG1mM8nyj31IGHyaPWXhjbP7cdK3qZ2bmkJ1GzRw==
 
 sdp@^3.0.2:
   version "3.0.3"
@@ -10821,10 +10833,10 @@ tryer@^1.0.1:
   resolved "https://registry.yarnpkg.com/tryer/-/tryer-1.0.1.tgz#f2c85406800b9b0f74c9f7465b81eaad241252f8"
   integrity sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==
 
-ts-debounce@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/ts-debounce/-/ts-debounce-3.0.0.tgz#9beedf59c04de3b5bef8ff28bd6885624df357be"
-  integrity sha512-7jiRWgN4/8IdvCxbIwnwg2W0bbYFBH6BxFqBjMKk442t7+liF2Z1H6AUCcl8e/pD93GjPru+axeiJwFmRww1WQ==
+ts-debounce@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/ts-debounce/-/ts-debounce-4.0.0.tgz#33440ef64fab53793c3d546a8ca6ae539ec15841"
+  integrity sha512-+1iDGY6NmOGidq7i7xZGA4cm8DAa6fqdYcvO5Z6yBevH++Bdo9Qt/mN0TzHUgcCcKv1gmh9+W5dHqz8pMWbCbg==
 
 tsconfig-paths@^3.14.1:
   version "3.14.1"
