@@ -42,6 +42,12 @@ export const LiveKitRoom = ({
         onConnected(room);
       }
     });
+
+    return () => {
+      if (roomState.room?.state !== ConnectionState.Disconnected) {
+        roomState.room?.disconnect();
+      }
+    };
   }, []);
 
   const selectedStageRenderer = stageRenderer ?? StageView;
