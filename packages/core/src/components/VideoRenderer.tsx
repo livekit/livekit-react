@@ -53,10 +53,9 @@ export const VideoRenderer = ({
     };
   }, [ref]);
 
-  const isFrontFacing =
-    isLocal && track.mediaStreamTrack?.getSettings().facingMode !== 'environment';
+  const isFrontFacingOrUnknown = track.mediaStreamTrack?.getSettings().facingMode !== 'environment';
   const style: CSSProperties = {
-    transform: isLocal && isFrontFacing ? 'rotateY(180deg)' : '',
+    transform: isLocal && isFrontFacingOrUnknown ? 'rotateY(180deg)' : '',
     width: width,
     height: height,
   };
