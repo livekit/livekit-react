@@ -5,6 +5,11 @@ import React, { CSSProperties, useCallback, useEffect, useRef } from 'react';
 export interface VideoRendererProps {
   track: Track;
   isLocal: boolean;
+  /**
+   * Mirror the video on the y axis.
+   * Is `true` by default for local, front-facing (and undetermined facing) media tracks,
+   * unless overriden by this setting */
+  isMirrored?: boolean;
   objectFit?: Property.ObjectFit;
   className?: string;
   width?: Property.Width;
@@ -15,6 +20,7 @@ export interface VideoRendererProps {
 export const VideoRenderer = ({
   track,
   isLocal,
+  isMirrored,
   objectFit,
   className,
   onSizeChanged,
@@ -53,13 +59,16 @@ export const VideoRenderer = ({
     };
   }, [ref]);
 
-  const isFrontFacing =
-    isLocal && track.mediaStreamTrack?.getSettings().facingMode !== 'environment';
   const style: CSSProperties = {
-    transform: isLocal && isFrontFacing ? 'rotateY(180deg)' : '',
     width: width,
     height: height,
   };
+
+  const isFrontFacingOrUnknown = track.mediaStreamTrack?.getSettings().facingMode !== 'environment';
+  if (isMirrored || (isMirrored === undefined && isLocal && isFrontFacingOrUnknown)) {
+    style.transform = 'rotateY(180deg)';
+  }
+
   if (objectFit) {
     style.objectFit = objectFit;
   }
