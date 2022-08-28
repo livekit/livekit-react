@@ -99,6 +99,9 @@ export const RoomPage = () => {
           roomOptions={{
             adaptiveStream: isSet(query, 'adaptiveStream'),
             dynacast: isSet(query, 'dynacast'),
+            publishDefaults: {
+              simulcast: isSet(query, 'simulcast')
+            },
             videoCaptureDefaults: {
               resolution: VideoPresets.h720.resolution,
             },
