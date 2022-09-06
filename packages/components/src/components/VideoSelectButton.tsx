@@ -9,6 +9,7 @@ export interface VideoSelectButtonProps {
   onSourceSelected?: (device: MediaDeviceInfo) => void;
   disableText?: string;
   enableText?: string;
+  requestPermissions?: boolean;
   className?: string;
   isButtonDisabled?: boolean;
   popoverContainerClassName?: string;
@@ -22,6 +23,7 @@ export const VideoSelectButton = ({
   onSourceSelected,
   disableText = 'Disable Video',
   enableText = 'Enable Video',
+  requestPermissions = true,
   className,
   isButtonDisabled,
   popoverContainerClassName,
@@ -32,7 +34,7 @@ export const VideoSelectButton = ({
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
   const listVideoDevices = useCallback(async () => {
-    const devices = await Room.getLocalDevices('videoinput');
+    const devices = await Room.getLocalDevices('videoinput', requestPermissions);
     setSources(devices);
     setMenuItems(
       devices.map((item) => {
