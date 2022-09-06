@@ -44,7 +44,7 @@ export const LiveKitRoom = ({
     });
 
     return () => {
-      if (roomState.room?.state !== ConnectionState.Disconnected) {
+      if (roomState.connectionState !== ConnectionState.Disconnected) {
         roomState.room?.disconnect();
       }
     };
