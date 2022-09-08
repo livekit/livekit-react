@@ -21,8 +21,7 @@
     "test:watch": "turbo run test:watch",
     "predeploy:example": "turbo run build --filter=livekit-react-example...",
     "deploy:example": "cd example && yarn deploy",
-    "release": "turbo run build --filter=./packages/* && changeset publish",
-    "version": "changeset version"
+    "release": "turbo run build --filter=./packages/* && changeset publish"
   },
   "workspaces": [
     "packages/*",
