@@ -7,9 +7,14 @@ import { AspectRatio } from 'react-aspect-ratio';
 import { useNavigate } from 'react-router-dom';
 
 export const PreJoinPage = () => {
+  // initial state from query parameters
+  const searchParams = new URLSearchParams(window.location.search);
+  const storedUrl = searchParams.get('url') ?? 'ws://localhost:7880';
+  const storedToken = searchParams.get('token') ?? '';
+
   // state to pass onto room
-  const [url, setUrl] = useState('ws://localhost:7880');
-  const [token, setToken] = useState<string>('');
+  const [url, setUrl] = useState(storedUrl);
+  const [token, setToken] = useState<string>(storedToken);
   const [simulcast, setSimulcast] = useState(true);
   const [dynacast, setDynacast] = useState(true);
   const [adaptiveStream, setAdaptiveStream] = useState(true);
