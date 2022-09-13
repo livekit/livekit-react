@@ -146,6 +146,7 @@ export const PreJoinPage = () => {
                 name="token"
                 value={token}
                 onChange={(e) => setToken(e.target.value)}
+                autoFocus={true}
               />
             </div>
           </div>
