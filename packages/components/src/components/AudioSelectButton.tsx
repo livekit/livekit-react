@@ -11,6 +11,7 @@ export interface AudioSelectButtonProps {
   muteText?: string;
   unmuteText?: string;
   className?: string;
+  requestPermissions?: boolean;
   popoverContainerClassName?: string;
   popoverTriggerBtnClassName?: string;
   popoverTriggerBtnSeparatorClassName?: string;
@@ -23,6 +24,7 @@ export const AudioSelectButton = ({
   isButtonDisabled,
   muteText = 'Mute',
   unmuteText = 'Unmute',
+  requestPermissions = true,
   className,
   popoverContainerClassName,
   popoverTriggerBtnClassName,
@@ -32,7 +34,7 @@ export const AudioSelectButton = ({
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
   const listAudioDevices = useCallback(async () => {
-    const devices = await Room.getLocalDevices('audioinput');
+    const devices = await Room.getLocalDevices('audioinput', requestPermissions);
     setSources(devices);
     setMenuItems(
       devices.map((item) => {
