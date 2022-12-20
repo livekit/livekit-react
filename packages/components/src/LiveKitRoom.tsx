@@ -34,21 +34,22 @@ export const LiveKitRoom = ({
   const roomState = useRoom(roomOptions);
 
   useEffect(() => {
-    roomState.connect(url, token, connectOptions).then((room) => {
-      if (!room) {
-        return;
-      }
-      if (onConnected && room.state === ConnectionState.Connected) {
-        onConnected(room);
-      }
-    });
-
+    if (roomState.room) {
+      roomState.connect(url, token, connectOptions).then((room) => {
+        if (!room) {
+          return;
+        }
+        if (onConnected && room.state === ConnectionState.Connected) {
+          onConnected(room);
+        }
+      });
+    }
     return () => {
-      if (roomState.connectionState !== ConnectionState.Disconnected) {
+      if (roomState.room?.state !== ConnectionState.Disconnected) {
         roomState.room?.disconnect();
       }
     };
-  }, []);
+  }, [roomState.room]);
 
   const selectedStageRenderer = stageRenderer ?? StageView;
 

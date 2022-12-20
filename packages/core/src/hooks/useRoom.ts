@@ -9,7 +9,7 @@ import {
   RoomConnectOptions,
   ConnectionState,
 } from 'livekit-client';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export interface RoomState {
   connect: (url: string, token: string, options?: RoomConnectOptions) => Promise<Room | undefined>;
@@ -24,7 +24,7 @@ export interface RoomState {
 }
 
 export function useRoom(roomOptions?: RoomOptions): RoomState {
-  const [room] = useState<Room>(new Room(roomOptions));
+  const [room, setRoom] = useState<Room | undefined>();
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<Error>();
   const [participants, setParticipants] = useState<Participant[]>([]);
@@ -32,6 +32,10 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
   const [connectionState, setConnectionState] = useState<ConnectionState>(
     ConnectionState.Disconnected,
   );
+
+  useEffect(() => {
+    setRoom(new Room(roomOptions));
+  }, []);
 
   const connectFn = useCallback(
     async (url: string, token: string, options?: RoomConnectOptions) => {
@@ -65,6 +69,11 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
           setConnectionState(state);
         };
 
+        if (!room) {
+          setError(new Error('room is not ready yet'));
+          return;
+        }
+
         room.once(RoomEvent.Disconnected, () => {
           room
             .off(RoomEvent.ParticipantConnected, onParticipantsChanged)
@@ -89,7 +98,7 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
           .on(RoomEvent.AudioPlaybackStatusChanged, onParticipantsChanged)
           .on(RoomEvent.ConnectionStateChanged, onConnectionStateChanged);
 
-        await room?.connect(url, token, options);
+        await room.connect(url, token, options);
         setIsConnecting(false);
         onSubscribedTrackChanged();
         setError(undefined);
@@ -105,13 +114,13 @@ export function useRoom(roomOptions?: RoomOptions): RoomState {
         return undefined;
       }
     },
-    [],
+    [room],
   );
 
   return {
     connect: connectFn,
     isConnecting,
-    room: room,
+    room,
     error,
     participants,
     audioTracks,
