@@ -30,7 +30,7 @@
     "@livekit/react-core": "^1.0.3",
     "@types/react-responsive": "^8.0.2",
     "react-aspect-ratio": "^1.0.50",
-    "react-responsive": "^8.2.0",
+    "react-responsive": "^9.0.2",
     "react-tiny-popover": "^6.0.5"
   },
   "peerDependencies": {
