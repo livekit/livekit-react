@@ -1,5 +1,18 @@
 # @livekit/react-components
 
+## 1.1.0
+
+### Minor Changes
+
+- [#112](https://github.com/livekit/livekit-react/pull/112) [`0273d9e`](https://github.com/livekit/livekit-react/commit/0273d9ebbe3338f4ee1c6deb9edfdaf29e9f210f) Thanks [@lukasIO](https://github.com/lukasIO)! - Breaking: useRoom().room could be undefined on first render! Fix auto-disconnect when LiveKitRoom component unmounts"
+
+### Patch Changes
+
+- [#114](https://github.com/livekit/livekit-react/pull/114) [`c86b593`](https://github.com/livekit/livekit-react/commit/c86b593e48d32fce1b277f5f191a5154fdcdc9d5) Thanks [@lukasIO](https://github.com/lukasIO)! - Update react-tiny-popover
+
+- Updated dependencies [[`0273d9e`](https://github.com/livekit/livekit-react/commit/0273d9ebbe3338f4ee1c6deb9edfdaf29e9f210f)]:
+  - @livekit/react-core@1.1.0
+
 ## 1.0.3
 
 ### Patch Changes
