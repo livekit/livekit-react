@@ -1,5 +1,11 @@
 # @livekit/react-core
 
+## 1.1.0
+
+### Minor Changes
+
+- [#112](https://github.com/livekit/livekit-react/pull/112) [`0273d9e`](https://github.com/livekit/livekit-react/commit/0273d9ebbe3338f4ee1c6deb9edfdaf29e9f210f) Thanks [@lukasIO](https://github.com/lukasIO)! - Breaking: useRoom().room could be undefined on first render! Fix auto-disconnect when LiveKitRoom component unmounts"
+
 ## 1.0.3
 
 ### Patch Changes
