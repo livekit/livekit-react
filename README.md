@@ -1,6 +1,7 @@
 # livekit-react packages
 
 > LiveKit Components are here! Completely redesigned both visually and conceptually. More components, more hooks, smaller build size, easier to handle! Give them a try [here](https://github.com/livekit/components-js).
+> LiveKit Components will soon replace this library as our React component library
 
 Checkout the docs under https://docs.livekit.io and the READMEs inside the [packages](#packages).
 
