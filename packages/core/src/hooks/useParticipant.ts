@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 
 export interface ParticipantState {
   isSpeaking: boolean;
+  isAudioMuted: boolean;
   connectionQuality: ConnectionQuality;
   isLocal: boolean;
   metadata?: string;
@@ -117,6 +118,7 @@ export function useParticipant(participant: Participant): ParticipantState {
   return {
     isLocal: participant instanceof LocalParticipant,
     isSpeaking,
+    isAudioMuted,
     connectionQuality,
     publications,
     subscribedTracks,
