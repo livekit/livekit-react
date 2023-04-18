@@ -2,7 +2,7 @@
 
 > **Warning**
 > The packages in this repo have been deprecated in favor of [livekit/components-js](https://github.com/livekit/components-js) > [@livekit/components-react](https://www.npmjs.com/package/@livekit/components-react) are completely redesigned both visually and conceptually.
-> More components, more hooks, smaller build size, easier to handle!
+> More components, more hooks, tree-shakable, easier to handle!
 
 Checkout the docs under https://docs.livekit.io.
 
